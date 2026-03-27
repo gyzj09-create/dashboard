@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jun's Deal Board</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+#lockScreen{position:fixed;inset:0;background:#1a1a2e;z-index:9999;display:flex;align-items:center;justify-content:center;}
+.lock-box{background:white;border-radius:16px;padding:40px 48px;width:340px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+.lock-box h2{font-size:22px;font-weight:700;color:#1a1a2e;margin-bottom:6px;}
+.lock-box p{font-size:13px;color:#999;margin-bottom:24px;}
+.lock-box input{width:100%;padding:12px 16px;border:2px solid #e8e8e8;border-radius:8px;font-size:15px;outline:none;text-align:center;letter-spacing:3px;transition:border 0.15s;}
+.lock-box input:focus{border-color:#1a1a2e;}
+.lock-box button{margin-top:14px;width:100%;padding:12px;background:#1a1a2e;color:white;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:opacity 0.15s;}
+.lock-box button:hover{opacity:0.85;}
+.lock-error{margin-top:10px;font-size:13px;color:#e74c3c;min-height:18px;}
+</style>
+<script>
+(function(){
+  const PASS='yongfa2026';
+  window.addEventListener('DOMContentLoaded',function(){
+    if(sessionStorage.getItem('yf_auth')==='1'){document.getElementById('lockScreen').style.display='none';return;}
+    document.getElementById('pwInput').focus();
+  });
+  window.submitPW=function(){
+    if(document.getElementById('pwInput').value===PASS){
+      sessionStorage.setItem('yf_auth','1');
+      document.getElementById('lockScreen').style.display='none';
+    } else {
+      document.getElementById('pwError').textContent='Wrong password — try again';
+      document.getElementById('pwInput').value='';
+      document.getElementById('pwInput').focus();
+    }
+  };
+  window.pwKeydown=function(e){if(e.key==='Enter')window.submitPW();};
+})();
+</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{overflow-y:scroll;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a2e;}
+a{text-decoration:none;color:inherit;}
+
+/* HEADER */
+header{background:#1a1a2e;color:white;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+header h1{font-size:18px;font-weight:600;}
+header .date{font-size:12px;opacity:0.5;}
+
+/* NAV TABS */
+.tabs{background:white;border-bottom:1px solid #e8e8e8;display:flex;gap:0;padding:0 32px;position:sticky;top:57px;z-index:99;}
+.tab{padding:14px 20px;font-size:13px;font-weight:600;color:#999;cursor:pointer;border-bottom:3px solid transparent;transition:all 0.15s;}
+.tab:hover{color:#1a1a2e;}
+.tab.active{color:#1a1a2e;border-color:#1a1a2e;}
+
+/* PAGES */
+.page{display:none;max-width:1280px;margin:0 auto;padding:28px 24px 60px;}
+.page.active{display:block;}
+
+/* CARDS */
+.card{background:white;border-radius:12px;padding:18px 20px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+
+/* GRIDS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+@media(max-width:1000px){.grid-4{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:800px){.grid-3,.grid-4{grid-template-columns:1fr 1fr;}.grid-2{grid-template-columns:1fr;}}
+@media(max-width:500px){.grid-3,.grid-4{grid-template-columns:1fr;}}
+
+/* SECTION TITLE */
+.section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#888;margin-bottom:14px;margin-top:32px;}
+.section-title:first-child{margin-top:0;}
+
+/* SUMMARY BAR */
+.summary-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:4px;}
+.s-label{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;}
+.s-value{font-size:26px;font-weight:700;color:#1a1a2e;}
+.s-sub{font-size:12px;color:#aaa;margin-top:2px;}
+@media(max-width:700px){.summary-bar{grid-template-columns:1fr 1fr;}}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.tag{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:600;}
+.tag.green{background:#e8f8f0;color:#27ae60;}
+.tag.orange{background:#fef3e2;color:#e67e22;}
+.tag.red{background:#fdecea;color:#e74c3c;}
+.tag.blue{background:#eaf3fd;color:#2980b9;}
+.tag.gray{background:#f0f0f0;color:#777;}
+.tag.purple{background:#f3eafd;color:#8e44ad;}
+
+/* CLIENT CARDS */
+.client-card{cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;position:relative;}
+.client-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.12);}
+.client-flag{position:absolute;top:14px;right:14px;font-size:22px;}
+.client-short{font-size:13px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:3px;}
+.client-name{font-size:13px;color:#555;margin-bottom:10px;line-height:1.3;padding-right:30px;}
+.client-amount{font-size:22px;font-weight:700;color:#1a1a2e;}
+.client-pi{font-size:11px;color:#bbb;margin-top:3px;}
+
+/* TASK CARDS */
+.task-card{border-left:4px solid #ddd;}
+.task-card.urgent{border-color:#e74c3c;}
+.task-card.high{border-color:#f39c12;}
+.task-card.normal{border-color:#3498db;}
+.task-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+.task-card.urgent .task-label{color:#e74c3c;}
+.task-card.high .task-label{color:#f39c12;}
+.task-card.normal .task-label{color:#3498db;}
+.task-title{font-size:15px;font-weight:600;margin-bottom:6px;line-height:1.3;}
+.task-desc{font-size:13px;color:#666;line-height:1.5;}
+.task-meta{margin-top:10px;font-size:12px;color:#999;}
+
+/* EVENTS */
+.event-card{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;}
+.event-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0;}
+.event-dot.red{background:#e74c3c;}.event-dot.orange{background:#f39c12;}.event-dot.blue{background:#3498db;}.event-dot.green{background:#27ae60;}
+.event-date{min-width:46px;text-align:center;}
+.event-day{font-size:24px;font-weight:700;color:#1a1a2e;line-height:1;}
+.event-mon{font-size:11px;color:#999;text-transform:uppercase;}
+.event-body{flex:1;}
+.event-title{font-size:14px;font-weight:600;margin-bottom:3px;}
+.event-sub{font-size:12px;color:#888;line-height:1.5;}
+
+/* CHARTS */
+.chart-wrap{position:relative;height:300px;display:flex;align-items:center;justify-content:center;}
+.chart-wrap canvas{max-height:290px;}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal{background:white;border-radius:16px;width:100%;max-width:780px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.25);margin:auto;}
+.modal-header{background:#1a1a2e;color:white;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;}
+.modal-header h2{font-size:18px;font-weight:700;}
+.modal-header .mflag{font-size:28px;}
+.modal-close{cursor:pointer;font-size:22px;opacity:0.6;background:none;border:none;color:white;line-height:1;padding:4px 8px;}
+.modal-close:hover{opacity:1;}
+.modal-body{padding:24px 28px;}
+.modal-section{margin-bottom:24px;}
+.modal-section h3{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#aaa;margin-bottom:12px;}
+.meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.meta-item .mi-label{font-size:11px;color:#bbb;text-transform:uppercase;letter-spacing:0.5px;}
+.meta-item .mi-value{font-size:14px;color:#1a1a2e;font-weight:600;margin-top:2px;}
+.pi-block{border:1px solid #f0f0f0;border-radius:10px;overflow:hidden;margin-bottom:12px;}
+.pi-header{background:#f8f8f8;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;}
+.pi-header .pi-no{font-size:13px;font-weight:700;color:#444;}
+.pi-header .pi-total{font-size:15px;font-weight:700;color:#1a1a2e;}
+.pi-header .pi-date{font-size:12px;color:#999;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+table th{text-align:left;padding:8px 12px;background:#fafafa;color:#888;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #f0f0f0;}
+table td{padding:8px 12px;border-bottom:1px solid #f8f8f8;color:#444;}
+table tr:last-child td{border-bottom:none;}
+.note-box{background:#fffbf0;border-left:3px solid #f39c12;padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#555;line-height:1.6;}
+.payment-box{background:#f0f8ff;border-left:3px solid #3498db;padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#333;line-height:1.6;font-weight:600;}
+</style>
+</head>
+<body>
+
+<div id="lockScreen">
+  <div class="lock-box">
+    <h2>🏭 Yongfa Board</h2>
+    <p>Enter password to continue</p>
+    <input id="pwInput" type="password" placeholder="••••••••" onkeydown="pwKeydown(event)" autocomplete="current-password"/>
+    <button onclick="submitPW()">Unlock</button>
+    <div id="pwError" class="lock-error"></div>
+  </div>
+</div>
+<header>
+  <h1>🏭 Yongfa Deal Board — Jun</h1>
+  <span class="date">27 Mar 2026</span>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('overview')">Overview</div>
+  <div class="tab" onclick="showTab('clients')">Clients</div>
+  <div class="tab" onclick="showTab('tasks')">Tasks</div>
+  <div class="tab" onclick="showTab('calendar')">Calendar</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     OVERVIEW PAGE
+══════════════════════════════════════════ -->
+<div id="page-overview" class="page active">
+
+  <div class="summary-bar">
+    <div class="card"><div class="s-label">Active Clients</div><div class="s-value">9</div><div class="s-sub">across 11 countries</div></div>
+    <div class="card"><div class="s-label">Open Tasks</div><div class="s-value">6</div><div class="s-sub">2 urgent</div></div>
+    <div class="card"><div class="s-label">Largest Deal</div><div class="s-value">$173.7K</div><div class="s-sub">OZCO — Turkey</div></div>
+    <div class="card"><div class="s-label">Next Key Date</div><div class="s-value">Apr 14</div><div class="s-sub">Giovanni factory visit</div></div>
+  </div>
+
+  <div class="section-title">Deal Value by Client (USD)</div>
+  <div class="card">
+    <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+  </div>
+
+  <div class="section-title">Deal Status Breakdown</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="chart-wrap"><canvas id="statusChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="chart-wrap"><canvas id="regionChart"></canvas></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     CLIENTS PAGE
+══════════════════════════════════════════ -->
+<div id="page-clients" class="page">
+  <div class="grid-4" id="clientGrid"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     TASKS PAGE
+══════════════════════════════════════════ -->
+<div id="page-tasks" class="page">
+  <div class="grid-3">
+    <div class="card task-card urgent">
+      <div class="task-label">🔴 Urgent</div>
+      <div class="task-title">OZCO Production Check</div>
+      <div class="task-desc">Confirm 102-unit order on track. Hard deadline May 15 — only 49 days away. Also check L/C status with bank.</div>
+      <div class="task-meta">⚠️ Leaving for Brazil May 1 — confirm before then</div>
+    </div>
+    <div class="card task-card urgent">
+      <div class="task-label">🔴 Urgent</div>
+      <div class="task-title">Chase COMARK Balance</div>
+      <div class="task-desc">70% T/T balance (~RMB 448,560) due within 1 week of B/L copy. Shipment just went out.</div>
+      <div class="task-meta">Contact: Jerzy Zalewski — +48 607 147 807</div>
+    </div>
+    <div class="card task-card high">
+      <div class="task-label">🟠 Follow Up</div>
+      <div class="task-title">Chase MAQUINAS Payment</div>
+      <div class="task-desc">50% after shipping (~$53,600) now triggered. 20% after customs clearance will follow.</div>
+      <div class="task-meta">Argentina — Maquinas e Insumos SRL</div>
+    </div>
+    <div class="card task-card high">
+      <div class="task-label">🟠 Awaiting</div>
+      <div class="task-title">JK Ecuador Deposit</div>
+      <div class="task-desc">PI 20260325 issued Mar 25. Waiting on 30% deposit (~$18,648) — production hasn't started.</div>
+      <div class="task-meta">$62,162 total · Contact: Juan</div>
+    </div>
+    <div class="card task-card normal">
+      <div class="task-label">🔵 Status Check</div>
+      <div class="task-title">JK Colombia Follow-Up</div>
+      <div class="task-desc">Two Jan 2026 PIs totalling ~$131,894. Confirm deposit received and current production/shipping status.</div>
+      <div class="task-meta">JK Investment CO SAS · Bogotá</div>
+    </div>
+    <div class="card task-card normal">
+      <div class="task-label">🔵 Upcoming</div>
+      <div class="task-title">Prep — Giovanni Factory Visit</div>
+      <div class="task-desc">DINTASS MOTORI (Chile) visits Gaoyou Apr 14. First order delivered. Likely follow-on discussion.</div>
+      <div class="task-meta">Lathes · Milling · Drilling</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CALENDAR PAGE
+══════════════════════════════════════════ -->
+<div id="page-calendar" class="page">
+  <div class="grid-2">
+    <div class="card event-card"><div class="event-dot orange"></div><div class="event-date"><div class="event-day">14</div><div class="event-mon">Apr</div></div><div class="event-body"><div class="event-title">Giovanni Factory Visit</div><div class="event-sub">DINTASS MOTORI (Chile) · Gaoyou factory · Follow-on order discussion</div></div></div>
+    <div class="card event-card"><div class="event-dot blue"></div><div class="event-date"><div class="event-day">17</div><div class="event-mon">Apr</div></div><div class="event-body"><div class="event-title">上海展 — Exhibits Move-In</div><div class="event-sub">Shanghai Machine Tool Exhibition prep · Booth setup begins</div></div></div>
+    <div class="card event-card"><div class="event-dot green"></div><div class="event-date"><div class="event-day">18</div><div class="event-mon">Apr</div></div><div class="event-body"><div class="event-title">Juan arrives — China visit</div><div class="event-sub">JK Group / Metal Master · Apr 18–28 · Shanghai Machine Tool Exhibition Apr 21–26</div></div></div>
+    <div class="card event-card"><div class="event-dot blue"></div><div class="event-date"><div class="event-day">21</div><div class="event-mon">Apr</div></div><div class="event-body"><div class="event-title">上海机床展 — Shanghai Machine Tool Exhibition</div><div class="event-sub">Apr 21–26 · Overlaps with Juan's China visit</div></div></div>
+    <div class="card event-card"><div class="event-dot red"></div><div class="event-date"><div class="event-day">1</div><div class="event-mon">May</div></div><div class="event-body"><div class="event-title">Flight: Shanghai → Madrid → São Paulo</div><div class="event-sub">Start of Brazil trip · ⚠️ Confirm OZCO production before departure</div></div></div>
+    <div class="card event-card"><div class="event-dot red"></div><div class="event-date"><div class="event-day">15</div><div class="event-mon">May</div></div><div class="event-body"><div class="event-title">OZCO Delivery Deadline</div><div class="event-sub">102 units must ship · $173,725 · L/C 180d · Izmit port, Turkey</div></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CLIENT DETAIL MODAL
+══════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <div style="font-size:12px;opacity:0.5;margin-bottom:4px;" id="mShort"></div>
+        <h2 id="mName"></h2>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span id="mFlag" class="mflag"></span>
+        <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('open')">✕</button>
+      </div>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+// ── TAB NAVIGATION ──────────────────────────────────────────
+function showTab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('page-'+name).classList.add('active');
+}
+
+// ── CLIENT DATA ─────────────────────────────────────────────
+const clients = [
+  {
+    short:'OZCO', flag:'🇹🇷', name:'Topçular Endüstriyel Üretim ve Yatırım A.Ş',
+    country:'Turkey', contact:'—', address:'Abdurrahmangazi Mh., İmamoğlu Sk. C Blok No: 6, Samandıra / Sancaktepe, 34887 İstanbul',
+    port:'Izmit port, Turkey',
+    amount:'$173,725', amountUSD:173725,
+    tags:[{t:'Deadline May 15',c:'red'},{t:'L/C 180d',c:'purple'},{t:'102 units',c:'blue'}],
+    payment:'L/C at 180 days — Letter of Credit (bank-to-bank). Different process from T/T.',
+    pis:[{
+      no:'OZCO20260202', date:'Feb 2026', total:'$173,725 USD',
+      items:[
+        {model:'MC32',desc:'Drilling machine',qty:30,unit:'$1,080',total:'$32,400'},
+        {model:'MC32 PLUS',desc:'Drilling machine',qty:9,unit:'$1,275',total:'$11,475'},
+        {model:'MC32F',desc:'Drilling machine',qty:15,unit:'$1,550',total:'$23,250'},
+        {model:'MC35E',desc:'Drilling machine',qty:20,unit:'$1,540',total:'$30,800'},
+        {model:'CR3610V',desc:'Lathe — variable freq, 200mm chuck, 1000mm center',qty:18,unit:'$2,550',total:'$45,900'},
+        {model:'MC50E',desc:'Drilling machine (3KW, MT4, 580×580 table)',qty:10,unit:'$2,990',total:'$29,900'},
+      ]
+    }],
+    notes:'Largest single PI: $173,725. OZCO private-label branding (MC/CR series). Delivery deadline fixed before May 15, 2026 — time-critical. L/C payment involves both banks. 102 units is a very large shipment.'
+  },
+  {
+    short:'COMARK', flag:'🇵🇱', name:'CORMAK Jerzy Zalewski',
+    country:'Poland', contact:'Jerzy Zalewski — +48 607 147 807', address:'Str. Brzeska 120, 08-110 Siedlce, Poland',
+    amount:'RMB 640,800', amountUSD:88000,
+    tags:[{t:'Balance Due',c:'orange'},{t:'36 lathes',c:'blue'},{t:'RMB payment',c:'gray'}],
+    payment:'30% T/T advance · 70% T/T against B/L copy within 1 week.',
+    pis:[{
+      no:'YFCORMAK251231', date:'Dec 2025', total:'RMB 640,800',
+      items:[
+        {model:'Lathe 360x1000 Vario',desc:'',qty:24,unit:'RMB 16,800',total:'RMB 403,200'},
+        {model:'Lathe 360x1300 Vario',desc:'',qty:12,unit:'RMB 19,800',total:'RMB 237,600'},
+      ]
+    }],
+    notes:'Pays in RMB (unusual) — use BOC RMB account (Acct: 492367131118). Large volume: 36 lathes. European buyer — CE certification may be required. Jerzy Zalewski is both contact and owner.'
+  },
+  {
+    short:'JK', flag:'🇨🇴', name:'JK Group / Metal Master Industrial',
+    country:'Colombia / Ecuador / Peru', contact:'Juan (Owner / Partner)',address:'Multiple entities across LatAm',
+    amount:'~$250,717', amountUSD:250717,
+    tags:[{t:'3 entities',c:'blue'},{t:'Highest volume',c:'green'},{t:'Partner',c:'purple'}],
+    payment:'20–30% advance → 30% when goods ready → 50% after B/L.',
+    pis:[
+      {
+        no:'20260127 — JK Colombia', date:'Jan 2026', total:'$65,598 USD',
+        items:[
+          {model:'UM 45 B',desc:'',qty:4,unit:'$1,333',total:'$5,332'},
+          {model:'UM 45 FE',desc:'',qty:4,unit:'$1,950',total:'$7,800'},
+          {model:'560x1500 DRO CE T.T.A',desc:'',qty:4,unit:'$8,180',total:'$32,720'},
+          {model:'420x1000 DRO CE',desc:'',qty:3,unit:'$4,520',total:'$13,560'},
+          {model:'UM 30',desc:'',qty:2,unit:'$3,093',total:'$6,186'},
+        ]
+      },
+      {
+        no:'20260129 — JK Colombia', date:'Jan 2026', total:'$66,296 USD',
+        items:[
+          {model:'UM 45 B',desc:'',qty:6,unit:'$1,333',total:'$7,998'},
+          {model:'UM 45 FE',desc:'',qty:6,unit:'$1,950',total:'$11,700'},
+          {model:'560x1500 DRO CE T.T.A',desc:'',qty:2,unit:'$8,180',total:'$16,360'},
+          {model:'420x1000 DRO CE',desc:'',qty:2,unit:'$4,520',total:'$9,040'},
+          {model:'JUGG BF20S',desc:'',qty:6,unit:'$553',total:'$3,318'},
+          {model:'JUGG BF32S',desc:'',qty:6,unit:'$918',total:'$5,508'},
+          {model:'UM 30',desc:'',qty:4,unit:'$3,093',total:'$12,372'},
+        ]
+      },
+      {
+        no:'20260325 — JK Ecuador', date:'Mar 2026', total:'$62,162 USD',
+        items:[
+          {model:'JUG 3610 V',desc:'',qty:4,unit:'$2,493',total:'$9,972'},
+          {model:'420x1000 DRO CE',desc:'',qty:3,unit:'$4,520',total:'$13,560'},
+          {model:'560x1500 DRO CE',desc:'',qty:2,unit:'$7,980',total:'$15,960'},
+          {model:'UM 45 B',desc:'',qty:4,unit:'$1,333',total:'$5,332'},
+          {model:'UM 45 FE',desc:'',qty:4,unit:'$1,950',total:'$7,800'},
+          {model:'UM 40',desc:'',qty:2,unit:'$4,649',total:'$9,298'},
+          {model:'DRO with scales',desc:'',qty:1,unit:'$240',total:'$240'},
+        ]
+      },
+      {
+        no:'20260131 — JK Peru', date:'Jan 2026', total:'$56,661 USD',
+        items:[
+          {model:'DM40',desc:'',qty:51,unit:'$1,111',total:'$56,661'},
+        ]
+      },
+    ],
+    notes:'Juan is a partner, not just a client. Controls JK entities in Colombia, Ecuador, Peru + Metal Master Industrial. Buys UM milling machines and large DRO lathes consistently. Juan visiting China Apr 18–28 (inc. Shanghai Machine Tool Exhibition Apr 21–26).'
+  },
+  {
+    short:'MAQUINAS', flag:'🇦🇷', name:'Maquinas e Insumos SRL',
+    country:'Argentina', contact:'—', address:'Argentina',
+    amount:'~$107,200', amountUSD:107200,
+    tags:[{t:'50% Due',c:'orange'},{t:'20% on clearance',c:'gray'}],
+    payment:'30% down · 50% after shipping · 20% after customs clearance.',
+    pis:[],
+    notes:'Three-installment structure — track each milestone. 50% after shipping now triggered. 20% after customs clearance to follow.'
+  },
+  {
+    short:'ANCLA', flag:'🇲🇽', name:'GRUPO IDEA SERVICIOS S.A. DE C.V.',
+    country:'Mexico', contact:'—', address:'Poniente 27 No. 4106 interior 2, Col. del Gas, Azcapotzalco CDMX, C.P. 02930',
+    amount:'$98,424', amountUSD:98424,
+    tags:[{t:'2 PIs',c:'blue'},{t:'CNC + Conv.',c:'gray'}],
+    payment:'20% down payment. 6 months for conventional, 8 months for CNC machinery.',
+    pis:[
+      {
+        no:'20250910', date:'Jul 2025', total:'$88,224 USD',
+        items:[
+          {model:'ZX6350Z',desc:'',qty:6,unit:'$5,275',total:'$31,650'},
+          {model:'CQC330x1000',desc:'',qty:6,unit:'$2,429',total:'$14,574'},
+          {model:'YF600T CNC lathe',desc:'',qty:1,unit:'$42,000',total:'$42,000'},
+        ]
+      },
+      {
+        no:'20260119', date:'Jan 2026', total:'$10,200 USD',
+        items:[
+          {model:'360x1000 Vario Lathe',desc:'',qty:4,unit:'$2,550',total:'$10,200'},
+        ]
+      },
+    ],
+    notes:'Pays in USD via CCB account. Repeat buyer — conventional + CNC machines. Tax ID: GIS 980216 MP9.'
+  },
+  {
+    short:'GRUPO', flag:'🇺🇸', name:'B&I TRADERS S DE RL DE CV',
+    country:'USA (final dest.)', contact:'Eduardo Navarro Ramirez', address:'Mexican entity, shipping to USA',
+    amount:'$76,320', amountUSD:76320,
+    tags:[{t:'45 units',c:'blue'},{t:'3-installment',c:'gray'},{t:'110V + 220V',c:'gray'}],
+    payment:'30% deposit → 50% before shipping → 50% two months after shipping.',
+    pis:[{
+      no:'20250811', date:'Aug 2025', total:'$76,320 USD',
+      items:[
+        {model:'ZX45 220V',desc:'',qty:12,unit:'$1,179',total:'$14,148'},
+        {model:'ZX7045 220V',desc:'',qty:4,unit:'$1,660',total:'$6,640'},
+        {model:'ZS30H 220V',desc:'',qty:2,unit:'$976',total:'$1,952'},
+        {model:'CQ6125 EC Vario 110V',desc:'',qty:2,unit:'$1,437',total:'$2,874'},
+        {model:'CQ6128 110V',desc:'',qty:2,unit:'$1,232',total:'$2,464'},
+        {model:'CQ320V 220V',desc:'',qty:4,unit:'$1,736',total:'$6,944'},
+        {model:'CQ320V 110V',desc:'',qty:3,unit:'$1,736',total:'$5,208'},
+        {model:'CQ6132GV 220V',desc:'',qty:4,unit:'$1,960',total:'$7,840'},
+        {model:'CQ6132GV 110V',desc:'',qty:3,unit:'$1,960',total:'$5,880'},
+        {model:'CQ360 Vario 220V',desc:'',qty:4,unit:'$2,575',total:'$10,300'},
+        {model:'CQ330x1000 220V',desc:'',qty:5,unit:'$2,414',total:'$12,070'},
+      ]
+    }],
+    notes:'Mixed 110V + 220V — USA/North America market. 3-installment payment: track carefully. Contact: Eduardo Navarro Ramirez.'
+  },
+  {
+    short:'MANROD', flag:'🇧🇷', name:'Manrod Quality Machines',
+    country:'Brazil', contact:'—', address:'Brazil',
+    amount:'$56,222', amountUSD:56222,
+    tags:[{t:'NR-12',c:'gray'},{t:'MR-brand',c:'gray'}],
+    payment:'30% T/T deposit · 70% T/T before shipping.',
+    pis:[{
+      no:'M2026210', date:'Feb 2025', total:'$56,221.50 USD',
+      items:[
+        {model:'MR-201',desc:'Drill/Mill 220V/60Hz/1Ph — NR-12',qty:10,unit:'$987',total:'$9,870'},
+        {model:'MR-206',desc:'Drill/Mill 220V/60Hz/1Ph — NR-12',qty:10,unit:'$1,213',total:'$12,130'},
+        {model:'MR-206',desc:'Drill/Mill 220V/60Hz/3Ph — NR-12',qty:10,unit:'$1,213',total:'$12,130'},
+        {model:'MR-206',desc:'Drill/Mill 380V/60Hz/3Ph — NR-12',qty:5,unit:'$1,213',total:'$6,065'},
+        {model:'MR-245',desc:'Column Mill 220V/60Hz/3Ph — NR-12',qty:10,unit:'$1,403',total:'$14,030'},
+      ]
+    }],
+    notes:'Private-label "MR" branding — not Yongfa. All machines must comply with NR-12 (Brazilian safety standard). Voltage: mix of 220V 1Ph, 220V 3Ph, 380V 3Ph at 60Hz. Also orders spare parts for MR-245 series.'
+  },
+  {
+    short:'Tupai', flag:'🇵🇹', name:'Tupai,sa',
+    country:'Portugal', contact:'—', address:'Zona Industrial de Raso de Paredes, 3754-901 Águeda, Portugal',
+    amount:'€1,900', amountUSD:2060,
+    tags:[{t:'Deposit Pending',c:'orange'},{t:'EUR payment',c:'gray'}],
+    payment:'30% deposit · 100% before shipping. Pays in EUR.',
+    pis:[{
+      no:'20260317', date:'Mar 2026', total:'€1,900 EUR',
+      items:[
+        {model:'Z5035 Drilling machine',desc:'',qty:1,unit:'€1,900',total:'€1,900'},
+      ]
+    }],
+    notes:'Small single-unit trial order. Pays in EUR — use EUR bank account. Portugal is EU: CE certification required. Taxpayer ID: 500664005. Nurture for larger follow-on orders.'
+  },
+  {
+    short:'DINTASS', flag:'🇨🇱', name:'DINTASS MOTORI',
+    country:'Chile', contact:'Giovanni', address:'Manuel Antonio Tocornal 389, Santiago Centro, Chile',
+    amount:'$29,373', amountUSD:29373,
+    tags:[{t:'✓ Delivered',c:'green'},{t:'Visit Apr 14',c:'blue'}],
+    payment:'50% T/T deposit ($14,687) · 50% T/T ready in factory ($14,687).',
+    pis:[{
+      no:'DM20251125', date:'Nov 2025', total:'$29,373 USD',
+      items:[
+        {model:'CQ360Vx1000',desc:'SINO 3-axis DRO, steel stand, footbrake, guards, LED, cooling, rests',qty:1,unit:'$2,600',total:'$2,600'},
+        {model:'CQ360Vx1300',desc:'Same as above',qty:1,unit:'$3,200',total:'$3,200'},
+        {model:'CQ290VMx750',desc:'VFD Motor + Delta Inverter, steel stand, guards, 2-axis DRO, BF20V milling head',qty:1,unit:'$2,190',total:'$2,190'},
+        {model:'ZX30',desc:'Tapping',qty:2,unit:'$834',total:'$1,668'},
+        {model:'ZX40H',desc:'Tapping',qty:2,unit:'$1,119',total:'$2,238'},
+        {model:'ZX45',desc:'Steel stand',qty:2,unit:'$1,142',total:'$2,284'},
+        {model:'ZX45',desc:'Steel stand, auto quill feed, tapping, bigger work table',qty:2,unit:'$1,375',total:'$2,750'},
+        {model:'ZS40H',desc:'Tapping',qty:1,unit:'$1,069',total:'$1,069'},
+        {model:'Z5050',desc:'Standard',qty:1,unit:'$3,040',total:'$3,040'},
+        {model:'Z5035',desc:'Standard',qty:2,unit:'$1,495',total:'$2,990'},
+        {model:'ZX6350Z',desc:'Bigger worktable 1270×280mm, rotary table, Y-axis power feed',qty:1,unit:'$5,344',total:'$5,344'},
+      ]
+    }],
+    notes:'First order fully delivered ✅. Giovanni visiting Gaoyou factory Apr 14, 2026 — likely to discuss follow-on order. Mixed order: lathes (CQ), drill-mills (ZX), drilling machines (ZS/Z).'
+  },
+];
+
+// ── RENDER CLIENT GRID ──────────────────────────────────────
+const grid = document.getElementById('clientGrid');
+clients.forEach((c,i)=>{
+  const div = document.createElement('div');
+  div.className='card client-card';
+  div.onclick=()=>openModal(i);
+  div.innerHTML=`
+    <div class="client-flag">${c.flag}</div>
+    <div class="client-short">${c.short}</div>
+    <div class="client-name">${c.name}</div>
+    <div class="client-amount">${c.amount}</div>
+    <div class="client-pi">${c.country}</div>
+    <div class="tags">${c.tags.map(t=>`<span class="tag ${t.c}">${t.t}</span>`).join('')}</div>
+  `;
+  grid.appendChild(div);
+});
+
+// ── MODAL ────────────────────────────────────────────────────
+function openModal(i){
+  const c=clients[i];
+  document.getElementById('mShort').textContent=c.short;
+  document.getElementById('mName').textContent=c.name;
+  document.getElementById('mFlag').textContent=c.flag;
+  let html='';
+  // Meta
+  html+=`<div class="modal-section"><h3>Contact & Location</h3><div class="meta-grid">
+    <div class="meta-item"><div class="mi-label">Country</div><div class="mi-value">${c.country}</div></div>
+    <div class="meta-item"><div class="mi-label">Contact</div><div class="mi-value">${c.contact}</div></div>
+    <div class="meta-item" style="grid-column:1/-1"><div class="mi-label">Address</div><div class="mi-value" style="font-weight:400;font-size:13px;color:#555;">${c.address}</div></div>
+  </div></div>`;
+  // Payment
+  html+=`<div class="modal-section"><h3>Payment Terms</h3><div class="payment-box">${c.payment}</div></div>`;
+  // PIs
+  if(c.pis.length){
+    html+=`<div class="modal-section"><h3>Proforma Invoice${c.pis.length>1?'s':''}</h3>`;
+    c.pis.forEach(p=>{
+      html+=`<div class="pi-block"><div class="pi-header"><div><div class="pi-no">PI ${p.no}</div><div class="pi-date">${p.date}</div></div><div class="pi-total">${p.total}</div></div>`;
+      if(p.items.length){
+        html+=`<table><tr><th>Model</th>${p.items[0].desc?'<th>Config</th>':''}<th style="text-align:center">Qty</th><th style="text-align:right">Unit</th><th style="text-align:right">Total</th></tr>`;
+        p.items.forEach(it=>{
+          html+=`<tr><td><strong>${it.model}</strong></td>${it.desc?`<td style="color:#888">${it.desc}</td>`:''}<td style="text-align:center">${it.qty}</td><td style="text-align:right">${it.unit}</td><td style="text-align:right;font-weight:600;">${it.total}</td></tr>`;
+        });
+        html+=`</table>`;
+      }
+      html+=`</div>`;
+    });
+    html+=`</div>`;
+  }
+  // Notes
+  if(c.notes) html+=`<div class="modal-section"><h3>Notes</h3><div class="note-box">${c.notes}</div></div>`;
+  document.getElementById('mBody').innerHTML=html;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(e){
+  if(e.target===document.getElementById('modalOverlay'))
+    document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ── CHARTS ───────────────────────────────────────────────────
+const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
+
+// Bar chart
+new Chart(document.getElementById('barChart'),{
+  type:'bar',
+  data:{
+    labels:sortedClients.map(c=>c.short),
+    datasets:[{
+      data:sortedClients.map(c=>c.amountUSD),
+      backgroundColor:['#e74c3c','#3498db','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#34495e','#e91e63'],
+      borderRadius:6, borderSkipped:false,
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' $'+ctx.raw.toLocaleString()+' USD equiv.'}}},
+    scales:{y:{ticks:{callback:v=>'$'+v.toLocaleString()},grid:{color:'#f0f0f0'}},x:{grid:{display:false}}}
+  }
+});
+
+// Status donut
+new Chart(document.getElementById('statusChart'),{
+  type:'doughnut',
+  data:{
+    labels:['Balance/Payment Due','Deposit Pending','Status Unknown','On Track','Delivered'],
+    datasets:[{
+      data:[2,2,2,1,1],
+      backgroundColor:['#f39c12','#e74c3c','#95a5a6','#3498db','#27ae60'],
+      borderWidth:2, borderColor:'white', hoverOffset:6
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false, cutout:'65%',
+    plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:10,font:{size:12}}},title:{display:true,text:'Deal Status',font:{size:13,weight:'600'},padding:{bottom:10}}}
+  }
+});
+
+// Region donut
+new Chart(document.getElementById('regionChart'),{
+  type:'doughnut',
+  data:{
+    labels:['Latin America','Europe','Middle East','Asia'],
+    datasets:[{
+      data:[
+        clients.filter(c=>['JK','MAQUINAS','ANCLA','GRUPO','MANROD','DINTASS'].includes(c.short)).reduce((s,c)=>s+c.amountUSD,0),
+        clients.filter(c=>['COMARK','Tupai'].includes(c.short)).reduce((s,c)=>s+c.amountUSD,0),
+        clients.filter(c=>['OZCO'].includes(c.short)).reduce((s,c)=>s+c.amountUSD,0),
+        0
+      ],
+      backgroundColor:['#3498db','#2ecc71','#e74c3c','#f39c12'],
+      borderWidth:2, borderColor:'white', hoverOffset:6
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false, cutout:'65%',
+    plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:10,font:{size:12}}},title:{display:true,text:'Volume by Region (USD)',font:{size:13,weight:'600'},padding:{bottom:10}},tooltip:{callbacks:{label:ctx=>' $'+ctx.raw.toLocaleString()+' USD'}}}
+  }
+});
+</script>
+</body>
+</html>
