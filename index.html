@@ -845,12 +845,13 @@ const exhibitions = {
     dates:'May 5 – 9, 2026', setup:'—',
     status:'upcoming', daysAway:38,
     flights:[
-      {leg:'Outbound', date:'May 1', flightNo:'—', from:'PVG Shanghai', to:'MAD Madrid', depart:'—', arrive:'—', airline:'—'},
-      {leg:'Connecting',date:'May 1/2', flightNo:'—', from:'MAD Madrid', to:'GRU São Paulo', depart:'—', arrive:'—', airline:'—'},
-      {leg:'Return',   date:'—', flightNo:'—', from:'GRU São Paulo', to:'PVG Shanghai', depart:'—', arrive:'—', airline:'—'},
+      {leg:'① Outbound', date:'May 1', flightNo:'MU709', from:'PVG Shanghai T1', to:'MAD Madrid', depart:'00:45', arrive:'08:40', airline:'China Eastern'},
+      {leg:'② Connecting', date:'May 1→2', flightNo:'IB267', from:'MAD Madrid', to:'GRU São Paulo', depart:'23:55', arrive:'05:55+1', airline:'Iberia ⚠️ Schedule adjusted'},
+      {leg:'③ Return', date:'May 10', flightNo:'IB268', from:'GRU São Paulo', to:'MAD Madrid', depart:'14:10', arrive:'May 11 05:35', airline:'Iberia ⚠️ Schedule adjusted'},
+      {leg:'④ Return', date:'May 11', flightNo:'MU710', from:'MAD Madrid', to:'PVG Shanghai', depart:'11:05', arrive:'May 12 05:50', airline:'China Eastern'},
     ],
-    hotel:{ name:'—', address:'São Paulo, Brazil', checkin:'May 4', checkout:'May 10', confirmation:'—' },
-    notes:'Departure May 1 from Shanghai. ⚠️ Must confirm OZCO 102-unit production before leaving — deadline May 15. MANROD is a Brazil-based client.',
+    hotel:{ name:'JW Marriott Hotel São Paulo', address:'Av. das Nações Unidas, 14401, Chácara Santo Antônio, São Paulo, Brazil', checkin:'May 2 (after 14:00)', checkout:'May 10 (before 12:00)', nights:'8 nights' },
+    notes:'⚠️ Must confirm OZCO 102-unit production before leaving on May 1 — OZCO deadline is May 15. MANROD is a Brazil-based client, good opportunity to strengthen relationship.',
     tags:[{t:'38 days away',c:'blue'},{t:'✈ Depart May 1',c:'orange'},{t:'MANROD client 🇧🇷',c:'green'}]
   },
   expomaq: {
@@ -860,12 +861,17 @@ const exhibitions = {
     dates:'Jun 2 – 4, 2026', setup:'—',
     status:'upcoming', daysAway:66,
     flights:[
-      {leg:'Outbound', date:'—', flightNo:'—', from:'—', to:'—', depart:'—', arrive:'—', airline:'—'},
-      {leg:'Return',   date:'—', flightNo:'—', from:'—', to:'—', depart:'—', arrive:'—', airline:'—'},
+      {leg:'① Outbound', date:'May 31', flightNo:'JL012', from:'NRT Tokyo', to:'DFW Dallas', depart:'10:45', arrive:'08:30', airline:'Japan Airlines ⚠️ Departure time moved earlier'},
+      {leg:'② Connecting', date:'May 31', flightNo:'AA1244', from:'DFW Dallas', to:'BJX León', depart:'15:08', arrive:'16:33', airline:'American Airlines ⚠️ Schedule adjusted'},
+      {leg:'③ Return', date:'Jun 5', flightNo:'AA877', from:'BJX León', to:'DFW Dallas', depart:'10:54', arrive:'14:28', airline:'American Airlines ⚠️ Schedule adjusted'},
+      {leg:'④ Return', date:'Jun 6', flightNo:'JL011', from:'DFW Dallas', to:'NRT Tokyo', depart:'12:05', arrive:'Jun 7 15:20', airline:'Japan Airlines'},
     ],
-    hotel:{ name:'—', address:'León, Guanajuato, Mexico', checkin:'—', checkout:'—', confirmation:'—' },
-    notes:'ANCLA (GRUPO IDEA SERVICIOS) is a Mexico City client — consider scheduling a meeting. Nearest major airport: Del Bajío (BJX) or Guadalajara (GDL).',
-    tags:[{t:'66 days away',c:'blue'},{t:'ANCLA client 🇲🇽',c:'green'}]
+    hotels:[
+      { name:'Courtyard Leon at the Poliforum', name_cn:'莱昂波利弗拉姆万怡酒店', address:'Blvrd Francisco Villa 102, Zona Recreativa y Cultural, León, Guanajuato, 37510, Mexico', checkin:'May 31 (after 15:00)', checkout:'Jun 5 (before 12:00)', nights:'5 nights' },
+      { name:'Hyatt Regency DFW International Airport', name_cn:'达拉斯凯悦丽景湾酒店（中转）', address:'DFW International Airport, 2334 N International Pkwy, Grapevine, Texas, 75261', checkin:'Jun 5 (after 15:00)', checkout:'Jun 6 (before 12:00)', nights:'1 night (transit)' },
+    ],
+    notes:'Route: Shanghai → Tokyo → Dallas → León (EXPOMAQ Jun 2–4) → Dallas → Tokyo → Shanghai. ANCLA (Mexico City client) — consider scheduling a visit. ⚠️ Multiple flight schedule adjustments — check latest status.',
+    tags:[{t:'66 days away',c:'blue'},{t:'✈ Depart May 31',c:'orange'},{t:'ANCLA client 🇲🇽',c:'green'}]
   },
   imts: {
     id:'imts', flag:'🇺🇸', color:'#3498db',
@@ -877,9 +883,9 @@ const exhibitions = {
       {leg:'Outbound', date:'—', flightNo:'—', from:'—', to:'—', depart:'—', arrive:'—', airline:'—'},
       {leg:'Return',   date:'—', flightNo:'—', from:'—', to:'—', depart:'—', arrive:'—', airline:'—'},
     ],
-    hotel:{ name:'—', address:'Chicago, IL, USA', checkin:'—', checkout:'—', confirmation:'—' },
-    notes:'Largest machine tool show in the Americas. GRUPO (B&I Traders / Eduardo) is a US-market client.',
-    tags:[{t:'170 days away',c:'blue'},{t:'GRUPO client 🇺🇸',c:'gray'}]
+    hotel:{ name:'Hilton Chicago', address:'720 S Michigan Ave, Chicago, Illinois, 60605', checkin:'Sep 12 (after 15:00)', checkout:'Sep 20 (before 11:00)', nights:'8 nights' },
+    notes:'Largest machine tool show in the Americas. GRUPO (B&I Traders / Eduardo) is a US-market client. Flights not yet booked.',
+    tags:[{t:'170 days away',c:'blue'},{t:'🏨 Hilton Chicago',c:'green'},{t:'GRUPO client 🇺🇸',c:'gray'}]
   },
 };
 
@@ -911,19 +917,21 @@ function openExhModal(id){
     </div>`;
   });
   html+=`</div>`;
-  // Hotel
+  // Hotel(s)
   html+=`<div class="modal-section"><h3>🏨 Hotel</h3>`;
-  const hotelTbd = e.hotel.name==='—';
-  if(hotelTbd){
+  const hotelList = e.hotels || (e.hotel ? [e.hotel] : []);
+  if(!hotelList.length || hotelList[0].name==='—'){
     html+=`<div class="note-box" style="background:#f8f8f8;border-color:#ddd;color:#aaa;font-style:italic;">— Hotel not added yet. Tell me the hotel name and I'll add it here —</div>`;
   } else {
-    html+=`<div class="meta-grid">
-      <div class="meta-item"><div class="mi-label">Hotel</div><div class="mi-value">${e.hotel.name}</div></div>
-      <div class="meta-item"><div class="mi-label">Confirmation</div><div class="mi-value">${e.hotel.confirmation}</div></div>
-      <div class="meta-item"><div class="mi-label">Check-in</div><div class="mi-value">${e.hotel.checkin}</div></div>
-      <div class="meta-item"><div class="mi-label">Check-out</div><div class="mi-value">${e.hotel.checkout}</div></div>
-      <div class="meta-item" style="grid-column:1/-1"><div class="mi-label">Address</div><div class="mi-value" style="font-weight:400;font-size:13px;color:#555;">${e.hotel.address}</div></div>
-    </div>`;
+    hotelList.forEach((h,idx)=>{
+      if(hotelList.length>1) html+=`<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#aaa;letter-spacing:1px;margin-bottom:8px;${idx>0?'margin-top:16px;':''}">${h.name_cn||'Hotel '+(idx+1)}</div>`;
+      html+=`<div class="meta-grid" style="margin-bottom:4px;">
+        <div class="meta-item" style="grid-column:1/-1"><div class="mi-label">Hotel</div><div class="mi-value">${h.name}</div></div>
+        <div class="meta-item"><div class="mi-label">Check-in</div><div class="mi-value">${h.checkin}</div></div>
+        <div class="meta-item"><div class="mi-label">Check-out</div><div class="mi-value">${h.checkout}${h.nights?' · '+h.nights:''}</div></div>
+        <div class="meta-item" style="grid-column:1/-1"><div class="mi-label">Address</div><div class="mi-value" style="font-weight:400;font-size:13px;color:#555;">${h.address}</div></div>
+      </div>`;
+    });
   }
   html+=`</div>`;
   // Notes
