@@ -333,7 +333,7 @@ table tr:last-child td{border-bottom:none;}
   <div class="exh-upcoming">
 
     <!-- Shanghai -->
-    <div class="exh-card">
+    <div class="exh-card" style="cursor:pointer;" onclick="openExhModal('shanghai')">
       <div class="exh-bar" style="background:#1a1a2e;"></div>
       <div class="exh-inner">
         <div class="exh-date-col"><div class="exh-day">21</div><div class="exh-mon">Apr</div></div>
@@ -357,7 +357,7 @@ table tr:last-child td{border-bottom:none;}
     </div>
 
     <!-- Brazil FEIMEC -->
-    <div class="exh-card">
+    <div class="exh-card" style="cursor:pointer;" onclick="openExhModal('feimec')">
       <div class="exh-bar" style="background:#27ae60;"></div>
       <div class="exh-inner">
         <div class="exh-date-col"><div class="exh-day">5</div><div class="exh-mon">May</div></div>
@@ -379,7 +379,7 @@ table tr:last-child td{border-bottom:none;}
     </div>
 
     <!-- Mexico EXPOMAQ -->
-    <div class="exh-card">
+    <div class="exh-card" style="cursor:pointer;" onclick="openExhModal('expomaq')">
       <div class="exh-bar" style="background:#e67e22;"></div>
       <div class="exh-inner">
         <div class="exh-date-col"><div class="exh-day">2</div><div class="exh-mon">Jun</div></div>
@@ -403,7 +403,7 @@ table tr:last-child td{border-bottom:none;}
     </div>
 
     <!-- Chicago IMTS -->
-    <div class="exh-card">
+    <div class="exh-card" style="cursor:pointer;" onclick="openExhModal('imts')">
       <div class="exh-bar" style="background:#3498db;"></div>
       <div class="exh-inner">
         <div class="exh-date-col"><div class="exh-day">14</div><div class="exh-mon">Sep</div></div>
@@ -556,12 +556,30 @@ const clients = [
   },
   {
     short:'MAQUINAS', flag:'🇦🇷', name:'Maquinas e Insumos SRL',
-    country:'Argentina', contact:'—', address:'Argentina',
+    country:'Argentina', contact:'—', address:'Av. Bernardo Ader 1345, Villa Adelina, Pcia. Bs. As., Argentina',
     amount:'~$107,200', amountUSD:107200,
     tags:[{t:'50% Due',c:'orange'},{t:'20% on clearance',c:'gray'}],
     payment:'30% down · 50% after shipping · 20% after customs clearance.',
-    pis:[],
-    notes:'Three-installment structure — track each milestone. 50% after shipping now triggered. 20% after customs clearance to follow.'
+    pis:[
+      {
+        no:'20251030', date:'Oct 2025', total:'$97,318 USD',
+        items:[
+          {model:'ZX45',desc:'220V 1ph',qty:4,unit:'$1,802',total:'$7,208'},
+          {model:'ZX45',desc:'380V 3ph',qty:2,unit:'$1,802',total:'$3,604'},
+          {model:'ZX7045',desc:'380V 3ph',qty:6,unit:'$2,411',total:'$14,466'},
+          {model:'ZX7550CW',desc:'380V 3ph',qty:8,unit:'$3,617',total:'$28,936'},
+          {model:'ZX6350Z',desc:'380V 3ph',qty:6,unit:'$5,709',total:'$34,254'},
+          {model:'Z5040',desc:'380V 3ph',qty:3,unit:'$2,950',total:'$8,850'},
+        ]
+      },
+      {
+        no:'20260130', date:'Jan 2026', total:'$9,916 USD',
+        items:[
+          {model:'CQ360Vx1000',desc:'380V 3ph',qty:4,unit:'$2,479',total:'$9,916'},
+        ]
+      },
+    ],
+    notes:'Three-installment structure — track each milestone. 50% after shipping now triggered (~$53,600). 20% after customs clearance to follow. Argentine customs clearance can be slow.'
   },
   {
     short:'ANCLA', flag:'🇲🇽', name:'GRUPO IDEA SERVICIOS S.A. DE C.V.',
@@ -786,6 +804,121 @@ new Chart(document.getElementById('regionChart'),{
     plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:10,font:{size:12}}},title:{display:true,text:'Volume by Region (USD)',font:{size:13,weight:'600'},padding:{bottom:10}},tooltip:{callbacks:{label:ctx=>' $'+ctx.raw.toLocaleString()+' USD'}}}
   }
 });
+
+
+// ── EXHIBITION DATA ───────────────────────────────────────────
+const exhibitions = {
+  shanghai: {
+    id:'shanghai', flag:'🇨🇳', color:'#1a1a2e',
+    name:'上海机床展', nameEn:'Shanghai Machine Tool Exhibition',
+    venue:'National Exhibition and Convention Center (NECC)', city:'Shanghai, China',
+    dates:'Apr 21 – 25, 2026', setup:'Apr 17 (exhibits move-in) · Apr 18 (booth setup)',
+    status:'upcoming', daysAway:24,
+    flights:[
+      {leg:'Outbound', date:'—', flightNo:'—', from:'—', to:'—', depart:'—', arrive:'—', airline:'—'},
+      {leg:'Return',   date:'—', flightNo:'—', from:'—', to:'—', depart:'—', arrive:'—', airline:'—'},
+    ],
+    hotel:{ name:'—', address:'—', checkin:'Apr 20', checkout:'Apr 26', confirmation:'—' },
+    notes:'Juan (JK Group / Metal Master) visiting China Apr 18–28 — overlaps with show. Key opportunity for face time with biggest client.',
+    tags:[{t:'24 days away',c:'blue'},{t:'Setup Apr 17–18',c:'green'},{t:'Juan here Apr 18–28',c:'purple'}]
+  },
+  feimec: {
+    id:'feimec', flag:'🇧🇷', color:'#27ae60',
+    name:'巴西展 FEIMEC', nameEn:'FEIMEC — Feira Internacional de Máquinas',
+    venue:'Expo Center Norte', city:'São Paulo, Brazil',
+    dates:'May 5 – 9, 2026', setup:'—',
+    status:'upcoming', daysAway:38,
+    flights:[
+      {leg:'Outbound', date:'May 1', flightNo:'—', from:'PVG Shanghai', to:'MAD Madrid', depart:'—', arrive:'—', airline:'—'},
+      {leg:'Connecting',date:'May 1/2', flightNo:'—', from:'MAD Madrid', to:'GRU São Paulo', depart:'—', arrive:'—', airline:'—'},
+      {leg:'Return',   date:'—', flightNo:'—', from:'GRU São Paulo', to:'PVG Shanghai', depart:'—', arrive:'—', airline:'—'},
+    ],
+    hotel:{ name:'—', address:'São Paulo, Brazil', checkin:'May 4', checkout:'May 10', confirmation:'—' },
+    notes:'Departure May 1 from Shanghai. ⚠️ Must confirm OZCO 102-unit production before leaving — deadline May 15. MANROD is a Brazil-based client.',
+    tags:[{t:'38 days away',c:'blue'},{t:'✈ Depart May 1',c:'orange'},{t:'MANROD client 🇧🇷',c:'green'}]
+  },
+  expomaq: {
+    id:'expomaq', flag:'🇲🇽', color:'#e67e22',
+    name:'墨西哥莱昂 EXPOMAQ', nameEn:'EXPOMAQ — Exposición Internacional de Maquinaria',
+    venue:'Poliforum León', city:'León, Guanajuato, Mexico',
+    dates:'Jun 2 – 4, 2026', setup:'—',
+    status:'upcoming', daysAway:66,
+    flights:[
+      {leg:'Outbound', date:'—', flightNo:'—', from:'—', to:'—', depart:'—', arrive:'—', airline:'—'},
+      {leg:'Return',   date:'—', flightNo:'—', from:'—', to:'—', depart:'—', arrive:'—', airline:'—'},
+    ],
+    hotel:{ name:'—', address:'León, Guanajuato, Mexico', checkin:'—', checkout:'—', confirmation:'—' },
+    notes:'ANCLA (GRUPO IDEA SERVICIOS) is a Mexico City client — consider scheduling a meeting. Nearest major airport: Del Bajío (BJX) or Guadalajara (GDL).',
+    tags:[{t:'66 days away',c:'blue'},{t:'ANCLA client 🇲🇽',c:'green'}]
+  },
+  imts: {
+    id:'imts', flag:'🇺🇸', color:'#3498db',
+    name:'芝加哥 IMTS 机床展', nameEn:'IMTS — International Manufacturing Technology Show',
+    venue:'McCormick Place', city:'Chicago, Illinois, USA',
+    dates:'Sep 14 – 19, 2026', setup:'—',
+    status:'upcoming', daysAway:170,
+    flights:[
+      {leg:'Outbound', date:'—', flightNo:'—', from:'—', to:'—', depart:'—', arrive:'—', airline:'—'},
+      {leg:'Return',   date:'—', flightNo:'—', from:'—', to:'—', depart:'—', arrive:'—', airline:'—'},
+    ],
+    hotel:{ name:'—', address:'Chicago, IL, USA', checkin:'—', checkout:'—', confirmation:'—' },
+    notes:'Largest machine tool show in the Americas. GRUPO (B&I Traders / Eduardo) is a US-market client.',
+    tags:[{t:'170 days away',c:'blue'},{t:'GRUPO client 🇺🇸',c:'gray'}]
+  },
+};
+
+function openExhModal(id){
+  const e = exhibitions[id];
+  if(!e) return;
+  let html='';
+  // Header info
+  html+=`<div class="modal-section"><h3>Exhibition Details</h3><div class="meta-grid">
+    <div class="meta-item"><div class="mi-label">Dates</div><div class="mi-value">${e.dates}</div></div>
+    <div class="meta-item"><div class="mi-label">Status</div><div class="mi-value"><span class="tag blue">${e.daysAway} days away</span></div></div>
+    <div class="meta-item"><div class="mi-label">Venue</div><div class="mi-value" style="font-weight:400;font-size:13px;color:#555;">${e.venue}</div></div>
+    <div class="meta-item"><div class="mi-label">City</div><div class="mi-value">${e.city}</div></div>
+    ${e.setup && e.setup!=='—'?`<div class="meta-item" style="grid-column:1/-1"><div class="mi-label">Setup / Move-in</div><div class="mi-value" style="font-weight:400;font-size:13px;color:#555;">${e.setup}</div></div>`:''}
+  </div></div>`;
+  // Flights
+  html+=`<div class="modal-section"><h3>✈ Flights</h3>`;
+  e.flights.forEach(f=>{
+    const tbd = f.flightNo==='—';
+    html+=`<div class="pi-block" style="margin-bottom:10px;">
+      <div class="pi-header">
+        <div><div class="pi-no">${f.leg}</div><div class="pi-date">${f.date}</div></div>
+        <div style="font-size:13px;color:${tbd?'#bbb':'#1a1a2e'};font-weight:600;">${tbd?'Not added yet':f.flightNo}</div>
+      </div>
+      ${!tbd?`<table>
+        <tr><th>From</th><th>To</th><th>Depart</th><th>Arrive</th><th>Airline</th></tr>
+        <tr><td>${f.from}</td><td>${f.to}</td><td>${f.depart}</td><td>${f.arrive}</td><td>${f.airline}</td></tr>
+      </table>`:`<div style="padding:10px 16px;font-size:12px;color:#bbb;font-style:italic;">— Tell me the flight details and I'll add them here —</div>`}
+    </div>`;
+  });
+  html+=`</div>`;
+  // Hotel
+  html+=`<div class="modal-section"><h3>🏨 Hotel</h3>`;
+  const hotelTbd = e.hotel.name==='—';
+  if(hotelTbd){
+    html+=`<div class="note-box" style="background:#f8f8f8;border-color:#ddd;color:#aaa;font-style:italic;">— Hotel not added yet. Tell me the hotel name and I'll add it here —</div>`;
+  } else {
+    html+=`<div class="meta-grid">
+      <div class="meta-item"><div class="mi-label">Hotel</div><div class="mi-value">${e.hotel.name}</div></div>
+      <div class="meta-item"><div class="mi-label">Confirmation</div><div class="mi-value">${e.hotel.confirmation}</div></div>
+      <div class="meta-item"><div class="mi-label">Check-in</div><div class="mi-value">${e.hotel.checkin}</div></div>
+      <div class="meta-item"><div class="mi-label">Check-out</div><div class="mi-value">${e.hotel.checkout}</div></div>
+      <div class="meta-item" style="grid-column:1/-1"><div class="mi-label">Address</div><div class="mi-value" style="font-weight:400;font-size:13px;color:#555;">${e.hotel.address}</div></div>
+    </div>`;
+  }
+  html+=`</div>`;
+  // Notes
+  if(e.notes) html+=`<div class="modal-section"><h3>Notes</h3><div class="note-box">${e.notes}</div></div>`;
+
+  document.getElementById('mShort').textContent=e.nameEn;
+  document.getElementById('mName').textContent=e.name;
+  document.getElementById('mFlag').textContent=e.flag;
+  document.getElementById('mBody').innerHTML=html;
+  document.getElementById('modalOverlay').classList.add('open');
+}
 </script>
 </body>
 </html>
