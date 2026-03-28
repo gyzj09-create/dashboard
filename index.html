@@ -111,6 +111,32 @@ header .date{font-size:12px;opacity:0.5;}
 .task-title{font-size:15px;font-weight:600;margin-bottom:6px;line-height:1.3;}
 .task-desc{font-size:13px;color:#666;line-height:1.5;}
 .task-meta{margin-top:10px;font-size:12px;color:#999;}
+/* TASK TIMELINE */
+.timeline-section{margin-bottom:28px;}
+.timeline-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.timeline-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;}
+.timeline-badge.tomorrow{background:#fde8e8;color:#c0392b;}
+.timeline-badge.week{background:#fef3e2;color:#d35400;}
+.timeline-badge.month{background:#e8f4fd;color:#2471a3;}
+.timeline-badge.ongoing{background:#eafaf1;color:#1e8449;}
+.timeline-count{font-size:12px;color:#aaa;margin-left:4px;}
+/* PAYMENT TABLE in overview */
+.pay-table{width:100%;border-collapse:collapse;font-size:13px;}
+.pay-table th{background:#1e3a5f;color:#fff;padding:9px 12px;text-align:left;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;}
+.pay-table th:not(:first-child){text-align:right;}
+.pay-table td{padding:9px 12px;border-bottom:1px solid #f0f0f0;vertical-align:middle;}
+.pay-table td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;}
+.pay-table tr:nth-child(even) td{background:#f8f9fc;}
+.pay-table tr:hover td{background:#eef4fb;}
+.pay-table .client-tag{font-weight:700;font-size:13px;color:#1a1a2e;}
+.pay-table .client-sub{font-size:11px;color:#aaa;margin-top:1px;}
+.pay-table .paid-val{color:#27ae60;font-weight:600;}
+.pay-table .bal-val{color:#e67e22;font-weight:700;}
+.pay-table .status-pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;}
+.pay-table .pill-green{background:#d5f5e3;color:#1e8449;}
+.pay-table .pill-orange{background:#fdebd0;color:#d35400;}
+.pay-table .pill-red{background:#fadbd8;color:#c0392b;}
+.pay-table .pill-gray{background:#f0f0f0;color:#888;}
 
 /* EVENTS */
 .event-card{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;}
@@ -281,6 +307,23 @@ table tr:last-child td{border-bottom:none;}
     </div>
   </div>
 
+  <!-- Payment Outstanding Table -->
+  <div class="section-title" style="margin-top:22px;">📋 Outstanding Payments</div>
+  <div class="card" style="padding:0;overflow:hidden;">
+    <table class="pay-table" id="payOutstandingTable">
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Paid</th>
+          <th>Contract Total</th>
+          <th>Outstanding</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="payOutstandingBody"></tbody>
+    </table>
+  </div>
+
   <!-- 2026 Highlights -->
   <div class="section-title">📋 2026 New Contracts</div>
   <div class="grid-3" style="margin-bottom:0;">
@@ -346,94 +389,121 @@ table tr:last-child td{border-bottom:none;}
      TASKS PAGE
 ══════════════════════════════════════════ -->
 <div id="page-tasks" class="page">
-  <div class="grid-3">
-    <div class="card task-card urgent">
-      <div class="task-label">🔴 Urgent</div>
-      <div class="task-title">OZCO Production Check</div>
-      <div class="task-desc">Confirm 102-unit order on track. Hard deadline May 15 — only 49 days away. Also check L/C status with bank.</div>
-      <div class="task-meta">⚠️ Leaving for Brazil May 1 — confirm before then</div>
-    </div>
-    <div class="card task-card urgent">
-      <div class="task-label">🔴 Urgent</div>
-      <div class="task-title">Chase COMARK Balance</div>
-      <div class="task-desc">70% T/T balance (~RMB 448,560) due within 1 week of B/L copy. Shipment just went out.</div>
-      <div class="task-meta">Contact: Jerzy Zalewski — +48 607 147 807</div>
-    </div>
-    <div class="card task-card high">
-      <div class="task-label">🟠 Follow Up</div>
-      <div class="task-title">Chase MAQUINAS Payment</div>
-      <div class="task-desc">50% after shipping (~$53,600) now triggered. 20% after customs clearance will follow.</div>
-      <div class="task-meta">Argentina — Maquinas e Insumos SRL</div>
-    </div>
-    <div class="card task-card normal">
-      <div class="task-label">🔵 In Progress</div>
-      <div class="task-title">JK Ecuador — Production Follow-Up</div>
-      <div class="task-desc">PI 20260325 ($62,162). 30% deposit $20,000 RECEIVED Mar 25 2026 via Produbanco (fee $15, net $19,985). Confirm production is now scheduled and on track.</div>
-      <div class="task-meta">Contact: Juan · Remaining: ~$42,162</div>
-    </div>
-    <div class="card task-card normal">
-      <div class="task-label">🔵 Status Check</div>
-      <div class="task-title">JK Colombia Follow-Up</div>
-      <div class="task-desc">Two Jan 2026 PIs totalling ~$131,894. Confirm deposit received and current production/shipping status.</div>
-      <div class="task-meta">JK Investment CO SAS · Bogotá</div>
-    </div>
-    <div class="card task-card normal">
-      <div class="task-label">🔵 Upcoming</div>
-      <div class="task-title">Prep — Giovanni Factory Visit</div>
-      <div class="task-desc">DINTASS MOTORI (Chile) visits Gaoyou Apr 14. First order delivered. Likely follow-on discussion.</div>
-      <div class="task-meta">Lathes · Milling · Drilling</div>
-    </div>
 
-    <!-- ── New tasks from Mar 28 2026 ── -->
-    <div class="card task-card urgent">
-      <div class="task-label">🔴 Shanghai Show — Due Mar 30</div>
-      <div class="task-title">Machine Signage & Labels — 上海展</div>
-      <div class="task-desc">ZX6350Z signs (front + side); Z5050 & Z5032 front panels; lathe small stickers; safety labels (rectangular size); CQ360/CQ290 carriage box signs; ZX6360Z ram sign; black knob issue — confirm & follow up.</div>
-      <div class="task-meta">⚠ All items needed before Shanghai show Apr 21</div>
+  <!-- ══ TOMORROW ══ -->
+  <div class="timeline-section">
+    <div class="timeline-header">
+      <span class="timeline-badge tomorrow">🔴 明天 / Tomorrow</span>
+      <span class="timeline-count">Mar 29</span>
     </div>
-    <div class="card task-card urgent">
-      <div class="task-label">🔴 Action — Due Mar 30</div>
-      <div class="task-title">Confirm Speed Sign Arrow Direction</div>
-      <div class="task-desc">Check and confirm the correct arrow direction for the speed rating signs (转速标牌). Needed for Shanghai exhibition machines.</div>
-      <div class="task-meta">Shanghai show prep</div>
-    </div>
-    <div class="card task-card high">
-      <div class="task-label">🟠 Follow Up — Due Mar 30</div>
-      <div class="task-title">Consult Mario re: FEIMEC Product Lineup</div>
-      <div class="task-desc">Discuss product selection and display strategy with Mario for the Brazil FEIMEC exhibition (May 5–9, São Paulo).</div>
-      <div class="task-meta">FEIMEC Brazil · May 5 — 38 days away</div>
-    </div>
-    <div class="card task-card high">
-      <div class="task-label">🟠 Action — Due Mar 30</div>
-      <div class="task-title">IMTS Chicago Sample Machine Shipping</div>
-      <div class="task-desc">Arrange logistics for sample machine(s) to be shipped to IMTS Chicago (Sep 14–19). Coordinate with US side — confirm which models, freight forwarder, and timeline.</div>
-      <div class="task-meta">IMTS Chicago · Sep 14 · 170 days away</div>
-    </div>
-    <div class="card task-card high">
-      <div class="task-label">🟠 Follow Up — Due Mar 30</div>
-      <div class="task-title">Follow Up with Tim (USA) re: Chicago Sample Machine</div>
-      <div class="task-desc">Contact Tim in the USA to follow up on the IMTS Chicago sample machine arrangement. Confirm requirements and any outstanding decisions.</div>
-      <div class="task-meta">IMTS Chicago · Sep 14–19, 2026</div>
-    </div>
-    <div class="card task-card normal">
-      <div class="task-label">🔵 Action</div>
-      <div class="task-title">Call Suzhou EDM Supplier — Schedule Visit</div>
-      <div class="task-desc">Phone the Suzhou EDM manufacturer to arrange the factory visit itinerary for Tuesday. Confirm timing and agenda.</div>
-      <div class="task-meta">苏州EDM厂家</div>
-    </div>
-    <div class="card task-card normal">
-      <div class="task-label">🔵 Follow Up</div>
-      <div class="task-title">Email Grizzly — Follow Up on Inquiry</div>
-      <div class="task-desc">Send follow-up email to Grizzly regarding pending inquiry or proposal. Check on their interest and next steps.</div>
-      <div class="task-meta">Grizzly (USA market)</div>
-    </div>
-    <div class="card task-card normal">
-      <div class="task-label">🔵 Action — Due Mar 30</div>
-      <div class="task-title">Find Contact at Haitian (海天)</div>
-      <div class="task-desc">Look up and obtain a reliable contact person / phone number / email at Haitian (海天). Purpose TBD — follow up as needed.</div>
-      <div class="task-meta">海天机械</div>
+    <div class="grid-3">
+      <div class="card task-card urgent">
+        <div class="task-label">🔴 Call Today</div>
+        <div class="task-title">Call Suzhou EDM Supplier — Schedule Visit</div>
+        <div class="task-desc">Phone the Suzhou EDM manufacturer to arrange the factory visit itinerary for Tuesday (Mar 31). Confirm timing and agenda.</div>
+        <div class="task-meta">苏州EDM厂家 · Tuesday visit</div>
+      </div>
     </div>
   </div>
+
+  <!-- ══ THIS WEEK ══ -->
+  <div class="timeline-section">
+    <div class="timeline-header">
+      <span class="timeline-badge week">🟠 本周 / This Week</span>
+      <span class="timeline-count">by Apr 3 · Most due Mar 30</span>
+    </div>
+    <div class="grid-3">
+      <div class="card task-card urgent">
+        <div class="task-label">🔴 Due Mar 30</div>
+        <div class="task-title">Machine Signage &amp; Labels — 上海展</div>
+        <div class="task-desc">ZX6350Z signs (front + side); Z5050 &amp; Z5032 front panels; lathe small stickers; safety labels (rectangular); CQ360/CQ290 carriage box signs; ZX6360Z ram sign; black knob issue — confirm &amp; follow up.</div>
+        <div class="task-meta">⚠ All items needed before Shanghai show Apr 21</div>
+      </div>
+      <div class="card task-card urgent">
+        <div class="task-label">🔴 Due Mar 30</div>
+        <div class="task-title">Confirm Speed Sign Arrow Direction</div>
+        <div class="task-desc">Check and confirm the correct arrow direction for the speed rating signs (转速标牌). Needed for Shanghai exhibition machines.</div>
+        <div class="task-meta">上海展 prep</div>
+      </div>
+      <div class="card task-card high">
+        <div class="task-label">🟠 Due Mar 30</div>
+        <div class="task-title">Consult Mario re: FEIMEC Product Lineup</div>
+        <div class="task-desc">Discuss product selection and display strategy with Mario for the Brazil FEIMEC exhibition (May 5–9, São Paulo).</div>
+        <div class="task-meta">FEIMEC Brazil · May 5 — 38 days away</div>
+      </div>
+      <div class="card task-card high">
+        <div class="task-label">🟠 Due Mar 30</div>
+        <div class="task-title">IMTS Chicago — Sample Machine Shipping</div>
+        <div class="task-desc">Arrange logistics for sample machine(s) to IMTS Chicago (Sep 14–19). Confirm models, freight forwarder, and shipping timeline with US side.</div>
+        <div class="task-meta">IMTS Chicago · Sep 14 · 170 days away</div>
+      </div>
+      <div class="card task-card high">
+        <div class="task-label">🟠 Due Mar 30</div>
+        <div class="task-title">Follow Up with Tim (USA) — Chicago Sample</div>
+        <div class="task-desc">Contact Tim in the USA to follow up on the IMTS Chicago sample machine arrangement. Confirm requirements and outstanding decisions.</div>
+        <div class="task-meta">IMTS Chicago · Sep 14–19, 2026</div>
+      </div>
+      <div class="card task-card high">
+        <div class="task-label">🟠 Due Mar 30</div>
+        <div class="task-title">Find Contact at Haitian (海天)</div>
+        <div class="task-desc">Look up and obtain a reliable contact person / phone number / email at Haitian (海天). Follow up as needed.</div>
+        <div class="task-meta">海天机械</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ THIS MONTH ══ -->
+  <div class="timeline-section">
+    <div class="timeline-header">
+      <span class="timeline-badge month">🔵 本月 / This Month</span>
+      <span class="timeline-count">by Apr 30</span>
+    </div>
+    <div class="grid-3">
+      <div class="card task-card urgent">
+        <div class="task-label">🔴 Before May 1 Departure</div>
+        <div class="task-title">OZCO Production Check</div>
+        <div class="task-desc">Confirm 102-unit order on track. Hard deadline May 15 — only 49 days away. Also verify L/C status with bank.</div>
+        <div class="task-meta">⚠️ Flying to Brazil May 1 — must confirm before departure</div>
+      </div>
+      <div class="card task-card urgent">
+        <div class="task-label">🔴 Chase Payment</div>
+        <div class="task-title">Chase COMARK Balance</div>
+        <div class="task-desc">70% T/T balance (~RMB 448,560) due within 1 week of B/L copy. Shipment just went out — follow up immediately.</div>
+        <div class="task-meta">Contact: Jerzy Zalewski — +48 607 147 807</div>
+      </div>
+      <div class="card task-card high">
+        <div class="task-label">🟠 Chase Payment</div>
+        <div class="task-title">Chase MAQUINAS Payment</div>
+        <div class="task-desc">50% after shipping (~$48,659) now triggered. 20% after customs clearance will follow. Contact Argentina client.</div>
+        <div class="task-meta">Argentina — Maquinas e Insumos SRL</div>
+      </div>
+      <div class="card task-card normal">
+        <div class="task-label">🔵 Apr 14</div>
+        <div class="task-title">Prep — Giovanni Factory Visit</div>
+        <div class="task-desc">DINTASS MOTORI (Chile) visits Gaoyou Apr 14. First order delivered. Likely follow-on order discussion — prepare product proposals.</div>
+        <div class="task-meta">Lathes · Milling · Drilling</div>
+      </div>
+      <div class="card task-card normal">
+        <div class="task-label">🔵 Follow Up</div>
+        <div class="task-title">JK Ecuador — Production Confirmation</div>
+        <div class="task-desc">PI 20260325 ($62,162). 30% deposit $20,000 received Mar 25 2026. Confirm production scheduled and on track.</div>
+        <div class="task-meta">Contact: Juan · Remaining: ~$42,162</div>
+      </div>
+      <div class="card task-card normal">
+        <div class="task-label">🔵 Status Check</div>
+        <div class="task-title">JK Colombia Follow-Up</div>
+        <div class="task-desc">Two Jan 2026 PIs totalling ~$131,894. Confirm production / shipping status for both orders.</div>
+        <div class="task-meta">JK Investment CO SAS · Bogotá</div>
+      </div>
+      <div class="card task-card normal">
+        <div class="task-label">🔵 Follow Up</div>
+        <div class="task-title">Email Grizzly — Follow Up on Inquiry</div>
+        <div class="task-desc">Send follow-up email to Grizzly regarding pending inquiry or proposal. Check on their interest and next steps.</div>
+        <div class="task-meta">Grizzly (USA market)</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -1035,6 +1105,48 @@ document.getElementById('kpiPaid').textContent = fmt(totalPaid);
 document.getElementById('kpiBalance').textContent = fmt(totalBal);
 document.getElementById('kpiPaidPct').textContent = Math.round(totalPaid/totalVal*100)+'% of contract value';
 document.getElementById('kpiBalPct').textContent = Math.round(totalBal/totalVal*100)+'% to collect';
+
+// ── Payment Outstanding Table ────────────────────────────────
+(function(){
+  const statusMap = {
+    OZCO:   {label:'⚠ Ship by May 15', cls:'pill-red'},
+    COMARK: {label:'70% due vs B/L',   cls:'pill-orange'},
+    JK:     {label:'Partial deposits', cls:'pill-orange'},
+    MAQUINAS:{label:'50%+20% pending', cls:'pill-orange'},
+    ANCLA:  {label:'80% pending',      cls:'pill-orange'},
+    GRUPO:  {label:'Partial shipped',  cls:'pill-orange'},
+    MANROD: {label:'70% pre-ship',     cls:'pill-orange'},
+    Tupai:  {label:'70% pre-ship',     cls:'pill-orange'},
+    KOWAY:  {label:'3 installments',   cls:'pill-orange'},
+    REMO:   {label:'Awaiting deposit', cls:'pill-gray'},
+    DINTASS:{label:'Fully paid ✓',     cls:'pill-green'},
+  };
+  const tbody = document.getElementById('payOutstandingBody');
+  // Only show clients with outstanding balance (balance > 0 or OZCO with L/C)
+  const rows = clients.filter(c => {
+    if(c.short==='DINTASS') return false; // fully paid
+    return true;
+  });
+  // Sort: outstanding balance desc (using amountUSD - paid)
+  rows.sort((a,b)=>{
+    const ba = a.amountUSD-(paidByClient[a.short]||0);
+    const bb = b.amountUSD-(paidByClient[b.short]||0);
+    return bb-ba;
+  });
+  rows.forEach(c=>{
+    const paid = paidByClient[c.short]||0;
+    const bal  = c.amountUSD - paid;
+    const sm   = statusMap[c.short]||{label:'—',cls:'pill-gray'};
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><div class="client-tag">${c.flag} ${c.short}</div><div class="client-sub">${c.name}</div></td>
+      <td class="paid-val">${c.paid}</td>
+      <td>${c.amount}</td>
+      <td class="bal-val">${c.balance}</td>
+      <td><span class="status-pill ${sm.cls}">${sm.label}</span></td>`;
+    tbody.appendChild(tr);
+  });
+})();
 
 // ── Colour palette ───────────────────────────────────────────
 const palette = [
