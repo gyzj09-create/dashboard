@@ -154,6 +154,23 @@ table tr:last-child td{border-bottom:none;}
 .note-box{background:#fffbf0;border-left:3px solid #f39c12;padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#555;line-height:1.6;}
 .payment-box{background:#f0f8ff;border-left:3px solid #3498db;padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;color:#333;line-height:1.6;font-weight:600;}
 
+
+/* CLIENT CARD — summary row */
+.client-meta{font-size:11px;color:#aaa;margin-top:6px;}
+.client-paidrow{margin-top:5px;font-size:11px;display:flex;flex-wrap:wrap;gap:4px;}
+.cpaid{color:#27ae60;font-weight:600;}
+.cbal{color:#e67e22;font-weight:600;}
+
+/* MODAL payment summary box */
+.pay-summary{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;
+  background:#f8f9fb;border-radius:10px;padding:14px 16px;margin-bottom:4px;}
+.pay-summary-item .psi-label{font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.7px;color:#aaa;margin-bottom:3px;}
+.pay-summary-item .psi-value{font-size:15px;font-weight:700;color:#1a1a2e;}
+.pay-summary-item.paid .psi-label{color:#27ae60;}
+.pay-summary-item.paid .psi-value{color:#27ae60;}
+.pay-summary-item.bal .psi-label{color:#e67e22;}
+.pay-summary-item.bal .psi-value{color:#e67e22;}
 /* EXHIBITION CARDS */
 .exh-upcoming{display:flex;flex-direction:column;gap:12px;}
 .exh-card{background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.07);display:flex;}
@@ -489,9 +506,11 @@ const clients = [
     short:'OZCO', flag:'🇹🇷', name:'Topçular Endüstriyel Üretim ve Yatırım A.Ş',
     country:'Turkey', contact:'—', address:'Abdurrahmangazi Mh., İmamoğlu Sk. C Blok No: 6, Samandıra / Sancaktepe, 34887 İstanbul',
     port:'Izmit port, Turkey',
-    amount:'$173,725', amountUSD:173725,
+    amount:'$173,725 USD', amountUSD:173725,
+    paid:'$0 (L/C — paid after ship)', balance:'$173,725 USD',
+    contracts:1, machines:102, status:'⚠ Ship by May 15',
     tags:[{t:'⚠ Deadline May 15',c:'red'},{t:'L/C Confirmed ✓',c:'green'},{t:'102 units',c:'blue'}],
-    payment:'L/C at 180 days — Letter of Credit (bank-to-bank). Different process from T/T.',
+    payment:'L/C at 180 days — Letter of Credit (bank-to-bank). Payment received 180 days after shipment.',
     pis:[{
       no:'OZCO20260202', date:'Feb 2026', total:'$173,725 USD',
       items:[
@@ -503,12 +522,14 @@ const clients = [
         {model:'MC50E',desc:'Drilling machine (3KW, MT4, 580×580 table)',qty:10,unit:'$2,990',total:'$29,900'},
       ]
     }],
-    notes:'⚠ DEADLINE May 15 2026 — must ship before this date. L/C CONFIRMED Mar 16 2026 (QNB Bank Istanbul, LC# 00875MC016612, USD 173,725, expires Jun 15 2026). Payment: 180 days after shipment. OZCO private-label branding (MC/CR series). 102 units is a very large shipment.'
+    notes:'⚠ DEADLINE May 15 2026 — must ship before this date. L/C CONFIRMED Mar 16 2026 (QNB Bank Istanbul, LC# 00875MC016612, USD 173,725, expires Jun 15 2026). Payment: 180 days after shipment — no advance needed. OZCO private-label branding (MC/CR series). 102 units is a very large shipment.'
   },
   {
     short:'COMARK', flag:'🇵🇱', name:'CORMAK Jerzy Zalewski',
     country:'Poland', contact:'Jerzy Zalewski — +48 607 147 807', address:'Str. Brzeska 120, 08-110 Siedlce, Poland',
     amount:'RMB 640,800', amountUSD:88000,
+    paid:'RMB 192,240 (30% deposit)', balance:'RMB 448,560 (70% due)',
+    contracts:1, machines:36, status:'70% Due Before B/L',
     tags:[{t:'Deposit Paid ✓',c:'green'},{t:'70% Due Before B/L',c:'orange'},{t:'36 lathes',c:'blue'}],
     payment:'30% T/T advance · 70% T/T against B/L copy within 1 week.',
     pis:[{
@@ -522,13 +543,16 @@ const clients = [
   },
   {
     short:'JK', flag:'🇨🇴', name:'JK Group / Metal Master Industrial',
-    country:'Colombia / Ecuador / Peru', contact:'Juan (Owner / Partner)',address:'Multiple entities across LatAm',
-    amount:'~$250,717', amountUSD:250717,
+    country:'Colombia / Ecuador / Peru', contact:'Juan (Owner / Partner)', address:'Multiple entities across LatAm',
+    amount:'~$250,717 USD', amountUSD:250717,
+    paid:'~$62,196 USD', balance:'~$188,521 USD',
+    contracts:4, machines:120, status:'All Deposits Received',
     tags:[{t:'4 PIs active',c:'blue'},{t:'Deposits rcvd all 4',c:'green'},{t:'Partner',c:'purple'}],
     payment:'20–30% advance → 30% when goods ready → 50% after B/L.',
     pis:[
       {
         no:'20260127 — JK Colombia', date:'Jan 2026', total:'$65,598 USD',
+        payment:'✅ Deposit RCVD: COP 57,501,715 (~$15,900) · Jan 28 2026 · Bancolombia',
         items:[
           {model:'UM 45 B',desc:'',qty:4,unit:'$1,333',total:'$5,332'},
           {model:'UM 45 FE',desc:'',qty:4,unit:'$1,950',total:'$7,800'},
@@ -539,6 +563,7 @@ const clients = [
       },
       {
         no:'20260129 — JK Colombia', date:'Jan 2026', total:'$66,296 USD',
+        payment:'✅ Deposit RCVD: $16,296 · Feb 2 2026 · Bancolombia',
         items:[
           {model:'UM 45 B',desc:'',qty:6,unit:'$1,333',total:'$7,998'},
           {model:'UM 45 FE',desc:'',qty:6,unit:'$1,950',total:'$11,700'},
@@ -551,6 +576,7 @@ const clients = [
       },
       {
         no:'20260325 — JK Ecuador', date:'Mar 2026', total:'$62,162 USD',
+        payment:'✅ Deposit RCVD: $20,000 · Mar 25 2026 · Produbanco (fee $15; net rcvd $19,985)',
         items:[
           {model:'JUG 3610 V',desc:'',qty:4,unit:'$2,493',total:'$9,972'},
           {model:'420x1000 DRO CE',desc:'',qty:3,unit:'$4,520',total:'$13,560'},
@@ -558,27 +584,31 @@ const clients = [
           {model:'UM 45 B',desc:'',qty:4,unit:'$1,333',total:'$5,332'},
           {model:'UM 45 FE',desc:'',qty:4,unit:'$1,950',total:'$7,800'},
           {model:'UM 40',desc:'',qty:2,unit:'$4,649',total:'$9,298'},
-          {model:'DRO with scales',desc:'',qty:1,unit:'$240',total:'$240'},
+          {model:'DRO with scales',desc:'accessory',qty:1,unit:'$240',total:'$240'},
         ]
       },
       {
         no:'20260131 — JK Peru', date:'Jan 2026', total:'$56,661 USD',
+        payment:'✅ Deposit RCVD: $10,000 · Feb 24 2026 · BCP (Banco de Crédito del Perú)',
         items:[
           {model:'DM40',desc:'',qty:51,unit:'$1,111',total:'$56,661'},
         ]
       },
     ],
-    notes:'Deposits confirmed on all 4 PIs — Colombia ①: COP 57,501,715 (~$15,900, Jan 28 2026 Bancolombia); Colombia ②: $16,296 Feb 2 2026 Bancolombia; Peru: $10,000 Feb 24 2026 BCP; Ecuador: $20,000 Mar 25 2026 Produbanco (fee $15, net $19,985). Juan visiting China Apr 18–28 (Shanghai Machine Tool Exhibition Apr 21–26). Partner relationship.'
+    notes:'Juan visiting China Apr 18–28 (Shanghai Machine Tool Exhibition Apr 21–26). Partner relationship — not just a client. 4 PIs across Colombia, Ecuador, Peru. All deposits confirmed.'
   },
   {
     short:'MAQUINAS', flag:'🇦🇷', name:'Maquinas e Insumos SRL',
     country:'Argentina', contact:'—', address:'Av. Bernardo Ader 1345, Villa Adelina, Pcia. Bs. As., Argentina',
-    amount:'~$107,200', amountUSD:107200,
+    amount:'~$107,234 USD', amountUSD:107200,
+    paid:'~$32,183 USD', balance:'~$75,051 USD',
+    contracts:2, machines:33, status:'50% Due Post-Ship',
     tags:[{t:'Deposits Paid ✓',c:'green'},{t:'50% Due post-ship',c:'orange'},{t:'20% on clearance',c:'gray'}],
     payment:'30% down · 50% after shipping · 20% after customs clearance.',
     pis:[
       {
         no:'20251030', date:'Oct 2025', total:'$97,318 USD',
+        payment:'✅ 30% Deposit RCVD: ~$29,195 (Bank of China confirmed)',
         items:[
           {model:'ZX45',desc:'220V 1ph',qty:4,unit:'$1,802',total:'$7,208'},
           {model:'ZX45',desc:'380V 3ph',qty:2,unit:'$1,802',total:'$3,604'},
@@ -590,22 +620,26 @@ const clients = [
       },
       {
         no:'20260130', date:'Jan 2026', total:'$9,916 USD',
+        payment:'✅ 30% Deposit RCVD: ~$2,988 · Feb 2 2026',
         items:[
           {model:'CQ360Vx1000',desc:'380V 3ph',qty:4,unit:'$2,479',total:'$9,916'},
         ]
       },
     ],
-    notes:'30% deposits confirmed on both PIs — PI20251030: ~$29,195 received (Bank of China confirmed); PI20260130: ~$2,988 received Feb 2 2026 (cust paid ~$2,975+fee). Next milestone: 50% after shipping (~$53,600 + $4,958). Argentine customs clearance can be slow — final 20% follows.'
+    notes:'30% deposits confirmed on both PIs — PI20251030: ~$29,195 received; PI20260130: ~$2,988 received Feb 2 2026. Next milestone: 50% after shipping (~$53,600 + $4,958). Argentine customs clearance can be slow — final 20% follows.'
   },
   {
     short:'ANCLA', flag:'🇲🇽', name:'GRUPO IDEA SERVICIOS S.A. DE C.V.',
     country:'Mexico', contact:'—', address:'Poniente 27 No. 4106 interior 2, Col. del Gas, Azcapotzalco CDMX, C.P. 02930',
-    amount:'$103,374', amountUSD:103374,
+    amount:'$103,374 USD', amountUSD:103374,
+    paid:'~$20,758 USD', balance:'~$82,616 USD',
+    contracts:3, machines:21, status:'Deposit Paid',
     tags:[{t:'Deposit Paid ✓',c:'green'},{t:'3 PIs',c:'blue'},{t:'CNC + Conv.',c:'gray'}],
     payment:'20% down payment. 6 months for conventional, 8 months for CNC machinery.',
     pis:[
       {
         no:'20250910', date:'Jul 2025', total:'$88,224 USD',
+        payment:'✅ Deposit RCVD: $17,858 · Oct 13 2025 · BBVA Mexico → CCB (ref PI20250712)',
         items:[
           {model:'ZX6350Z',desc:'',qty:6,unit:'$5,275',total:'$31,650'},
           {model:'CQC330x1000',desc:'',qty:6,unit:'$2,429',total:'$14,574'},
@@ -614,32 +648,37 @@ const clients = [
       },
       {
         no:'20260119', date:'Jan 2026', total:'$10,200 USD',
+        payment:'⏳ 20% Deposit (~$2,040) PENDING',
         items:[
           {model:'360x1000 Vario Lathe',desc:'',qty:4,unit:'$2,550',total:'$10,200'},
         ]
       },
       {
         no:'RM20250929 (Shanghai Rising)', date:'Sep 2025', total:'$4,950 USD',
+        payment:'✅ Partial RCVD: $2,900 · Oct 15 2025 · "PAGO TOTAL FACTURA 20250929" (balance $2,050 TBC)',
         items:[
           {model:'BS-0712N Band Saw',desc:'',qty:4,unit:'$780',total:'$3,120'},
-          {model:'9" diameter chuck',desc:'',qty:1,unit:'$100',total:'$100'},
-          {model:'3 jaw chuck',desc:'',qty:1,unit:'$300',total:'$300'},
-          {model:'Saw 4-6/P blades',desc:'',qty:30,unit:'$10',total:'$300'},
-          {model:'Saw 5-8/P blades',desc:'',qty:100,unit:'$10',total:'$1,000'},
-          {model:'Scales',desc:'',qty:2,unit:'$65',total:'$130'},
+          {model:'9" diameter chuck',desc:'accessory',qty:1,unit:'$100',total:'$100'},
+          {model:'3 jaw chuck',desc:'accessory',qty:1,unit:'$300',total:'$300'},
+          {model:'Saw 4-6/P blades',desc:'accessory',qty:30,unit:'$10',total:'$300'},
+          {model:'Saw 5-8/P blades',desc:'accessory',qty:100,unit:'$10',total:'$1,000'},
+          {model:'Scales',desc:'accessory',qty:2,unit:'$65',total:'$130'},
         ]
       },
     ],
-    notes:'Deposit PAID: $17,858 received Oct 13 2025 via BBVA Mexico (ref PI20250712, → CCB). Repeat buyer — conventional + CNC machines. Tax ID: GIS 980216 MP9. PI20260119 deposit ($2,040) still pending.'
+    notes:'Main deposit PAID: $17,858 received Oct 13 2025 via BBVA Mexico (ref PI20250712, → CCB). Rising Machine PI (RM20250929) via separate entity — BOC account 455986228612. PI20260119 deposit ($2,040) still pending. Tax ID: GIS 980216 MP9.'
   },
   {
     short:'GRUPO', flag:'🇺🇸', name:'B&I TRADERS S DE RL DE CV',
     country:'USA (final dest.)', contact:'Eduardo Navarro Ramirez', address:'Mexican entity, shipping to USA',
-    amount:'$76,320', amountUSD:76320,
+    amount:'$76,320 USD', amountUSD:76320,
+    paid:'$17,000 USD', balance:'$59,320 USD',
+    contracts:1, machines:45, status:'Partial Shipped',
     tags:[{t:'Partial Shipped',c:'green'},{t:'12 units left',c:'orange'},{t:'110V + 220V',c:'gray'}],
     payment:'30% deposit → 50% before shipping → 50% two months after shipping.',
     pis:[{
       no:'20250811', date:'Aug 2025', total:'$76,320 USD',
+      payment:'✅ RCVD: $7,000 Oct 9 2025 (fee $45; net $6,955) + $10,000 Oct 27 2025 (fee $45; net $9,955) = $17,000 paid / $16,910 net',
       items:[
         {model:'ZX45 220V',desc:'',qty:12,unit:'$1,179',total:'$14,148'},
         {model:'ZX7045 220V',desc:'',qty:4,unit:'$1,660',total:'$6,640'},
@@ -654,16 +693,19 @@ const clients = [
         {model:'CQ330x1000 220V',desc:'',qty:5,unit:'$2,414',total:'$12,070'},
       ]
     }],
-    notes:'Payments rcvd: $7,000 Oct 9 2025 (fee $45; net $6,955) + $10,000 Oct 27 2025 (fee $45; net $9,955) = $17,000 customer paid, $16,910 net. Partial shipment done (33/45 units). 12 machines remain for next 20ft container: ZX45×8, CQ320V×1, CQ6132GV×1, CQ360V×1, CQ330×1. Contact: Eduardo Navarro.'
+    notes:'Partial shipment done (33/45 units). 12 machines remain for next 20ft container: ZX45×8, CQ320V×1, CQ6132GV×1, CQ360V×1, CQ330×1. Customer paid $17,000 total ($7,000 + $10,000); bank fees $90; net received $16,910. Contact: Eduardo Navarro.'
   },
   {
     short:'MANROD', flag:'🇧🇷', name:'Manrod Quality Machines',
     country:'Brazil', contact:'—', address:'Brazil',
-    amount:'$56,222', amountUSD:56222,
-    tags:[{t:'NR-12',c:'gray'},{t:'MR-brand',c:'gray'}],
+    amount:'$56,222 USD', amountUSD:56222,
+    paid:'$16,866 USD', balance:'$39,356 USD',
+    contracts:1, machines:45, status:'Deposit Paid',
+    tags:[{t:'Deposit Paid ✓',c:'green'},{t:'NR-12',c:'gray'},{t:'MR-brand',c:'gray'}],
     payment:'30% T/T deposit · 70% T/T before shipping.',
     pis:[{
       no:'M2026210', date:'Feb 2025', total:'$56,221.50 USD',
+      payment:'✅ 30% Deposit RCVD: $16,866.45 · MANROD COMERCIAL E IMPORTADORA (BOC confirmed)',
       items:[
         {model:'MR-201',desc:'Drill/Mill 220V/60Hz/1Ph — NR-12',qty:10,unit:'$987',total:'$9,870'},
         {model:'MR-206',desc:'Drill/Mill 220V/60Hz/1Ph — NR-12',qty:10,unit:'$1,213',total:'$12,130'},
@@ -672,16 +714,19 @@ const clients = [
         {model:'MR-245',desc:'Column Mill 220V/60Hz/3Ph — NR-12',qty:10,unit:'$1,403',total:'$14,030'},
       ]
     }],
-    notes:'Private-label "MR" branding — not Yongfa. All machines must comply with NR-12 (Brazilian safety standard). Voltage: mix of 220V 1Ph, 220V 3Ph, 380V 3Ph at 60Hz. Also orders spare parts for MR-245 series.'
+    notes:'30% deposit PAID: $16,866.45 (= exactly 30% of $56,221.50) confirmed via BOC receipt (1392.PNG). 70% balance $39,355 due before shipping. Private-label "MR" branding — not Yongfa. All machines must comply with NR-12 (Brazilian safety standard). Voltage: mix of 220V 1Ph, 220V 3Ph, 380V 3Ph at 60Hz.'
   },
   {
     short:'Tupai', flag:'🇵🇹', name:'Tupai,sa',
     country:'Portugal', contact:'—', address:'Zona Industrial de Raso de Paredes, 3754-901 Águeda, Portugal',
-    amount:'€1,900', amountUSD:2060,
+    amount:'€1,900 EUR', amountUSD:2060,
+    paid:'€570 EUR', balance:'€1,330 EUR',
+    contracts:1, machines:1, status:'Deposit Paid',
     tags:[{t:'Deposit Paid ✓',c:'green'},{t:'70% Due Before Ship',c:'orange'}],
     payment:'30% deposit · 100% before shipping. Pays in EUR.',
     pis:[{
       no:'20260317', date:'Mar 2026', total:'€1,900 EUR',
+      payment:'✅ 30% Deposit RCVD: €570 · Mar 23 2026 · Bankinter Portugal (ref PI20260317)',
       items:[
         {model:'Z5035 Drilling machine',desc:'',qty:1,unit:'€1,900',total:'€1,900'},
       ]
@@ -691,42 +736,51 @@ const clients = [
   {
     short:'KOWAY', flag:'🇹🇷', name:'KOWAY MAKİNA SANAYİ ve TİCARET LİMİTED ŞİRKETİ',
     country:'Turkey', contact:'—', address:'IŞIKTEPE OSB MAH. PARK CAD. NO 13 NİLÜFER / BURSA / TÜRKİYE',
-    amount:'$33,600', amountUSD:33600,
-    tags:[{t:'T/T Done ✓',c:'green'},{t:'70% L/C Pending',c:'orange'},{t:'18 units',c:'blue'}],
-    payment:'30% T/T down payment ($10,080) + 70% by 6-month L/C ($23,520).',
+    amount:'$33,600 USD', amountUSD:33600,
+    paid:'$21,840 USD', balance:'$11,760 USD',
+    contracts:1, machines:18, status:'Installments 4/6 Paid',
+    tags:[{t:'30% T/T Paid ✓',c:'green'},{t:'Installments 4/6 Paid',c:'orange'},{t:'18 units',c:'blue'}],
+    payment:'30% T/T down payment ($10,080, paid Jun 18 2025) + 70% in 6 monthly T/T installments of $3,920/month (changed from original L/C agreement).',
     pis:[{
       no:'20250514', date:'May 2025', total:'$33,600 USD',
+      payment:'✅ 30% T/T: $10,080 · Jun 18 2025 · Yapı Kredi Bank (fee $80 our side; net $10,000)\n✅ Installment 1: $3,920 · Dec 29 2025 · Kuveyt Türk Bank\n✅ Installment 2: $3,920 · Jan 2026 · (BOC receipt 1249.JPG)\n✅ Installment 3: $3,920 · Feb 2026 paid late Mar 22 2026 · (BOC ref TI26032200001547)\n⏳ Installment 4–6: $3,920 × 3 = $11,760 remaining',
       items:[
         {model:'ZX40H',desc:'380V/50Hz/3Ph, MT4, X-axis feed, auto quill, 2-speed motor, tapping',qty:12,unit:'$1,400',total:'$16,800'},
         {model:'Z5050',desc:'380V/50Hz/3Ph, MT5, electromagnetic auto feed, motorized table',qty:4,unit:'$2,800',total:'$11,200'},
         {model:'Z5050V',desc:'380V/50Hz/3Ph, MT5, electromagnetic auto feed, motorized table',qty:2,unit:'$2,800',total:'$5,600'},
       ]
     }],
-    notes:'New client (2025). 30% T/T PAID: $10,080 paid Jun 18 2025 via Yapı Kredi Bank (bank fee $80 on our side; net received $10,000) + $3,920 paid Dec 29 2025 via Kuveyt Türk Bank = $14,000 total. 70% balance $19,600 pending (originally agreed as 6-month L/C — confirm current arrangement with KOWAY).'
+    notes:'New client (2025). Payment structure changed from L/C to 6× $3,920/month T/T installments for the 70% balance. Total paid to date: $21,840 (4 payments). Remaining: 3 more installments × $3,920 = $11,760. Note: Feb 2026 installment was paid late on Mar 22 2026.'
   },
   {
     short:'REMO', flag:'🇫🇷', name:'REMO SARL',
     country:'France', contact:'—', address:'51 AVENUE DES ARRIVAUX- BP 73, 38070 SAINT-QUENTIN-FALLAVIER, France',
-    amount:'€30,840 (~$33,924)', amountUSD:33924,
+    amount:'€30,840 EUR', amountUSD:33924,
+    paid:'€0', balance:'€30,840 EUR',
+    contracts:1, machines:21, status:'Deposit Pending',
     tags:[{t:'Deposit Pending',c:'orange'},{t:'EUR payment',c:'gray'},{t:'New Client',c:'blue'}],
     payment:'30% T/T deposit €9,252 in advance · 70% T/T €21,588 before shipping.',
     pis:[{
       no:'202603', date:'Mar 2026', total:'€30,840 EUR',
+      payment:'⏳ Awaiting 30% deposit €9,252 via T/T (BOC EUR account: 554748755977)',
       items:[
         {model:'ZS40H',desc:'Incl. 160mm vice + auto tightening',qty:12,unit:'€1,415',total:'€16,980'},
         {model:'Z5035',desc:'Incl. 160mm vice + auto tightening',qty:9,unit:'€1,540',total:'€13,860'},
       ]
     }],
-    notes:'New client (2026). Awaiting 30% deposit €9,252 via T/T to BOC EUR account. EUR payment — account: 554748755977. 21 units. French buyer — CE certification required. Delivery ~50 days after deposit.'
+    notes:'New client (2026). Awaiting 30% deposit €9,252 via T/T to BOC EUR account 554748755977. 21 units. French buyer — CE certification required. Delivery ~50 days after deposit.'
   },
   {
     short:'DINTASS', flag:'🇨🇱', name:'DINTASS MOTORI',
     country:'Chile', contact:'Giovanni', address:'Manuel Antonio Tocornal 389, Santiago Centro, Chile',
-    amount:'$29,373', amountUSD:29373,
+    amount:'$29,373 USD', amountUSD:29373,
+    paid:'$29,373 USD', balance:'$0',
+    contracts:1, machines:16, status:'Delivered ✅',
     tags:[{t:'✓ Delivered',c:'green'},{t:'Visit Apr 14',c:'blue'}],
     payment:'50% T/T deposit ($14,687) · 50% T/T ready in factory ($14,687).',
     pis:[{
       no:'DM20251125', date:'Nov 2025', total:'$29,373 USD',
+      payment:'✅ Fully Paid — Order delivered',
       items:[
         {model:'CQ360Vx1000',desc:'SINO 3-axis DRO, steel stand, footbrake, guards, LED, cooling, rests',qty:1,unit:'$2,600',total:'$2,600'},
         {model:'CQ360Vx1300',desc:'Same as above',qty:1,unit:'$3,200',total:'$3,200'},
@@ -745,19 +799,28 @@ const clients = [
   },
 ];
 
+
 // ── RENDER CLIENT GRID ──────────────────────────────────────
 const grid = document.getElementById('clientGrid');
 clients.forEach((c,i)=>{
   const div = document.createElement('div');
   div.className='card client-card';
   div.onclick=()=>openModal(i);
+  const cLabel=c.contracts===1?'1 contract':`${c.contracts} contracts`;
+  const mLabel=c.machines===1?'1 unit':`${c.machines} units`;
   div.innerHTML=`
     <div class="client-flag">${c.flag}</div>
     <div class="client-short">${c.short}</div>
     <div class="client-name">${c.name}</div>
     <div class="client-amount">${c.amount}</div>
-    <div class="client-pi">${c.country}</div>
+    <div class="client-pi">${c.country} &nbsp;·&nbsp; ${cLabel} &nbsp;·&nbsp; ${mLabel}</div>
+    <div class="client-meta">${c.status}</div>
     <div class="tags">${c.tags.map(t=>`<span class="tag ${t.c}">${t.t}</span>`).join('')}</div>
+    <div class="client-paidrow">
+      <span class="cpaid">💰 Paid: ${c.paid}</span>
+      <span style="color:#ddd;margin:0 4px;">·</span>
+      <span class="cbal">⏳ Due: ${c.balance}</span>
+    </div>
   `;
   grid.appendChild(div);
 });
@@ -765,7 +828,7 @@ clients.forEach((c,i)=>{
 // ── MODAL ────────────────────────────────────────────────────
 function openModal(i){
   const c=clients[i];
-  document.getElementById('mShort').textContent=c.short;
+  document.getElementById('mShort').textContent=c.short+' · '+c.contracts+' contract'+(c.contracts>1?'s':'')+' · '+c.machines+' unit'+(c.machines!==1?'s':'');
   document.getElementById('mName').textContent=c.name;
   document.getElementById('mFlag').textContent=c.flag;
   let html='';
@@ -775,17 +838,42 @@ function openModal(i){
     <div class="meta-item"><div class="mi-label">Contact</div><div class="mi-value">${c.contact}</div></div>
     <div class="meta-item" style="grid-column:1/-1"><div class="mi-label">Address</div><div class="mi-value" style="font-weight:400;font-size:13px;color:#555;">${c.address}</div></div>
   </div></div>`;
-  // Payment
+  // Payment Terms + Summary
   html+=`<div class="modal-section"><h3>Payment Terms</h3><div class="payment-box">${c.payment}</div></div>`;
+  // Payment Summary
+  html+=`<div class="modal-section"><h3>Payment Status</h3>
+    <div class="pay-summary">
+      <div class="pay-summary-item">
+        <div class="psi-label">Contract Value</div>
+        <div class="psi-value">${c.amount}</div>
+      </div>
+      <div class="pay-summary-item paid">
+        <div class="psi-label">✅ Paid</div>
+        <div class="psi-value">${c.paid}</div>
+      </div>
+      <div class="pay-summary-item bal">
+        <div class="psi-label">⏳ Outstanding</div>
+        <div class="psi-value">${c.balance}</div>
+      </div>
+    </div>
+  </div>`;
   // PIs
   if(c.pis.length){
     html+=`<div class="modal-section"><h3>Proforma Invoice${c.pis.length>1?'s':''}</h3>`;
     c.pis.forEach(p=>{
       html+=`<div class="pi-block"><div class="pi-header"><div><div class="pi-no">PI ${p.no}</div><div class="pi-date">${p.date}</div></div><div class="pi-total">${p.total}</div></div>`;
+      // Per-PI payment info
+      if(p.payment){
+        const lines=p.payment.split('\n');
+        html+=`<div style="background:#f0f8ff;border-top:1px solid #e8f3fc;padding:10px 16px;font-size:12px;color:#2c5f8a;line-height:1.7;">`;
+        lines.forEach(l=>{ html+=`<div>${l}</div>`; });
+        html+=`</div>`;
+      }
       if(p.items.length){
-        html+=`<table><tr><th>Model</th>${p.items[0].desc?'<th>Config</th>':''}<th style="text-align:center">Qty</th><th style="text-align:right">Unit</th><th style="text-align:right">Total</th></tr>`;
+        const hasDesc=p.items.some(it=>it.desc&&it.desc!=='');
+        html+=`<table><tr><th>Model</th>${hasDesc?'<th>Config</th>':''}<th style="text-align:center">Qty</th><th style="text-align:right">Unit</th><th style="text-align:right">Total</th></tr>`;
         p.items.forEach(it=>{
-          html+=`<tr><td><strong>${it.model}</strong></td>${it.desc?`<td style="color:#888">${it.desc}</td>`:''}<td style="text-align:center">${it.qty}</td><td style="text-align:right">${it.unit}</td><td style="text-align:right;font-weight:600;">${it.total}</td></tr>`;
+          html+=`<tr><td><strong>${it.model}</strong></td>${hasDesc?`<td style="color:#888">${it.desc||''}</td>`:''}<td style="text-align:center">${it.qty}</td><td style="text-align:right">${it.unit}</td><td style="text-align:right;font-weight:600;">${it.total}</td></tr>`;
         });
         html+=`</table>`;
       }
