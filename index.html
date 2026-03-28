@@ -799,13 +799,13 @@ const clients = [
     short:'GRUPO', flag:'🇲🇽', name:'B&I TRADERS S DE RL DE CV',
     country:'Mexico (ships to USA)', contact:'Eduardo Navarro Ramirez', address:'Mexican entity — final destination USA',
     amount:'$76,320 USD', amountUSD:76320,
-    paid:'$38,015 USD net (~$38,160 paid)', balance:'$38,305 USD',
+    paid:'$38,160 USD', balance:'$38,160 USD',
     contracts:1, machines:45, status:'Partial Shipped',
     tags:[{t:'Partial Shipped',c:'green'},{t:'12 units left',c:'orange'},{t:'4 payments rcvd',c:'blue'}],
     payment:'30% deposit → 50% before shipping → 50% two months after shipping.',
     pis:[{
       no:'20250811', date:'Aug 2025', total:'$76,320 USD',
-      payment:'✅ ① $7,000 Oct 9 2025 — fee $45; net $6,955 (BBVA→CCB)\n✅ ② $10,000 Oct 27 2025 — fee $45; net $9,955 (CCB)\n✅ ③ $5,000 Dec 24 2025 — 92,977 MXN → USD (BBVA Mexico→BOC; folio 3799399240); est. net $4,955\n✅ ④ MXN 283,439.13 → $16,150 Feb 25 2026 — fee USD10 sender (BBVA Mexico→BOC; ref TI26022500015670)\nTotal net received: ~$38,015 USD',
+      payment:'✅ ① $7,000 Oct 9 2025 (BBVA Mexico → CCB)\n✅ ② $10,000 Oct 27 2025 (CCB)\n✅ ③ $5,000 Dec 24 2025 — 92,977 MXN → USD (BBVA Mexico → BOC; folio 3799399240)\n✅ ④ MXN 283,439.13 → $16,160 Feb 25 2026 (BBVA Mexico → BOC; ref TI26022500015670)\nTotal customer paid: $38,160 USD | Balance: $38,160 USD',
       items:[
         {model:'ZX45 220V',desc:'',qty:12,unit:'$1,179',total:'$14,148'},
         {model:'ZX7045 220V',desc:'',qty:4,unit:'$1,660',total:'$6,640'},
@@ -820,7 +820,7 @@ const clients = [
         {model:'CQ330x1000 220V',desc:'',qty:5,unit:'$2,414',total:'$12,070'},
       ]
     }],
-    notes:'4 payments confirmed: ① $7,000 Oct 9 2025 (BBVA→CCB, fee $45, net $6,955) ② $10,000 Oct 27 2025 (CCB, fee $45, net $9,955) ③ $5,000 Dec 24 2025 (BBVA Mexico→BOC, folio 3799399240; est. net $4,955) ④ MXN 283,439.13 → USD 16,150 Feb 25 2026 (BBVA Mexico→BOC, USD10 sender fee, ref TI26022500015670). Total paid ~$38,160 / net rcvd ~$38,015. Balance: ~$38,305. 33/45 units shipped. 12 remain for next container: ZX45×8, CQ320V×1, CQ6132GV×1, CQ360V×1, CQ330×1.'
+    notes:'4 payments confirmed: ① $7,000 Oct 9 2025 (BBVA→CCB) ② $10,000 Oct 27 2025 (CCB) ③ $5,000 Dec 24 2025 (BBVA Mexico→BOC, folio 3799399240) ④ MXN 283,439.13 → $16,160 Feb 25 2026 (BBVA Mexico→BOC, ref TI26022500015670). Total customer paid: $38,160. Balance: $38,160. 33/45 units shipped. 12 remain for next container: ZX45×8, CQ320V×1, CQ6132GV×1, CQ360V×1, CQ330×1.'
   },
   {
     short:'MANROD', flag:'🇧🇷', name:'Manrod Quality Machines',
@@ -1024,7 +1024,7 @@ const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 // ── KPI computation ─────────────────────────────────────────
 const paidByClient = {
   OZCO:0, COMARK:26400, JK:62196, MAQUINAS:32183, ANCLA:20758,
-  GRUPO:38015, MANROD:16866, Tupai:618, KOWAY:21840, REMO:0, DINTASS:29373
+  GRUPO:38160, MANROD:16866, Tupai:618, KOWAY:21840, REMO:0, DINTASS:29373
 };
 const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
 const totalPaid = Object.values(paidByClient).reduce((s,v)=>s+v,0);
