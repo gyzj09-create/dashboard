@@ -490,7 +490,7 @@ const clients = [
     country:'Turkey', contact:'—', address:'Abdurrahmangazi Mh., İmamoğlu Sk. C Blok No: 6, Samandıra / Sancaktepe, 34887 İstanbul',
     port:'Izmit port, Turkey',
     amount:'$173,725', amountUSD:173725,
-    tags:[{t:'Deadline May 15',c:'red'},{t:'L/C 180d',c:'purple'},{t:'102 units',c:'blue'}],
+    tags:[{t:'⚠ Deadline May 15',c:'red'},{t:'L/C Confirmed ✓',c:'green'},{t:'102 units',c:'blue'}],
     payment:'L/C at 180 days — Letter of Credit (bank-to-bank). Different process from T/T.',
     pis:[{
       no:'OZCO20260202', date:'Feb 2026', total:'$173,725 USD',
@@ -503,13 +503,13 @@ const clients = [
         {model:'MC50E',desc:'Drilling machine (3KW, MT4, 580×580 table)',qty:10,unit:'$2,990',total:'$29,900'},
       ]
     }],
-    notes:'Largest single PI: $173,725. OZCO private-label branding (MC/CR series). Delivery deadline fixed before May 15, 2026 — time-critical. L/C payment involves both banks. 102 units is a very large shipment.'
+    notes:'⚠ DEADLINE May 15 2026 — must ship before this date. L/C CONFIRMED Mar 16 2026 (QNB Bank Istanbul, LC# 00875MC016612, USD 173,725, expires Jun 15 2026). Payment: 180 days after shipment. OZCO private-label branding (MC/CR series). 102 units is a very large shipment.'
   },
   {
     short:'COMARK', flag:'🇵🇱', name:'CORMAK Jerzy Zalewski',
     country:'Poland', contact:'Jerzy Zalewski — +48 607 147 807', address:'Str. Brzeska 120, 08-110 Siedlce, Poland',
     amount:'RMB 640,800', amountUSD:88000,
-    tags:[{t:'Balance Due',c:'orange'},{t:'36 lathes',c:'blue'},{t:'RMB payment',c:'gray'}],
+    tags:[{t:'Deposit Paid ✓',c:'green'},{t:'70% Due Before B/L',c:'orange'},{t:'36 lathes',c:'blue'}],
     payment:'30% T/T advance · 70% T/T against B/L copy within 1 week.',
     pis:[{
       no:'YFCORMAK251231', date:'Dec 2025', total:'RMB 640,800',
@@ -518,13 +518,13 @@ const clients = [
         {model:'Lathe 360x1300 Vario',desc:'',qty:12,unit:'RMB 19,800',total:'RMB 237,600'},
       ]
     }],
-    notes:'Pays in RMB (unusual) — use BOC RMB account (Acct: 492367131118). Large volume: 36 lathes. European buyer — CE certification may be required. Jerzy Zalewski is both contact and owner.'
+    notes:'30% deposit PAID: CNY 192,240 received Jan 5 2026 via PKO Bank Polski. 70% balance (CNY 448,560) due against B/L copy within 1 week of shipment. Pays in RMB — use BOC RMB account (Acct: 492367131118). 36 lathes. CE certification required.'
   },
   {
     short:'JK', flag:'🇨🇴', name:'JK Group / Metal Master Industrial',
     country:'Colombia / Ecuador / Peru', contact:'Juan (Owner / Partner)',address:'Multiple entities across LatAm',
     amount:'~$250,717', amountUSD:250717,
-    tags:[{t:'3 entities',c:'blue'},{t:'Highest volume',c:'green'},{t:'Partner',c:'purple'}],
+    tags:[{t:'4 PIs active',c:'blue'},{t:'Deposits rcvd all 4',c:'green'},{t:'Partner',c:'purple'}],
     payment:'20–30% advance → 30% when goods ready → 50% after B/L.',
     pis:[
       {
@@ -568,13 +568,13 @@ const clients = [
         ]
       },
     ],
-    notes:'Juan is a partner, not just a client. Controls JK entities in Colombia, Ecuador, Peru + Metal Master Industrial. Buys UM milling machines and large DRO lathes consistently. Juan visiting China Apr 18–28 (inc. Shanghai Machine Tool Exhibition Apr 21–26).'
+    notes:'Deposits confirmed on all 4 PIs — Colombia ①: COP 57,501,715 (~$15,900, Jan 28 2026 Bancolombia); Colombia ②: $16,296 Feb 2 2026 Bancolombia; Peru: $10,000 Feb 24 2026 BCP; Ecuador: $20,000 Mar 25 2026 Produbanco (fee $15, net $19,985). Juan visiting China Apr 18–28 (Shanghai Machine Tool Exhibition Apr 21–26). Partner relationship.'
   },
   {
     short:'MAQUINAS', flag:'🇦🇷', name:'Maquinas e Insumos SRL',
     country:'Argentina', contact:'—', address:'Av. Bernardo Ader 1345, Villa Adelina, Pcia. Bs. As., Argentina',
     amount:'~$107,200', amountUSD:107200,
-    tags:[{t:'50% Due',c:'orange'},{t:'20% on clearance',c:'gray'}],
+    tags:[{t:'Deposits Paid ✓',c:'green'},{t:'50% Due post-ship',c:'orange'},{t:'20% on clearance',c:'gray'}],
     payment:'30% down · 50% after shipping · 20% after customs clearance.',
     pis:[
       {
@@ -595,13 +595,13 @@ const clients = [
         ]
       },
     ],
-    notes:'Three-installment structure — track each milestone. 50% after shipping now triggered (~$53,600). 20% after customs clearance to follow. Argentine customs clearance can be slow.'
+    notes:'30% deposits confirmed on both PIs — PI20251030: ~$29,195 received (Bank of China confirmed); PI20260130: ~$2,988 received Feb 2 2026 (cust paid ~$2,975+fee). Next milestone: 50% after shipping (~$53,600 + $4,958). Argentine customs clearance can be slow — final 20% follows.'
   },
   {
     short:'ANCLA', flag:'🇲🇽', name:'GRUPO IDEA SERVICIOS S.A. DE C.V.',
     country:'Mexico', contact:'—', address:'Poniente 27 No. 4106 interior 2, Col. del Gas, Azcapotzalco CDMX, C.P. 02930',
-    amount:'$98,424', amountUSD:98424,
-    tags:[{t:'2 PIs',c:'blue'},{t:'CNC + Conv.',c:'gray'}],
+    amount:'$103,374', amountUSD:103374,
+    tags:[{t:'Deposit Paid ✓',c:'green'},{t:'3 PIs',c:'blue'},{t:'CNC + Conv.',c:'gray'}],
     payment:'20% down payment. 6 months for conventional, 8 months for CNC machinery.',
     pis:[
       {
@@ -618,14 +618,25 @@ const clients = [
           {model:'360x1000 Vario Lathe',desc:'',qty:4,unit:'$2,550',total:'$10,200'},
         ]
       },
+      {
+        no:'RM20250929 (Shanghai Rising)', date:'Sep 2025', total:'$4,950 USD',
+        items:[
+          {model:'BS-0712N Band Saw',desc:'',qty:4,unit:'$780',total:'$3,120'},
+          {model:'9" diameter chuck',desc:'',qty:1,unit:'$100',total:'$100'},
+          {model:'3 jaw chuck',desc:'',qty:1,unit:'$300',total:'$300'},
+          {model:'Saw 4-6/P blades',desc:'',qty:30,unit:'$10',total:'$300'},
+          {model:'Saw 5-8/P blades',desc:'',qty:100,unit:'$10',total:'$1,000'},
+          {model:'Scales',desc:'',qty:2,unit:'$65',total:'$130'},
+        ]
+      },
     ],
-    notes:'Pays in USD via CCB account. Repeat buyer — conventional + CNC machines. Tax ID: GIS 980216 MP9.'
+    notes:'Deposit PAID: $17,858 received Oct 13 2025 via BBVA Mexico (ref PI20250712, → CCB). Repeat buyer — conventional + CNC machines. Tax ID: GIS 980216 MP9. PI20260119 deposit ($2,040) still pending.'
   },
   {
     short:'GRUPO', flag:'🇺🇸', name:'B&I TRADERS S DE RL DE CV',
     country:'USA (final dest.)', contact:'Eduardo Navarro Ramirez', address:'Mexican entity, shipping to USA',
     amount:'$76,320', amountUSD:76320,
-    tags:[{t:'45 units',c:'blue'},{t:'3-installment',c:'gray'},{t:'110V + 220V',c:'gray'}],
+    tags:[{t:'Partial Shipped',c:'green'},{t:'12 units left',c:'orange'},{t:'110V + 220V',c:'gray'}],
     payment:'30% deposit → 50% before shipping → 50% two months after shipping.',
     pis:[{
       no:'20250811', date:'Aug 2025', total:'$76,320 USD',
@@ -643,7 +654,7 @@ const clients = [
         {model:'CQ330x1000 220V',desc:'',qty:5,unit:'$2,414',total:'$12,070'},
       ]
     }],
-    notes:'Mixed 110V + 220V — USA/North America market. 3-installment payment: track carefully. Contact: Eduardo Navarro Ramirez.'
+    notes:'Payments rcvd: $7,000 Oct 9 2025 (fee $45; net $6,955) + $10,000 Oct 27 2025 (fee $45; net $9,955) = $17,000 customer paid, $16,910 net. Partial shipment done (33/45 units). 12 machines remain for next 20ft container: ZX45×8, CQ320V×1, CQ6132GV×1, CQ360V×1, CQ330×1. Contact: Eduardo Navarro.'
   },
   {
     short:'MANROD', flag:'🇧🇷', name:'Manrod Quality Machines',
@@ -667,7 +678,7 @@ const clients = [
     short:'Tupai', flag:'🇵🇹', name:'Tupai,sa',
     country:'Portugal', contact:'—', address:'Zona Industrial de Raso de Paredes, 3754-901 Águeda, Portugal',
     amount:'€1,900', amountUSD:2060,
-    tags:[{t:'Deposit Pending',c:'orange'},{t:'EUR payment',c:'gray'}],
+    tags:[{t:'Deposit Paid ✓',c:'green'},{t:'70% Due Before Ship',c:'orange'}],
     payment:'30% deposit · 100% before shipping. Pays in EUR.',
     pis:[{
       no:'20260317', date:'Mar 2026', total:'€1,900 EUR',
@@ -675,7 +686,38 @@ const clients = [
         {model:'Z5035 Drilling machine',desc:'',qty:1,unit:'€1,900',total:'€1,900'},
       ]
     }],
-    notes:'Small single-unit trial order. Pays in EUR — use EUR bank account. Portugal is EU: CE certification required. Taxpayer ID: 500664005. Nurture for larger follow-on orders.'
+    notes:'30% deposit PAID: €570 received Mar 23 2026 via Bankinter Portugal (ref PI20260317). Remaining 70% = €1,330 due before shipping. Small trial order — nurture for larger follow-on. CE required. EUR bank account.'
+  },
+  {
+    short:'KOWAY', flag:'🇹🇷', name:'KOWAY MAKİNA SANAYİ ve TİCARET LİMİTED ŞİRKETİ',
+    country:'Turkey', contact:'—', address:'IŞIKTEPE OSB MAH. PARK CAD. NO 13 NİLÜFER / BURSA / TÜRKİYE',
+    amount:'$33,600', amountUSD:33600,
+    tags:[{t:'T/T Done ✓',c:'green'},{t:'70% L/C Pending',c:'orange'},{t:'18 units',c:'blue'}],
+    payment:'30% T/T down payment ($10,080) + 70% by 6-month L/C ($23,520).',
+    pis:[{
+      no:'20250514', date:'May 2025', total:'$33,600 USD',
+      items:[
+        {model:'ZX40H',desc:'380V/50Hz/3Ph, MT4, X-axis feed, auto quill, 2-speed motor, tapping',qty:12,unit:'$1,400',total:'$16,800'},
+        {model:'Z5050',desc:'380V/50Hz/3Ph, MT5, electromagnetic auto feed, motorized table',qty:4,unit:'$2,800',total:'$11,200'},
+        {model:'Z5050V',desc:'380V/50Hz/3Ph, MT5, electromagnetic auto feed, motorized table',qty:2,unit:'$2,800',total:'$5,600'},
+      ]
+    }],
+    notes:'New client (2025). 30% T/T PAID: $10,080 paid Jun 18 2025 via Yapı Kredi Bank (bank fee $80 on our side; net received $10,000) + $3,920 paid Dec 29 2025 via Kuveyt Türk Bank = $14,000 total. 70% balance $19,600 pending (originally agreed as 6-month L/C — confirm current arrangement with KOWAY).'
+  },
+  {
+    short:'REMO', flag:'🇫🇷', name:'REMO SARL',
+    country:'France', contact:'—', address:'51 AVENUE DES ARRIVAUX- BP 73, 38070 SAINT-QUENTIN-FALLAVIER, France',
+    amount:'€30,840 (~$33,924)', amountUSD:33924,
+    tags:[{t:'Deposit Pending',c:'orange'},{t:'EUR payment',c:'gray'},{t:'New Client',c:'blue'}],
+    payment:'30% T/T deposit €9,252 in advance · 70% T/T €21,588 before shipping.',
+    pis:[{
+      no:'202603', date:'Mar 2026', total:'€30,840 EUR',
+      items:[
+        {model:'ZS40H',desc:'Incl. 160mm vice + auto tightening',qty:12,unit:'€1,415',total:'€16,980'},
+        {model:'Z5035',desc:'Incl. 160mm vice + auto tightening',qty:9,unit:'€1,540',total:'€13,860'},
+      ]
+    }],
+    notes:'New client (2026). Awaiting 30% deposit €9,252 via T/T to BOC EUR account. EUR payment — account: 554748755977. 21 units. French buyer — CE certification required. Delivery ~50 days after deposit.'
   },
   {
     short:'DINTASS', flag:'🇨🇱', name:'DINTASS MOTORI',
