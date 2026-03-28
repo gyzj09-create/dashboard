@@ -256,19 +256,74 @@ table tr:last-child td{border-bottom:none;}
 ══════════════════════════════════════════ -->
 <div id="page-overview" class="page active">
 
+  <!-- Financial KPIs -->
+  <div class="section-title" style="margin-top:0;">💰 Financial Summary</div>
   <div class="summary-bar">
-    <div class="card"><div class="s-label">Active Clients</div><div class="s-value">9</div><div class="s-sub">across 11 countries</div></div>
-    <div class="card"><div class="s-label">Open Tasks</div><div class="s-value">6</div><div class="s-sub">2 urgent</div></div>
+    <div class="card" style="border-top:3px solid #1a1a2e;">
+      <div class="s-label">Total Contracts</div>
+      <div class="s-value">16</div>
+      <div class="s-sub">across 11 clients</div>
+    </div>
+    <div class="card" style="border-top:3px solid #3498db;">
+      <div class="s-label">Total Contract Value</div>
+      <div class="s-value" id="kpiTotal">—</div>
+      <div class="s-sub">USD equivalent</div>
+    </div>
+    <div class="card" style="border-top:3px solid #27ae60;">
+      <div class="s-label" style="color:#27ae60;">Total Paid</div>
+      <div class="s-value" style="color:#27ae60;" id="kpiPaid">—</div>
+      <div class="s-sub" id="kpiPaidPct">of contract value</div>
+    </div>
+    <div class="card" style="border-top:3px solid #e67e22;">
+      <div class="s-label" style="color:#e67e22;">Total Outstanding</div>
+      <div class="s-value" style="color:#e67e22;" id="kpiBalance">—</div>
+      <div class="s-sub" id="kpiBalPct">to collect</div>
+    </div>
+  </div>
+
+  <!-- 2026 Highlights -->
+  <div class="section-title">📋 2026 New Contracts</div>
+  <div class="grid-3" style="margin-bottom:0;">
+    <div class="card" style="border-top:3px solid #9b59b6;">
+      <div class="s-label">2026 PIs Issued</div>
+      <div class="s-value">9</div>
+      <div class="s-sub">Jan – Mar 2026</div>
+    </div>
+    <div class="card" style="border-top:3px solid #9b59b6;">
+      <div class="s-label">2026 Units Ordered</div>
+      <div class="s-value">252</div>
+      <div class="s-sub">machines across 6 clients</div>
+    </div>
+    <div class="card" style="border-top:3px solid #9b59b6;">
+      <div class="s-label">2026 Total Value</div>
+      <div class="s-value">$481K</div>
+      <div class="s-sub">USD equivalent</div>
+    </div>
+  </div>
+
+  <!-- General Stats -->
+  <div class="section-title">📊 General</div>
+  <div class="summary-bar">
+    <div class="card"><div class="s-label">Active Clients</div><div class="s-value">11</div><div class="s-sub">across 9 countries</div></div>
+    <div class="card"><div class="s-label">Open Tasks</div><div class="s-value">15</div><div class="s-sub">incl. signage & follow-ups</div></div>
     <div class="card"><div class="s-label">Largest Deal</div><div class="s-value">$173.7K</div><div class="s-sub">OZCO — Turkey</div></div>
     <div class="card"><div class="s-label">Next Key Date</div><div class="s-value">Apr 14</div><div class="s-sub">Giovanni factory visit</div></div>
   </div>
 
+  <!-- Horizontal bar: Deal Value by Client -->
   <div class="section-title">Deal Value by Client (USD)</div>
   <div class="card">
-    <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+    <div class="chart-wrap" style="height:370px;"><canvas id="barChart"></canvas></div>
   </div>
 
-  <div class="section-title">Deal Status Breakdown</div>
+  <!-- Stacked bar: Payment Status per Client -->
+  <div class="section-title">Payment Status by Client</div>
+  <div class="card">
+    <div class="chart-wrap" style="height:370px;"><canvas id="paymentChart"></canvas></div>
+  </div>
+
+  <!-- Status + Region donuts -->
+  <div class="section-title">Deal Status &amp; Regional Breakdown</div>
   <div class="grid-2">
     <div class="card">
       <div class="chart-wrap"><canvas id="statusChart"></canvas></div>
@@ -328,6 +383,56 @@ table tr:last-child td{border-bottom:none;}
       <div class="task-desc">DINTASS MOTORI (Chile) visits Gaoyou Apr 14. First order delivered. Likely follow-on discussion.</div>
       <div class="task-meta">Lathes · Milling · Drilling</div>
     </div>
+
+    <!-- ── New tasks from Mar 28 2026 ── -->
+    <div class="card task-card urgent">
+      <div class="task-label">🔴 Shanghai Show — Due Mar 30</div>
+      <div class="task-title">Machine Signage & Labels — 上海展</div>
+      <div class="task-desc">ZX6350Z signs (front + side); Z5050 & Z5032 front panels; lathe small stickers; safety labels (rectangular size); CQ360/CQ290 carriage box signs; ZX6360Z ram sign; black knob issue — confirm & follow up.</div>
+      <div class="task-meta">⚠ All items needed before Shanghai show Apr 21</div>
+    </div>
+    <div class="card task-card urgent">
+      <div class="task-label">🔴 Action — Due Mar 30</div>
+      <div class="task-title">Confirm Speed Sign Arrow Direction</div>
+      <div class="task-desc">Check and confirm the correct arrow direction for the speed rating signs (转速标牌). Needed for Shanghai exhibition machines.</div>
+      <div class="task-meta">Shanghai show prep</div>
+    </div>
+    <div class="card task-card high">
+      <div class="task-label">🟠 Follow Up — Due Mar 30</div>
+      <div class="task-title">Consult Mario re: FEIMEC Product Lineup</div>
+      <div class="task-desc">Discuss product selection and display strategy with Mario for the Brazil FEIMEC exhibition (May 5–9, São Paulo).</div>
+      <div class="task-meta">FEIMEC Brazil · May 5 — 38 days away</div>
+    </div>
+    <div class="card task-card high">
+      <div class="task-label">🟠 Action — Due Mar 30</div>
+      <div class="task-title">IMTS Chicago Sample Machine Shipping</div>
+      <div class="task-desc">Arrange logistics for sample machine(s) to be shipped to IMTS Chicago (Sep 14–19). Coordinate with US side — confirm which models, freight forwarder, and timeline.</div>
+      <div class="task-meta">IMTS Chicago · Sep 14 · 170 days away</div>
+    </div>
+    <div class="card task-card high">
+      <div class="task-label">🟠 Follow Up — Due Mar 30</div>
+      <div class="task-title">Follow Up with Tim (USA) re: Chicago Sample Machine</div>
+      <div class="task-desc">Contact Tim in the USA to follow up on the IMTS Chicago sample machine arrangement. Confirm requirements and any outstanding decisions.</div>
+      <div class="task-meta">IMTS Chicago · Sep 14–19, 2026</div>
+    </div>
+    <div class="card task-card normal">
+      <div class="task-label">🔵 Action</div>
+      <div class="task-title">Call Suzhou EDM Supplier — Schedule Visit</div>
+      <div class="task-desc">Phone the Suzhou EDM manufacturer to arrange the factory visit itinerary for Tuesday. Confirm timing and agenda.</div>
+      <div class="task-meta">苏州EDM厂家</div>
+    </div>
+    <div class="card task-card normal">
+      <div class="task-label">🔵 Follow Up</div>
+      <div class="task-title">Email Grizzly — Follow Up on Inquiry</div>
+      <div class="task-desc">Send follow-up email to Grizzly regarding pending inquiry or proposal. Check on their interest and next steps.</div>
+      <div class="task-meta">Grizzly (USA market)</div>
+    </div>
+    <div class="card task-card normal">
+      <div class="task-label">🔵 Action — Due Mar 30</div>
+      <div class="task-title">Find Contact at Haitian (海天)</div>
+      <div class="task-desc">Look up and obtain a reliable contact person / phone number / email at Haitian (海天). Purpose TBD — follow up as needed.</div>
+      <div class="task-meta">海天机械</div>
+    </div>
   </div>
 </div>
 
@@ -352,10 +457,10 @@ table tr:last-child td{border-bottom:none;}
 
   <!-- Stats bar -->
   <div class="summary-bar" style="margin-bottom:24px;">
-    <div class="card"><div class="s-label">Total Shows</div><div class="s-value">11</div><div class="s-sub">2025 – 2026</div></div>
-    <div class="card"><div class="s-label">Upcoming</div><div class="s-value">4</div><div class="s-sub">next 6 months</div></div>
+    <div class="card"><div class="s-label">Total Shows</div><div class="s-value">12</div><div class="s-sub">2025 – 2026</div></div>
+    <div class="card"><div class="s-label">Upcoming</div><div class="s-value">5</div><div class="s-sub">next 7 months</div></div>
     <div class="card"><div class="s-label">Next Show</div><div class="s-value">24d</div><div class="s-sub">上海机床展 Apr 21</div></div>
-    <div class="card"><div class="s-label">Countries</div><div class="s-value">10</div><div class="s-sub">CN BR MX US DE SA TH ID ES AE</div></div>
+    <div class="card"><div class="s-label">Countries</div><div class="s-value">11</div><div class="s-sub">CN BR MX US DE SA TH ID ES AE TR</div></div>
   </div>
 
   <!-- UPCOMING -->
@@ -450,6 +555,29 @@ table tr:last-child td{border-bottom:none;}
         <div class="exh-right">
           <span class="tag blue">170 days away</span>
           <span class="tag gray">GRUPO 🇺🇸</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Turkey MAKTEK -->
+    <div class="exh-card" style="cursor:pointer;" onclick="openExhModal('maktek')">
+      <div class="exh-bar" style="background:#8e44ad;"></div>
+      <div class="exh-inner">
+        <div class="exh-date-col"><div class="exh-day">28</div><div class="exh-mon">Sep</div></div>
+        <div class="exh-flag">🇹🇷</div>
+        <div class="exh-info">
+          <div class="exh-title">土耳其MAKTEK展</div>
+          <div class="exh-subtitle">MAKTEK — International Machine Tool & Manufacturing Technologies Fair · Istanbul, Turkey</div>
+          <div class="exh-daterange">Sep 28 – Oct 3, 2026 · 6 days</div>
+          <div class="exh-tags">
+            <span class="tag blue">184 days away</span>
+            <span class="tag green">OZCO/KOWAY clients 🇹🇷</span>
+          </div>
+        </div>
+        <div class="exh-right">
+          <span class="tag blue">184 days away</span>
+          <span class="tag green">OZCO/KOWAY 🇹🇷</span>
         </div>
       </div>
     </div>
@@ -894,60 +1022,135 @@ function closeModal(e){
 // ── CHARTS ───────────────────────────────────────────────────
 const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 
-// Bar chart
+// ── KPI computation ─────────────────────────────────────────
+const paidByClient = {
+  OZCO:0, COMARK:26400, JK:62196, MAQUINAS:32183, ANCLA:20758,
+  GRUPO:17000, MANROD:16866, Tupai:618, KOWAY:21840, REMO:0, DINTASS:29373
+};
+const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
+const totalPaid = Object.values(paidByClient).reduce((s,v)=>s+v,0);
+const totalBal = totalVal - totalPaid;
+const fmt = v => v>=1000000?'$'+(v/1000000).toFixed(1)+'M':'$'+(Math.round(v/1000))+'K';
+document.getElementById('kpiTotal').textContent = fmt(totalVal);
+document.getElementById('kpiPaid').textContent = fmt(totalPaid);
+document.getElementById('kpiBalance').textContent = fmt(totalBal);
+document.getElementById('kpiPaidPct').textContent = Math.round(totalPaid/totalVal*100)+'% of contract value';
+document.getElementById('kpiBalPct').textContent = Math.round(totalBal/totalVal*100)+'% to collect';
+
+// ── Colour palette ───────────────────────────────────────────
+const palette = [
+  '#1a3a6b','#2471a3','#148f77','#1e8449','#7d6608',
+  '#935116','#c0392b','#76448a','#1a5276','#117a65','#515a5a'
+];
+
+// ── Horizontal bar: Deal Value ───────────────────────────────
 new Chart(document.getElementById('barChart'),{
   type:'bar',
   data:{
-    labels:sortedClients.map(c=>c.short),
+    labels: sortedClients.map(c=>c.short),
     datasets:[{
-      data:sortedClients.map(c=>c.amountUSD),
-      backgroundColor:['#e74c3c','#3498db','#2ecc71','#f39c12','#9b59b6','#1abc9c','#e67e22','#34495e','#e91e63'],
-      borderRadius:6, borderSkipped:false,
+      label:'Contract Value (USD equiv.)',
+      data: sortedClients.map(c=>c.amountUSD),
+      backgroundColor: sortedClients.map((_,i)=>palette[i%palette.length]+'cc'),
+      borderColor: sortedClients.map((_,i)=>palette[i%palette.length]),
+      borderWidth:1, borderRadius:6, borderSkipped:false,
     }]
   },
   options:{
+    indexAxis:'y',
     responsive:true, maintainAspectRatio:false,
-    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' $'+ctx.raw.toLocaleString()+' USD equiv.'}}},
-    scales:{y:{ticks:{callback:v=>'$'+v.toLocaleString()},grid:{color:'#f0f0f0'}},x:{grid:{display:false}}}
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>' $'+ctx.raw.toLocaleString()+' USD equiv.'}}
+    },
+    scales:{
+      x:{ticks:{callback:v=>'$'+(v>=1000?(v/1000).toFixed(0)+'K':v)},grid:{color:'#f5f5f5'}},
+      y:{grid:{display:false},ticks:{font:{weight:'600'}}}
+    }
   }
 });
 
-// Status donut
+// ── Stacked bar: Paid vs Outstanding ─────────────────────────
+const pyClients = [...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
+const pyPaid    = pyClients.map(c=>paidByClient[c.short]||0);
+const pyBal     = pyClients.map(c=>c.amountUSD-(paidByClient[c.short]||0));
+new Chart(document.getElementById('paymentChart'),{
+  type:'bar',
+  data:{
+    labels: pyClients.map(c=>c.short),
+    datasets:[
+      {
+        label:'Paid',
+        data: pyPaid,
+        backgroundColor:'#27ae6099',
+        borderColor:'#27ae60',
+        borderWidth:1, borderRadius:4, borderSkipped:false,
+      },
+      {
+        label:'Outstanding',
+        data: pyBal,
+        backgroundColor:'#e67e2299',
+        borderColor:'#e67e22',
+        borderWidth:1, borderRadius:4, borderSkipped:false,
+      }
+    ]
+  },
+  options:{
+    indexAxis:'y',
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',labels:{boxWidth:12,padding:14,font:{size:12}}},
+      tooltip:{callbacks:{label:ctx=>' $'+ctx.raw.toLocaleString()+' USD equiv.'}}
+    },
+    scales:{
+      x:{stacked:true, ticks:{callback:v=>'$'+(v>=1000?(v/1000).toFixed(0)+'K':v)}, grid:{color:'#f5f5f5'}},
+      y:{stacked:true, grid:{display:false}, ticks:{font:{weight:'600'}}}
+    }
+  }
+});
+
+// ── Status donut ─────────────────────────────────────────────
 new Chart(document.getElementById('statusChart'),{
   type:'doughnut',
   data:{
-    labels:['Balance/Payment Due','Deposit Pending','Status Unknown','On Track','Delivered'],
+    labels:['Deposit Paid, Bal Due','L/C Confirmed','All Deposits Rcvd','Deposit Pending','Partial Shipped','Delivered'],
     datasets:[{
-      data:[2,2,2,1,1],
-      backgroundColor:['#f39c12','#e74c3c','#95a5a6','#3498db','#27ae60'],
+      data:[6,1,1,1,1,1],
+      backgroundColor:['#f39c12','#3498db','#27ae60','#e74c3c','#9b59b6','#2ecc71'],
       borderWidth:2, borderColor:'white', hoverOffset:6
     }]
   },
   options:{
     responsive:true, maintainAspectRatio:false, cutout:'65%',
-    plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:10,font:{size:12}}},title:{display:true,text:'Deal Status',font:{size:13,weight:'600'},padding:{bottom:10}}}
+    plugins:{
+      legend:{position:'bottom',labels:{boxWidth:12,padding:8,font:{size:11}}},
+      title:{display:true,text:'Deal Status (11 clients)',font:{size:13,weight:'600'},padding:{bottom:8}}
+    }
   }
 });
 
-// Region donut
+// ── Region donut ─────────────────────────────────────────────
 new Chart(document.getElementById('regionChart'),{
   type:'doughnut',
   data:{
-    labels:['Latin America','Europe','Middle East','Asia'],
+    labels:['Latin America','Europe','Turkey/ME'],
     datasets:[{
       data:[
         clients.filter(c=>['JK','MAQUINAS','ANCLA','GRUPO','MANROD','DINTASS'].includes(c.short)).reduce((s,c)=>s+c.amountUSD,0),
-        clients.filter(c=>['COMARK','Tupai'].includes(c.short)).reduce((s,c)=>s+c.amountUSD,0),
-        clients.filter(c=>['OZCO'].includes(c.short)).reduce((s,c)=>s+c.amountUSD,0),
-        0
+        clients.filter(c=>['COMARK','Tupai','REMO'].includes(c.short)).reduce((s,c)=>s+c.amountUSD,0),
+        clients.filter(c=>['OZCO','KOWAY'].includes(c.short)).reduce((s,c)=>s+c.amountUSD,0),
       ],
-      backgroundColor:['#3498db','#2ecc71','#e74c3c','#f39c12'],
+      backgroundColor:['#3498db','#2ecc71','#e74c3c'],
       borderWidth:2, borderColor:'white', hoverOffset:6
     }]
   },
   options:{
     responsive:true, maintainAspectRatio:false, cutout:'65%',
-    plugins:{legend:{position:'bottom',labels:{boxWidth:12,padding:10,font:{size:12}}},title:{display:true,text:'Volume by Region (USD)',font:{size:13,weight:'600'},padding:{bottom:10}},tooltip:{callbacks:{label:ctx=>' $'+ctx.raw.toLocaleString()+' USD'}}}
+    plugins:{
+      legend:{position:'bottom',labels:{boxWidth:12,padding:10,font:{size:12}}},
+      title:{display:true,text:'Volume by Region (USD)',font:{size:13,weight:'600'},padding:{bottom:10}},
+      tooltip:{callbacks:{label:ctx=>' $'+ctx.raw.toLocaleString()+' USD'}}
+    }
   }
 });
 
@@ -1016,6 +1219,20 @@ const exhibitions = {
     hotel:{ name:'Hilton Chicago', address:'720 S Michigan Ave, Chicago, Illinois, 60605', checkin:'Sep 12 (after 15:00)', checkout:'Sep 20 (before 11:00)', nights:'8 nights' },
     notes:'Largest machine tool show in the Americas. GRUPO (B&I Traders / Eduardo) is a US-market client. Flights not yet booked.',
     tags:[{t:'170 days away',c:'blue'},{t:'🏨 Hilton Chicago',c:'green'},{t:'GRUPO client 🇺🇸',c:'gray'}]
+  },
+  maktek: {
+    id:'maktek', flag:'🇹🇷', color:'#8e44ad',
+    name:'土耳其MAKTEK展', nameEn:'MAKTEK — International Machine Tool & Manufacturing Technologies Fair',
+    venue:'Tüyap Fair Convention and Congress Center', city:'Istanbul, Turkey',
+    dates:'Sep 28 – Oct 3, 2026', setup:'—',
+    status:'upcoming', daysAway:184,
+    flights:[
+      {leg:'Outbound', date:'—', flightNo:'—', from:'—', to:'—', depart:'—', arrive:'—', airline:'—'},
+      {leg:'Return',   date:'—', flightNo:'—', from:'—', to:'—', depart:'—', arrive:'—', airline:'—'},
+    ],
+    hotel:{ name:'—', address:'—', checkin:'—', checkout:'—', confirmation:'—' },
+    notes:'OZCO (Topçular Endüstriyel) and KOWAY are both Turkey-based clients — excellent opportunity for face-to-face meetings. Follows IMTS Chicago (Sep 14–19) by 9 days; may be possible to combine trips if routed via Istanbul. Tüyap venue is in the Büyükçekmece district, west Istanbul.',
+    tags:[{t:'184 days away',c:'blue'},{t:'OZCO / KOWAY clients',c:'green'},{t:'Flights TBD',c:'gray'}]
   },
 };
 
