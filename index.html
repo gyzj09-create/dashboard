@@ -324,23 +324,74 @@ table tr:last-child td{border-bottom:none;}
     </table>
   </div>
 
-  <!-- 2026 Highlights -->
-  <div class="section-title">📋 2026 New Contracts</div>
-  <div class="grid-3" style="margin-bottom:0;">
-    <div class="card" style="border-top:3px solid #9b59b6;">
-      <div class="s-label">2026 PIs Issued</div>
-      <div class="s-value">9</div>
-      <div class="s-sub">Jan – Mar 2026</div>
+  <!-- Sales by Year -->
+  <div class="section-title" style="margin-top:22px;">📅 Sales by Year</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:4px;">
+
+    <!-- 2024 -->
+    <div class="card" style="border-top:3px solid #e67e22;padding:16px 18px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#e67e22;margin-bottom:10px;">2024 — Historical</div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:12px;color:#888;">PIs Shipped</span>
+        <span style="font-size:18px;font-weight:700;color:#1a1a2e;">7</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:12px;color:#888;">Total Value</span>
+        <span style="font-size:16px;font-weight:700;color:#1a1a2e;">~$250K</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:12px;color:#27ae60;">Collected</span>
+        <span style="font-size:14px;font-weight:700;color:#27ae60;">~$226K</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5px 8px;background:#fadbd8;border-radius:6px;margin-top:4px;">
+        <span style="font-size:12px;color:#c0392b;font-weight:600;">⚠ Outstanding</span>
+        <span style="font-size:14px;font-weight:700;color:#c0392b;">$24,000</span>
+      </div>
+      <div style="font-size:10px;color:#999;margin-top:6px;">GRUPO – YF20241024 (unpaid balance)</div>
     </div>
-    <div class="card" style="border-top:3px solid #9b59b6;">
-      <div class="s-label">2026 Units Ordered</div>
-      <div class="s-value">252</div>
-      <div class="s-sub">machines across 6 clients</div>
+
+    <!-- 2025 -->
+    <div class="card" style="border-top:3px solid #27ae60;padding:16px 18px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#27ae60;margin-bottom:10px;">2025 — All Paid ✅</div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:12px;color:#888;">PIs Shipped</span>
+        <span style="font-size:18px;font-weight:700;color:#1a1a2e;">19</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:12px;color:#888;">Total Value</span>
+        <span style="font-size:16px;font-weight:700;color:#1a1a2e;">~$810K</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:12px;color:#27ae60;">Collected</span>
+        <span style="font-size:14px;font-weight:700;color:#27ae60;">~$810K</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5px 8px;background:#d5f5e3;border-radius:6px;margin-top:4px;">
+        <span style="font-size:12px;color:#1e8449;font-weight:600;">✅ Outstanding</span>
+        <span style="font-size:14px;font-weight:700;color:#1e8449;">$0</span>
+      </div>
+      <div style="font-size:10px;color:#999;margin-top:6px;">JK · NAREX · TAS IRON · Viber · DINTASS + more</div>
     </div>
-    <div class="card" style="border-top:3px solid #9b59b6;">
-      <div class="s-label">2026 Total Value</div>
-      <div class="s-value">$481K</div>
-      <div class="s-sub">USD equivalent</div>
+
+    <!-- 2026 -->
+    <div class="card" style="border-top:3px solid #3498db;padding:16px 18px;">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#3498db;margin-bottom:10px;">2026 — Active Pipeline</div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:12px;color:#888;">Active PIs</span>
+        <span style="font-size:18px;font-weight:700;color:#1a1a2e;">9</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:12px;color:#888;">Pipeline Value</span>
+        <span style="font-size:16px;font-weight:700;color:#1a1a2e;">~$481K</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:12px;color:#27ae60;">Collected</span>
+        <span style="font-size:14px;font-weight:700;color:#27ae60;" id="kpiPaid2026">—</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5px 8px;background:#eaf3fb;border-radius:6px;margin-top:4px;">
+        <span style="font-size:12px;color:#2471a3;font-weight:600;">📦 Outstanding</span>
+        <span style="font-size:14px;font-weight:700;color:#2471a3;" id="kpiBalance2026">—</span>
+      </div>
+      <div style="font-size:10px;color:#999;margin-top:6px;">252 units ordered · 9 countries</div>
     </div>
   </div>
 
@@ -1106,6 +1157,10 @@ document.getElementById('kpiBalance').textContent = fmt(totalBal);
 document.getElementById('kpiPaidPct').textContent = Math.round(totalPaid/totalVal*100)+'% of contract value';
 document.getElementById('kpiBalPct').textContent = Math.round(totalBal/totalVal*100)+'% to collect';
 
+// ── 2026 KPI cards ───────────────────────────────────────────
+document.getElementById('kpiPaid2026').textContent = fmt(totalPaid);
+document.getElementById('kpiBalance2026').textContent = fmt(totalBal);
+
 // ── Payment Outstanding Table ────────────────────────────────
 (function(){
   const statusMap = {
@@ -1122,21 +1177,16 @@ document.getElementById('kpiBalPct').textContent = Math.round(totalBal/totalVal*
     DINTASS:{label:'Fully paid ✓',     cls:'pill-green'},
   };
   const tbody = document.getElementById('payOutstandingBody');
-  // Only show clients with outstanding balance (balance > 0 or OZCO with L/C)
-  const rows = clients.filter(c => {
-    if(c.short==='DINTASS') return false; // fully paid
-    return true;
-  });
-  // Sort: outstanding balance desc (using amountUSD - paid)
+  // Only show active 2026 clients with outstanding balance (exclude DINTASS)
+  const rows = clients.filter(c => c.short!=='DINTASS');
+  // Sort: outstanding balance desc
   rows.sort((a,b)=>{
     const ba = a.amountUSD-(paidByClient[a.short]||0);
     const bb = b.amountUSD-(paidByClient[b.short]||0);
     return bb-ba;
   });
   rows.forEach(c=>{
-    const paid = paidByClient[c.short]||0;
-    const bal  = c.amountUSD - paid;
-    const sm   = statusMap[c.short]||{label:'—',cls:'pill-gray'};
+    const sm = statusMap[c.short]||{label:'—',cls:'pill-gray'};
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td><div class="client-tag">${c.flag} ${c.short}</div><div class="client-sub">${c.name}</div></td>
@@ -1146,6 +1196,18 @@ document.getElementById('kpiBalPct').textContent = Math.round(totalBal/totalVal*
       <td><span class="status-pill ${sm.cls}">${sm.label}</span></td>`;
     tbody.appendChild(tr);
   });
+  // ── Also show 2024 historical outstanding (GRUPO YF20241024) ──
+  const sep = document.createElement('tr');
+  sep.innerHTML = `<td colspan="5" style="background:#f7f0ff;padding:6px 12px;font-size:11px;font-weight:700;color:#6c3483;letter-spacing:0.5px;text-transform:uppercase;">📋 Historical Outstanding (2024)</td>`;
+  tbody.appendChild(sep);
+  const histRow = document.createElement('tr');
+  histRow.innerHTML = `
+    <td><div class="client-tag">🇲🇽 GRUPO</div><div class="client-sub">B&I TRADERS · PI YF20241024 · Oct 2024</div></td>
+    <td class="paid-val">$47,760 USD</td>
+    <td>$71,760 USD</td>
+    <td class="bal-val" style="color:#c0392b;">$24,000 USD</td>
+    <td><span class="status-pill pill-red">⚠ 2024 Overdue</span></td>`;
+  tbody.appendChild(histRow);
 })();
 
 // ── Colour palette ───────────────────────────────────────────
