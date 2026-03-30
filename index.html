@@ -39,7 +39,9 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 html{overflow-y:scroll;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a2e;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f2f5;color:#1a1a2e;
+  padding-bottom:env(safe-area-inset-bottom);
+  -webkit-text-size-adjust:100%;}
 a{text-decoration:none;color:inherit;}
 
 /* HEADER */
@@ -168,7 +170,7 @@ header .date{font-size:12px;opacity:0.5;}
 .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .meta-item .mi-label{font-size:11px;color:#bbb;text-transform:uppercase;letter-spacing:0.5px;}
 .meta-item .mi-value{font-size:14px;color:#1a1a2e;font-weight:600;margin-top:2px;}
-.pi-block{border:1px solid #f0f0f0;border-radius:10px;overflow:hidden;margin-bottom:12px;}
+.pi-block{border:1px solid #f0f0f0;border-radius:10px;overflow:clip;margin-bottom:12px;}
 .pi-header{background:#f8f8f8;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;}
 .pi-header .pi-no{font-size:13px;font-weight:700;color:#444;}
 .pi-header .pi-total{font-size:15px;font-weight:700;color:#1a1a2e;}
@@ -218,12 +220,50 @@ table tr:last-child td{border-bottom:none;}
 .exh-past-title{font-size:13px;font-weight:700;color:#1a1a2e;}
 .exh-past-sub{font-size:11px;color:#999;margin-top:2px;}
 
-/* Mobile: hide right-side tags, show them below title instead */
+/* ── YEAR STATS GRID (responsive class) ──────────────── */
+.year-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:4px;}
+
+/* ── PAY TABLE SCROLL WRAPPER ────────────────────────── */
+.pay-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.pay-table-wrap .pay-table{min-width:500px;}
+
+/* ── Mobile: hide right-side tags on exhibitions ─────── */
 @media(max-width:600px){
-  header{padding:14px 16px;}
-  header h1{font-size:15px;}
-  .tabs{padding:0 12px;top:49px;}
-  .page{padding:16px 12px 48px;}
+  /* Header & nav */
+  header{padding:12px 14px;}
+  header h1{font-size:14px;}
+  header .date{font-size:11px;}
+  .tabs{padding:0 8px;top:45px;gap:0;}
+  .tab{padding:10px 11px;font-size:12px;}
+  .page{padding:14px 10px 60px;}
+
+  /* Lock screen */
+  .lock-box{width:calc(100vw - 28px);padding:28px 20px;}
+  .lock-box input{font-size:16px;} /* prevent iOS zoom */
+
+  /* Grids collapse */
+  .summary-bar{grid-template-columns:1fr 1fr;}
+  .s-value{font-size:20px;}
+  .s-sub{font-size:10px;}
+  .year-stats-grid{grid-template-columns:1fr !important;}
+
+  /* Charts shorter */
+  .chart-wrap{height:220px !important;}
+  .chart-wrap canvas{max-height:210px !important;}
+
+  /* Payment outstanding table - scrollable */
+  .pay-table-wrap .pay-table{min-width:480px;}
+
+  /* Modal */
+  .modal-overlay{padding:8px 6px;align-items:flex-start;}
+  .modal-header{padding:14px 16px;}
+  .modal-header h2{font-size:15px;}
+  .modal-header .mflag{font-size:22px;}
+  .modal-body{padding:14px 16px;}
+  .meta-grid{grid-template-columns:1fr;}
+  .pay-summary{grid-template-columns:1fr 1fr;}
+
+  /* Exhibitions */
   .exh-inner{flex-wrap:wrap;gap:10px;}
   .exh-right{display:none;}
   .exh-tags{display:flex;}
@@ -231,10 +271,28 @@ table tr:last-child td{border-bottom:none;}
   .exh-day{font-size:20px;}
   .exh-flag{font-size:20px;}
   .exh-title{font-size:14px;}
-  .summary-bar{grid-template-columns:1fr 1fr;}
-  .s-value{font-size:20px;}
-  .s-sub{font-size:10px;}
+
+  /* Section titles */
+  .section-title{margin-top:20px;}
+
+  /* Timeline tasks */
+  .timeline-badge{font-size:11px;padding:3px 10px;}
+  .timeline-count{font-size:11px;}
+
+  /* Client cards - keep 2 col on 600, collapse further at 400 */
+  .client-amount{font-size:18px;}
 }
+
+@media(max-width:400px){
+  /* iPhone SE & smaller */
+  .summary-bar{grid-template-columns:1fr;}
+  .pay-summary{grid-template-columns:1fr;}
+  .grid-2{grid-template-columns:1fr;}
+  .s-value{font-size:22px;}
+  .page{padding:12px 8px 70px;}
+  .tab{padding:9px 9px;font-size:11px;}
+}
+
 @media(min-width:601px){
   .exh-tags{display:none;}
 }
@@ -310,23 +368,25 @@ table tr:last-child td{border-bottom:none;}
   <!-- Payment Outstanding Table -->
   <div class="section-title" style="margin-top:22px;">📋 Outstanding Payments</div>
   <div class="card" style="padding:0;overflow:hidden;">
-    <table class="pay-table" id="payOutstandingTable">
-      <thead>
-        <tr>
-          <th>Client</th>
-          <th>Paid</th>
-          <th>Contract Total</th>
-          <th>Outstanding</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="payOutstandingBody"></tbody>
-    </table>
+    <div class="pay-table-wrap">
+      <table class="pay-table" id="payOutstandingTable">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Paid</th>
+            <th>Contract Total</th>
+            <th>Outstanding</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="payOutstandingBody"></tbody>
+      </table>
+    </div>
   </div>
 
   <!-- Sales by Year -->
   <div class="section-title" style="margin-top:22px;">📅 Sales by Year</div>
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:4px;">
+  <div class="year-stats-grid">
 
     <!-- 2024 -->
     <div class="card" style="border-top:3px solid #e67e22;padding:16px 18px;">
@@ -1119,11 +1179,11 @@ function openModal(i){
       }
       if(p.items.length){
         const hasDesc=p.items.some(it=>it.desc&&it.desc!=='');
-        html+=`<table><tr><th>Model</th>${hasDesc?'<th>Config</th>':''}<th style="text-align:center">Qty</th><th style="text-align:right">Unit</th><th style="text-align:right">Total</th></tr>`;
+        html+=`<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table style="min-width:340px;"><tr><th>Model</th>${hasDesc?'<th>Config</th>':''}<th style="text-align:center">Qty</th><th style="text-align:right">Unit</th><th style="text-align:right">Total</th></tr>`;
         p.items.forEach(it=>{
           html+=`<tr><td><strong>${it.model}</strong></td>${hasDesc?`<td style="color:#888">${it.desc||''}</td>`:''}<td style="text-align:center">${it.qty}</td><td style="text-align:right">${it.unit}</td><td style="text-align:right;font-weight:600;">${it.total}</td></tr>`;
         });
-        html+=`</table>`;
+        html+=`</table></div>`;
       }
       html+=`</div>`;
     });
