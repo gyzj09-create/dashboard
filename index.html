@@ -1064,19 +1064,19 @@ const clients = [
     short:'REMO', flag:'🇫🇷', name:'REMO SARL',
     country:'France', contact:'—', address:'51 AVENUE DES ARRIVAUX- BP 73, 38070 SAINT-QUENTIN-FALLAVIER, France',
     amount:'€30,840 EUR', amountUSD:33924,
-    paid:'€0', balance:'€30,840 EUR',
-    contracts:1, machines:21, status:'Deposit Pending',
-    tags:[{t:'Deposit Pending',c:'orange'},{t:'EUR payment',c:'gray'},{t:'New Client',c:'blue'}],
+    paid:'€9,252 EUR (~$10,177)', balance:'€21,588 EUR (~$23,747)',
+    contracts:1, machines:21, status:'In Production',
+    tags:[{t:'Deposit Received',c:'green'},{t:'EUR payment',c:'gray'},{t:'New Client',c:'blue'}],
     payment:'30% T/T deposit €9,252 in advance · 70% T/T €21,588 before shipping.',
     pis:[{
       no:'202603', date:'Mar 2026', total:'€30,840 EUR',
-      payment:'⏳ Awaiting 30% deposit €9,252 via T/T (BOC EUR account: 554748755977)',
+      payment:'✅ 30% deposit €9,252 received Mar 30 2026 via Société Générale (Sogecash) · Ref: 032026089154553490000000 · ⏳ 70% balance €21,588 due before shipping',
       items:[
         {model:'ZS40H',desc:'Incl. 160mm vice + auto tightening',qty:12,unit:'€1,415',total:'€16,980'},
         {model:'Z5035',desc:'Incl. 160mm vice + auto tightening',qty:9,unit:'€1,540',total:'€13,860'},
       ]
     }],
-    notes:'New client (2026). Awaiting 30% deposit €9,252 via T/T to BOC EUR account 554748755977. 21 units. French buyer — CE certification required. Delivery ~50 days after deposit.'
+    notes:'New client (2026). 30% deposit €9,252 received Mar 30 2026 via SG Sogecash (OUR fees). 70% balance €21,588 due before shipping. Production ~50 days. 21 units total. French buyer — CE certification required.'
   },
   {
     short:'DINTASS', flag:'🇨🇱', name:'DINTASS MOTORI',
@@ -1205,7 +1205,7 @@ const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 // ── KPI computation ─────────────────────────────────────────
 const paidByClient = {
   OZCO:0, COMARK:26400, JK:62196, MAQUINAS:32183, ANCLA:20758,
-  GRUPO:38160, MANROD:16866, Tupai:618, KOWAY:21840, REMO:0, DINTASS:29373
+  GRUPO:38160, MANROD:16866, Tupai:618, KOWAY:21840, REMO:10177, DINTASS:29373
 };
 const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
 const totalPaid = Object.values(paidByClient).reduce((s,v)=>s+v,0);
@@ -1233,7 +1233,7 @@ document.getElementById('kpiBalance2026').textContent = fmt(totalBal);
     MANROD: {label:'70% pre-ship',     cls:'pill-orange'},
     Tupai:  {label:'70% pre-ship',     cls:'pill-orange'},
     KOWAY:  {label:'3 installments',   cls:'pill-orange'},
-    REMO:   {label:'Awaiting deposit', cls:'pill-gray'},
+    REMO:   {label:'30% deposit received', cls:'pill-yellow'},
     DINTASS:{label:'Fully paid ✓',     cls:'pill-green'},
   };
   const tbody = document.getElementById('payOutstandingBody');
