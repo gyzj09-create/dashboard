@@ -1179,7 +1179,7 @@ const clients = [
     short:'GRUPO', flag:'🇲🇽', name:'B&I TRADERS S DE RL DE CV',
     country:'Mexico (ships to USA)', contact:'Eduardo Navarro Ramirez', address:'Mexican entity — final destination USA',
     amount:'$76,320 USD', amountUSD:76320,
-    paid:'$16,160 (2026)', balance:'$60,160 USD',
+    paid:'$38,160 (4 payments)', balance:'$38,160 USD',
     contracts:1, machines:45, status:'Partial Shipped',
     tags:[{t:'Partial Shipped',c:'green'},{t:'12 units left',c:'orange'},{t:'4 payments rcvd',c:'blue'}],
     payment:'30% deposit → 50% before shipping → 50% two months after shipping.',
@@ -1404,7 +1404,7 @@ const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 // ── KPI computation ─────────────────────────────────────────
 const paidByClient = {
   OZCO:0, COMARK:26400, JK:62196, MAQUINAS:32183, ANCLA:0,
-  GRUPO:16160, MANROD:16866, Tupai:618, KOWAY:21840, REMO:10177, DINTASS:29373
+  GRUPO:38160, MANROD:16866, Tupai:618, KOWAY:21840, REMO:10177, DINTASS:29373
 };
 const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
 const totalPaid = Object.values(paidByClient).reduce((s,v)=>s+v,0);
