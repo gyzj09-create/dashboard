@@ -997,12 +997,12 @@ const clients = [
     pis:[{
       no:'OZCO20260202', date:'Feb 2026', total:'$173,725 USD',
       items:[
-        {model:'MC32',desc:'Drilling machine',qty:30,unit:'$1,080',total:'$32,400'},
-        {model:'MC32 PLUS',desc:'Drilling machine',qty:9,unit:'$1,275',total:'$11,475'},
-        {model:'MC32F',desc:'Drilling machine',qty:15,unit:'$1,550',total:'$23,250'},
-        {model:'MC35E',desc:'Drilling machine',qty:20,unit:'$1,540',total:'$30,800'},
-        {model:'CR3610V',desc:'Lathe — variable freq, 200mm chuck, 1000mm center',qty:18,unit:'$2,550',total:'$45,900'},
-        {model:'MC50E',desc:'Drilling machine (3KW, MT4, 580×580 table)',qty:10,unit:'$2,990',total:'$29,900'},
+        {model:'MC32',factory:'ZS40H',desc:'Drilling machine',qty:30,unit:'$1,080',total:'$32,400'},
+        {model:'MC32 PLUS',factory:'ZS40H',desc:'Drilling machine',qty:9,unit:'$1,275',total:'$11,475'},
+        {model:'MC32F',factory:'ZX40H',desc:'Drilling machine',qty:15,unit:'$1,550',total:'$23,250'},
+        {model:'MC35E',factory:'Z5035',desc:'Drilling machine',qty:20,unit:'$1,540',total:'$30,800'},
+        {model:'CR3610V',factory:'CQ360V×1000 Vario',desc:'Lathe — variable freq, 200mm chuck, 1000mm center',qty:18,unit:'$2,550',total:'$45,900'},
+        {model:'MC50E',factory:'Z5050',desc:'Drilling machine (3KW, MT4, 580×580 table)',qty:10,unit:'$2,990',total:'$29,900'},
       ]
     }],
     notes:'⚠ DEADLINE May 15 2026 — must ship before this date. L/C CONFIRMED Mar 16 2026 (QNB Bank Istanbul, LC# 00875MC016612, USD 173,725, expires Jun 15 2026). Payment: 180 days after shipment — no advance needed. OZCO private-label branding (MC/CR series). 102 units is a very large shipment.'
@@ -1037,36 +1037,36 @@ const clients = [
         no:'20260127 — JK Colombia', date:'Jan 2026', total:'$65,598 USD',
         payment:'✅ Deposit RCVD: COP 57,501,715 (~$15,900) · Jan 28 2026 · Bancolombia',
         items:[
-          {model:'UM 45 B',desc:'',qty:4,unit:'$1,333',total:'$5,332'},
-          {model:'UM 45 FE',desc:'',qty:4,unit:'$1,950',total:'$7,800'},
+          {model:'UM 45 B',factory:'ZX7045',desc:'',qty:4,unit:'$1,333',total:'$5,332'},
+          {model:'UM 45 FE',factory:'ZX7045',desc:'',qty:4,unit:'$1,950',total:'$7,800'},
           {model:'560x1500 DRO CE T.T.A',desc:'',qty:4,unit:'$8,180',total:'$32,720'},
           {model:'420x1000 DRO CE',desc:'',qty:3,unit:'$4,520',total:'$13,560'},
-          {model:'UM 30',desc:'',qty:2,unit:'$3,093',total:'$6,186'},
+          {model:'UM 30',factory:'ZX7550CW',desc:'',qty:2,unit:'$3,093',total:'$6,186'},
         ]
       },
       {
         no:'20260129 — JK Colombia', date:'Jan 2026', total:'$66,296 USD',
         payment:'✅ Deposit RCVD: $16,296 · Feb 2 2026 · Bancolombia',
         items:[
-          {model:'UM 45 B',desc:'',qty:6,unit:'$1,333',total:'$7,998'},
-          {model:'UM 45 FE',desc:'',qty:6,unit:'$1,950',total:'$11,700'},
+          {model:'UM 45 B',factory:'ZX7045',desc:'',qty:6,unit:'$1,333',total:'$7,998'},
+          {model:'UM 45 FE',factory:'ZX7045',desc:'',qty:6,unit:'$1,950',total:'$11,700'},
           {model:'560x1500 DRO CE T.T.A',desc:'',qty:2,unit:'$8,180',total:'$16,360'},
           {model:'420x1000 DRO CE',desc:'',qty:2,unit:'$4,520',total:'$9,040'},
-          {model:'JUGG BF20S',desc:'',qty:6,unit:'$553',total:'$3,318'},
-          {model:'JUGG BF32S',desc:'',qty:6,unit:'$918',total:'$5,508'},
-          {model:'UM 30',desc:'',qty:4,unit:'$3,093',total:'$12,372'},
+          {model:'JUGG BF20S',factory:'BF20S',desc:'',qty:6,unit:'$553',total:'$3,318'},
+          {model:'JUGG BF32S',factory:'BF32S',desc:'',qty:6,unit:'$918',total:'$5,508'},
+          {model:'UM 30',factory:'ZX7550CW',desc:'',qty:4,unit:'$3,093',total:'$12,372'},
         ]
       },
       {
         no:'20260325 — JK Ecuador', date:'Mar 2026', total:'$62,162 USD',
         payment:'✅ Deposit RCVD: $20,000 · Mar 25 2026 · Produbanco (fee $15; net rcvd $19,985)',
         items:[
-          {model:'JUG 3610 V',desc:'',qty:4,unit:'$2,493',total:'$9,972'},
+          {model:'JUG 3610 V',factory:'CQ360V×1000 Vario',desc:'',qty:4,unit:'$2,493',total:'$9,972'},
           {model:'420x1000 DRO CE',desc:'',qty:3,unit:'$4,520',total:'$13,560'},
           {model:'560x1500 DRO CE',desc:'',qty:2,unit:'$7,980',total:'$15,960'},
-          {model:'UM 45 B',desc:'',qty:4,unit:'$1,333',total:'$5,332'},
-          {model:'UM 45 FE',desc:'',qty:4,unit:'$1,950',total:'$7,800'},
-          {model:'UM 40',desc:'',qty:2,unit:'$4,649',total:'$9,298'},
+          {model:'UM 45 B',factory:'ZX7045',desc:'',qty:4,unit:'$1,333',total:'$5,332'},
+          {model:'UM 45 FE',factory:'ZX7045',desc:'',qty:4,unit:'$1,950',total:'$7,800'},
+          {model:'UM 40',factory:'ZX6350C',desc:'',qty:2,unit:'$4,649',total:'$9,298'},
           {model:'DRO with scales',desc:'accessory',qty:1,unit:'$240',total:'$240'},
         ]
       },
@@ -1074,7 +1074,7 @@ const clients = [
         no:'20260131 — JK Peru', date:'Jan 2026', total:'$56,661 USD',
         payment:'✅ Deposit RCVD: $10,000 · Feb 24 2026 · BCP (Banco de Crédito del Perú)',
         items:[
-          {model:'DM40',desc:'',qty:51,unit:'$1,111',total:'$56,661'},
+          {model:'DM40',factory:'ZX40H',desc:'',qty:51,unit:'$1,111',total:'$56,661'},
         ]
       },
     ],
@@ -1154,14 +1154,29 @@ const clients = [
   {
     short:'GRUPO', flag:'🇲🇽', name:'B&I TRADERS S DE RL DE CV',
     country:'Mexico (ships to USA)', contact:'Eduardo Navarro Ramirez', address:'Mexican entity — final destination USA',
-    amount:'$76,320 USD', amountUSD:76320,
-    paid:'$38,160 (4 payments)', balance:'$38,160 USD',
-    contracts:1, machines:45, status:'Partial Shipped',
-    tags:[{t:'Partial Shipped',c:'green'},{t:'12 units left',c:'orange'},{t:'4 payments rcvd',c:'blue'}],
+    amount:'$148,080 USD', amountUSD:148080,
+    paid:'$85,920 USD', balance:'$62,160 USD',
+    contracts:2, machines:56, status:'Partial Shipped',
+    tags:[{t:'Partial Shipped',c:'green'},{t:'$24K overdue',c:'red'},{t:'4 payments rcvd',c:'blue'}],
     payment:'30% deposit → 50% before shipping → 50% two months after shipping.',
     pis:[{
+      no:'YF20241024', date:'Oct 2024', total:'$71,760 USD',
+      payment:'✅ ① $10,004 T/T deposit (advance)\n✅ ② $37,756 at TECMA 2025 (June 2025)\nTotal paid: $47,760 | ⚠️ Balance: $24,000 USD outstanding',
+      items:[
+        {model:'ZX7045',desc:'',qty:2,unit:'$1,657',total:'$3,314'},
+        {model:'ZX6350Z',desc:'',qty:4,unit:'$5,383',total:'$21,532'},
+        {model:'Z5040',desc:'',qty:1,unit:'$2,778',total:'$2,778'},
+        {model:'ZX45',desc:'',qty:2,unit:'$1,176',total:'$2,352'},
+        {model:'ZX40H',desc:'',qty:2,unit:'$1,102',total:'$2,204'},
+        {model:'ZX6350C',desc:'',qty:2,unit:'$3,775',total:'$7,550'},
+        {model:'ZS30H',desc:'',qty:1,unit:'$948',total:'$948'},
+        {model:'CQC330Bx1000',desc:'',qty:1,unit:'$2,414',total:'$2,414'},
+        {model:'CQ320Vx1000',desc:'',qty:3,unit:'$1,556',total:'$4,668'},
+        {model:'YF550T',desc:'',qty:1,unit:'$24,000',total:'$24,000'},
+      ]
+    },{
       no:'20250811', date:'Aug 2025', total:'$76,320 USD',
-      payment:'✅ ① $7,000 Oct 9 2025 (BBVA Mexico → CCB)\n✅ ② $10,000 Oct 27 2025 (CCB)\n✅ ③ $5,000 Dec 24 2025 — 92,977 MXN → USD (BBVA Mexico → BOC; folio 3799399240)\n✅ ④ MXN 283,439.13 → $16,160 Feb 25 2026 (BBVA Mexico → BOC; ref TI26022500015670)\nTotal customer paid: $38,160 USD | Balance: $38,160 USD',
+      payment:'✅ ① $7,000 Oct 9 2025 (BBVA Mexico → CCB)\n✅ ② $10,000 Oct 27 2025 (CCB)\n✅ ③ $5,000 Dec 24 2025 — 92,977 MXN → USD (BBVA Mexico → BOC; folio 3799399240)\n✅ ④ MXN 283,439.13 → $16,160 Feb 25 2026 (BBVA Mexico → BOC; ref TI26022500015670)\nTotal paid: $38,160 | Balance: $38,160 USD',
       items:[
         {model:'ZX45 220V',desc:'',qty:12,unit:'$1,179',total:'$14,148'},
         {model:'ZX7045 220V',desc:'',qty:4,unit:'$1,660',total:'$6,640'},
@@ -1176,7 +1191,7 @@ const clients = [
         {model:'CQ330x1000 220V',desc:'',qty:5,unit:'$2,414',total:'$12,070'},
       ]
     }],
-    notes:'4 payments confirmed: ① $7,000 Oct 9 2025 (BBVA→CCB) ② $10,000 Oct 27 2025 (CCB) ③ $5,000 Dec 24 2025 (BBVA Mexico→BOC, folio 3799399240) ④ MXN 283,439.13 → $16,160 Feb 25 2026 (BBVA Mexico→BOC, ref TI26022500015670). Total customer paid: $38,160. Balance: $38,160. 33/45 units shipped. 12 remain for next container: ZX45×8, CQ320V×1, CQ6132GV×1, CQ360V×1, CQ330×1.'
+    notes:'PI YF20241024 (Oct 2024): $47,760 paid, $24,000 outstanding. PI 20250811 (Aug 2025): 4 payments confirmed — ① $7,000 Oct 9 2025 ② $10,000 Oct 27 2025 ③ $5,000 Dec 24 2025 ④ $16,160 Feb 25 2026. 33/45 units shipped. 12 remain for next container: ZX45×8, CQ320V×1, CQ6132GV×1, CQ360V×1, CQ330×1.'
   },
   {
     short:'MANROD', flag:'🇧🇷', name:'Manrod Quality Machines',
@@ -1190,11 +1205,11 @@ const clients = [
       no:'M2026210', date:'Feb 2025', total:'$56,221.50 USD',
       payment:'✅ 30% Deposit RCVD: $16,866.45 · MANROD COMERCIAL E IMPORTADORA (BOC confirmed)',
       items:[
-        {model:'MR-201',desc:'Drill/Mill 220V/60Hz/1Ph — NR-12',qty:10,unit:'$987',total:'$9,870'},
-        {model:'MR-206',desc:'Drill/Mill 220V/60Hz/1Ph — NR-12',qty:10,unit:'$1,213',total:'$12,130'},
-        {model:'MR-206',desc:'Drill/Mill 220V/60Hz/3Ph — NR-12',qty:10,unit:'$1,213',total:'$12,130'},
-        {model:'MR-206',desc:'Drill/Mill 380V/60Hz/3Ph — NR-12',qty:5,unit:'$1,213',total:'$6,065'},
-        {model:'MR-245',desc:'Column Mill 220V/60Hz/3Ph — NR-12',qty:10,unit:'$1,403',total:'$14,030'},
+        {model:'MR-201',factory:'ZX30',desc:'Drill/Mill 220V/60Hz/1Ph — NR-12',qty:10,unit:'$987',total:'$9,870'},
+        {model:'MR-206',factory:'ZX45',desc:'Drill/Mill 220V/60Hz/1Ph — NR-12',qty:10,unit:'$1,213',total:'$12,130'},
+        {model:'MR-206',factory:'ZX45',desc:'Drill/Mill 220V/60Hz/3Ph — NR-12',qty:10,unit:'$1,213',total:'$12,130'},
+        {model:'MR-206',factory:'ZX45',desc:'Drill/Mill 380V/60Hz/3Ph — NR-12',qty:5,unit:'$1,213',total:'$6,065'},
+        {model:'MR-245',factory:'ZX40H',desc:'Column Mill 220V/60Hz/3Ph — NR-12',qty:10,unit:'$1,403',total:'$14,030'},
       ]
     }],
     notes:'30% deposit PAID: $16,866.45 (= exactly 30% of $56,221.50) confirmed via BOC receipt (1392.PNG). 70% balance $39,355 due before shipping. Private-label "MR" branding — not Yongfa. All machines must comply with NR-12 (Brazilian safety standard). Voltage: mix of 220V 1Ph, 220V 3Ph, 380V 3Ph at 60Hz.'
@@ -1282,10 +1297,191 @@ const clients = [
   },
 ];
 
+// ── ALL CLIENTS (CLIENT PAGE) ─────────────────────────────────
+// 18 clients total: 11 active + 7 historical/completed
+// Each PI has a status: 'paid' | 'outstanding' | 'production'
+const allClientsForPage = (function(){
+  const piStatus = {
+    'OZCO20260202':'production','YFCORMAK251231':'production',
+    '20260127 — JK Colombia':'production','20260129 — JK Colombia':'production',
+    '20260325 — JK Ecuador':'production','20260131 — JK Peru':'production',
+    '20251030':'outstanding','20260130':'outstanding',
+    '20250910':'outstanding','20260119':'outstanding',
+    'RM20250929 (Shanghai Rising)':'outstanding',
+    'YF20241024':'outstanding','20250811':'outstanding',
+    'M2026210':'production','20260317':'production',
+    '20250514':'outstanding','202603':'production','DM20251125':'paid'
+  };
+  const clientPaid = {
+    OZCO:0,COMARK:26400,JK:62196,MAQUINAS:32183,ANCLA:20758,
+    GRUPO:85920,MANROD:16866,Tupai:618,KOWAY:21840,REMO:10177,DINTASS:29373
+  };
+  // Historical PIs for existing clients
+  const histPIs = {
+    JK:[
+      {no:'20250507',date:'May 2025',total:'$82,230 USD',status:'paid',items:[
+        {model:'ZX40H',qty:16,unit:'$1,150',total:'$18,400'},
+        {model:'ZX7045',qty:20,unit:'$1,950',total:'$39,000'},
+        {model:'YF550T CNC',qty:1,unit:'$24,700',total:'$24,700'},
+        {model:'Accessories',qty:1,unit:'—',total:'$130'}]},
+      {no:'20250810',date:'Aug 2025',total:'$53,200 USD',status:'paid',items:[
+        {model:'UM30 (ZX7550CW)',qty:8,unit:'$3,093',total:'$24,744'},
+        {model:'UM40 (ZX6350C)',qty:2,unit:'$4,649',total:'$9,298'},
+        {model:'360x1000 Vario',qty:6,unit:'$2,493',total:'$14,958'},
+        {model:'Accessories',qty:1,unit:'—',total:'$4,200'}]},
+      {no:'20250827',date:'Aug 2025',total:'$49,000 USD',status:'paid',items:[
+        {model:'UM30 (ZX7550CW)',qty:8,unit:'$3,093',total:'$24,744'},
+        {model:'UM40 (ZX6350C)',qty:2,unit:'$4,649',total:'$9,298'},
+        {model:'JUG 3610V',qty:6,unit:'$2,493',total:'$14,958'}]},
+      {no:'20250925',date:'Sep 2025',total:'$70,180 USD',status:'paid',items:[
+        {model:'JUGG BF20S',qty:12,unit:'$553',total:'$6,636'},
+        {model:'JUGG BF32S',qty:12,unit:'$918',total:'$11,016'},
+        {model:'D40G (ZX40H)',qty:8,unit:'$1,778',total:'$14,224'},
+        {model:'D50G (ZX6350Z)',qty:4,unit:'$2,864',total:'$11,456'},
+        {model:'UM45B (ZX7045)',qty:20,unit:'$1,333',total:'$26,660'}]},
+      {no:'20251107',date:'Nov 2025',total:'$52,375 USD',status:'paid',items:[
+        {model:'UM30 (ZX7550CW)',qty:4,unit:'$3,093',total:'$12,372'},
+        {model:'UM40 (ZX6350C)',qty:2,unit:'$4,649',total:'$9,298'},
+        {model:'JUG3610V',qty:5,unit:'$2,493',total:'$12,465'},
+        {model:'DM40 (ZX40H)',qty:8,unit:'$1,150',total:'$9,200'},
+        {model:'420x1000',qty:2,unit:'$4,520',total:'$9,040'}]},
+      {no:'20251108',date:'Nov 2025',total:'$61,500 USD',status:'paid',items:[
+        {model:'DM40 (ZX40H)',qty:10,unit:'$1,150',total:'$11,500'},
+        {model:'420x1000 DRO CE',qty:4,unit:'$4,520',total:'$18,080'},
+        {model:'560x1500 DRO CE',qty:4,unit:'$7,980',total:'$31,920'}]}
+    ],
+    REMO:[
+      {no:'PI2024111501',date:'Nov 2024',total:'€32,188 EUR',status:'paid',items:[
+        {model:'ZS30H MT3',qty:5,unit:'—',total:'—'},{model:'ZS40H MT3',qty:6,unit:'—',total:'—'},
+        {model:'Z5035',qty:4,unit:'—',total:'—'},{model:'Z5040',qty:4,unit:'—',total:'—'}]},
+      {no:'PI2024111502',date:'Nov 2024',total:'€33,568 EUR',status:'paid',items:[
+        {model:'ZS30H MT3',qty:5,unit:'—',total:'—'},{model:'ZS40H MT3',qty:6,unit:'—',total:'—'},
+        {model:'Z5035',qty:4,unit:'—',total:'—'},{model:'Z5040',qty:4,unit:'—',total:'—'}]},
+      {no:'2025012701',date:'Jan 2025',total:'€14,593 EUR',status:'paid',items:[
+        {model:'Z3040',qty:1,unit:'—',total:'—'},{model:'Z3050',qty:1,unit:'—',total:'—'}]},
+      {no:'2025012702',date:'Jan 2025',total:'€14,593 EUR',status:'paid',items:[
+        {model:'Z3040',qty:1,unit:'—',total:'—'},{model:'Z3050',qty:1,unit:'—',total:'—'}]},
+      {no:'2025073001',date:'Jul 2025',total:'€23,306 EUR',status:'paid',items:[
+        {model:'ZX40',qty:6,unit:'—',total:'—'},{model:'ZS40H',qty:6,unit:'—',total:'—'},{model:'Z5035',qty:4,unit:'—',total:'—'}]},
+      {no:'2025073002',date:'Jul 2025',total:'€23,306 EUR',status:'paid',items:[
+        {model:'ZX40',qty:6,unit:'—',total:'—'},{model:'ZS40H',qty:6,unit:'—',total:'—'},{model:'Z5035',qty:4,unit:'—',total:'—'}]},
+      {no:'20250828',date:'Aug 2025',total:'€4,550 EUR',status:'paid',items:[
+        {model:'DS16 Tapping',qty:2,unit:'—',total:'—'},{model:'DS24 Tapping',qty:2,unit:'—',total:'—'},{model:'DS36 Tapping',qty:2,unit:'—',total:'—'}]}
+    ],
+    ANCLA:[
+      {no:'PI20240912',date:'Sep 2024',total:'$73,273 USD',status:'paid',items:[
+        {model:'ZX6350Z',qty:3,unit:'$5,080',total:'$15,240'},
+        {model:'YF46XP',qty:1,unit:'$17,210',total:'$17,210'},
+        {model:'YF550T',qty:1,unit:'$26,620',total:'$26,620'},
+        {model:'CQC330B',qty:3,unit:'$2,429',total:'$7,287'},
+        {model:'ZX40',qty:2,unit:'$1,089',total:'$2,178'},
+        {model:'ZX7550C',qty:2,unit:'$2,369',total:'$4,738'}]}
+    ],
+    GRUPO:[
+      {no:'YF20240509',date:'May 2024',total:'$4,400 USD',status:'paid',items:[
+        {model:'ZX45',qty:4,unit:'$1,100',total:'$4,400'}]}
+    ]
+  };
+  const histPaidUSD = {JK:368485,REMO:160714,ANCLA:73273,GRUPO:4400};
+  const histUnits   = {JK:166,REMO:80,ANCLA:12,GRUPO:4};
+
+  const result = clients.map(c=>{
+    const hPaid = histPaidUSD[c.short]||0;
+    const cPaid = clientPaid[c.short]||0;
+    return {
+      ...c,
+      amount: c.amount,
+      amountUSD: c.amountUSD + hPaid,
+      collectedUSD: cPaid + hPaid,
+      outstandingUSD: c.amountUSD - cPaid,
+      units: c.machines + (histUnits[c.short]||0),
+      pis:[
+        ...(histPIs[c.short]||[]),
+        ...c.pis.map(p=>({...p,status:piStatus[p.no]||'outstanding'}))
+      ]
+    };
+  });
+
+  // 7 additional completed/historical clients
+  result.push(
+    {short:'Cappato',flag:'🇧🇷',name:'WINNING TRADING S.A.',country:'Brazil',
+     amount:'$28,343 USD',amountUSD:28343,collectedUSD:28343,outstandingUSD:0,units:6,
+     pis:[
+       {no:'YFWCM20240528',date:'May 2024',total:'$21,026 USD',status:'paid',items:[
+         {model:'HY40VS (ZX6350Z)',qty:2,unit:'—',total:'$10,766'},
+         {model:'HY7045 (ZX7045)',qty:2,unit:'—',total:'$3,914'},
+         {model:'H5040 (Z5040)',qty:2,unit:'—',total:'$6,346'}]},
+       {no:'YF20241211',date:'Dec 2024',total:'$7,317 USD',status:'paid',items:[
+         {model:'ZX30',qty:1,unit:'—',total:'—'},{model:'ZX40H',qty:1,unit:'—',total:'—'},
+         {model:'ZX7550CW',qty:1,unit:'—',total:'—'},{model:'CQC330B',qty:1,unit:'—',total:'—'}]}
+     ]},
+    {short:'MBS',flag:'🇹🇷',name:'MBS BALANS',country:'Turkey',
+     amount:'$5,000 USD',amountUSD:5000,collectedUSD:5000,outstandingUSD:0,units:5,
+     pis:[
+       {no:'MBS20251202',date:'Dec 2025',total:'$5,000 USD',status:'paid',items:[
+         {model:'ZX45',qty:5,unit:'$1,000',total:'$5,000'}]}
+     ]},
+    {short:'NAREX',flag:'🇸🇦',name:'NAREX IND (Protech / Narvik)',country:'Saudi Arabia / UAE',
+     amount:'$151,600 USD',amountUSD:151600,collectedUSD:151600,outstandingUSD:0,units:53,
+     pis:[
+       {no:'20250605',date:'Jun 2025',total:'$67,670 USD',status:'paid',items:[
+         {model:'ZX45 (Narvik)',qty:14,unit:'—',total:'—'},{model:'ZX6350C',qty:6,unit:'—',total:'—'},
+         {model:'ZX7550C',qty:6,unit:'—',total:'—'},{model:'Z5040A',qty:3,unit:'—',total:'—'},
+         {model:'Z5050A',qty:3,unit:'—',total:'—'},{model:'CQ360Vx1000',qty:3,unit:'—',total:'—'}]},
+       {no:'NA20251122',date:'Nov 2025',total:'$62,870 USD',status:'paid',items:[
+         {model:'ZX45',qty:4,unit:'—',total:'—'},{model:'ZS40H',qty:2,unit:'—',total:'—'},
+         {model:'ZX40H',qty:2,unit:'—',total:'—'},{model:'RD50',qty:2,unit:'—',total:'—'},
+         {model:'ZX6350C',qty:4,unit:'—',total:'—'},{model:'ZX7550C',qty:4,unit:'—',total:'—'},
+         {model:'Z5040A',qty:2,unit:'—',total:'—'},{model:'Z5050A',qty:2,unit:'—',total:'—'},
+         {model:'CQ360Vx1000',qty:4,unit:'—',total:'—'}]},
+       {no:'NA20251124',date:'Nov 2025',total:'$21,060 USD',status:'paid',items:[
+         {model:'CQ360Vx1000',qty:9,unit:'$2,340',total:'$21,060'}]}
+     ]},
+    {short:'TAS',flag:'🇺🇸',name:'TAS IRON LTD',country:'USA',
+     amount:'$62,186 USD',amountUSD:62186,collectedUSD:62186,outstandingUSD:0,units:18,
+     pis:[
+       {no:'20250202',date:'Feb 2025',total:'$48,286 USD',status:'paid',items:[
+         {model:'TAS M40 DRILL (ZX40H)',qty:10,unit:'—',total:'—'},
+         {model:'TAS 50X10 (ZX6350Z)',qty:4,unit:'—',total:'—'},
+         {model:'TAS 13X40 (CQ360Vx1000)',qty:3,unit:'—',total:'—'}]},
+       {no:'20250203',date:'Feb 2025',total:'$13,900 USD',status:'paid',items:[
+         {model:'DW50CNC Tube Bender',qty:1,unit:'$13,900',total:'$13,900'}]}
+     ]},
+    {short:'Retail',flag:'🌍',name:'Retail / Small Orders',country:'South Africa · UAE',
+     amount:'~$12,082',amountUSD:12082,collectedUSD:12082,outstandingUSD:0,units:3,
+     pis:[
+       {no:'20251022',date:'Oct 2025',total:'$6,160 USD',status:'paid',items:[
+         {model:'Drilling Machine',qty:2,unit:'$3,080',total:'$6,160'}]},
+       {no:'2025917',date:'Sep 2025',total:'€5,922 EUR (~$6,514)',status:'paid',items:[
+         {model:'ZX6350Z',qty:1,unit:'€5,922',total:'€5,922'}]}
+     ]},
+    {short:'Sadykov',flag:'🇷🇺',name:'Sadykov',country:'Russia',
+     amount:'CNY 271,902 (~$37K)',amountUSD:37350,collectedUSD:37350,outstandingUSD:0,units:20,
+     pis:[
+       {no:'20250707',date:'Jul 2025',total:'CNY 218,770',status:'paid',items:[
+         {model:'ZX45V',qty:1,unit:'CNY 18,125',total:'CNY 18,125'},
+         {model:'ZX45V',qty:15,unit:'CNY 13,283',total:'CNY 199,245'}]},
+       {no:'20250908',date:'Sep 2025',total:'CNY 53,132',status:'paid',items:[
+         {model:'ZX45V',qty:4,unit:'CNY 13,283',total:'CNY 53,132'}]}
+     ]},
+    {short:'Viber',flag:'🇵🇱',name:'MACHINERY GROUP SP. Z O.O.',country:'Poland',
+     amount:'$79,000 USD',amountUSD:79000,collectedUSD:79000,outstandingUSD:0,units:46,
+     pis:[
+       {no:'K20251216',date:'Dec 2025',total:'$79,000 USD',status:'paid',items:[
+         {model:'CQ290x750 Vario',qty:5,unit:'—',total:'—'},
+         {model:'CQ290x750 Vario + milling head',qty:2,unit:'—',total:'—'},
+         {model:'CQ320x1000 Vario',qty:32,unit:'—',total:'—'},
+         {model:'CQ320x1000 Vario + milling head',qty:1,unit:'—',total:'—'},
+         {model:'CQ360x1000 Vario',qty:6,unit:'—',total:'—'}]}
+     ]}
+  );
+  return result;
+})();
+
 // ── ONGOING PAGE ─────────────────────────────────────────────
 (function(){
   // Which clients are "In Production" vs "Delivered — Collect Payment"
-  const inProd = ['OZCO','COMARK','JK','REMO','Tupai'];
+  const inProd = ['OZCO','COMARK','JK','REMO','Tupai','MANROD'];
   // Exclude fully paid clients
   const exclude = ['DINTASS'];
 
@@ -1304,8 +1500,11 @@ const clients = [
           <th>Total</th>
         </tr>`;
     items.forEach(it=>{
+      const modelCell = it.factory
+        ? `<strong>${it.model}</strong><br><span style="color:#aaa;font-size:10px;font-weight:400;">↳ ${it.factory}</span>`
+        : `<strong>${it.model}</strong>`;
       h+=`<tr>
-        <td><strong>${it.model}</strong></td>
+        <td>${modelCell}</td>
         ${hasDesc?`<td style="color:#888;font-size:11px;">${it.desc||''}</td>`:''}
         <td style="text-align:center;font-weight:600;">${it.qty}</td>
         <td>${it.unit}</td>
@@ -1423,24 +1622,29 @@ const clients = [
 
 // ── RENDER CLIENT GRID ──────────────────────────────────────
 const grid = document.getElementById('clientGrid');
-clients.forEach((c,i)=>{
+const fmtUSD = v => v>=1000000?'$'+(v/1000000).toFixed(2)+'M':'$'+(v/1000).toFixed(0)+'K';
+allClientsForPage.forEach((c,i)=>{
   const div = document.createElement('div');
   div.className='card client-card';
-  div.onclick=()=>openModal(i);
-  const cLabel=c.contracts===1?'1 contract':`${c.contracts} contracts`;
-  const mLabel=c.machines===1?'1 unit':`${c.machines} units`;
+  div.onclick=()=>openClientModal(i);
+  const mLabel=c.units===1?'1 unit':`${c.units} units`;
+  const isPaid = c.outstandingUSD<=0;
+  const statusTag = isPaid
+    ? `<span class="tag green">✅ Fully Paid</span>`
+    : (c.collectedUSD===0
+        ? `<span class="tag blue">🏭 In Production</span>`
+        : `<span class="tag orange">⏳ Balance Due</span>`);
   div.innerHTML=`
     <div class="client-flag">${c.flag}</div>
     <div class="client-short">${c.short}</div>
     <div class="client-name">${c.name}</div>
     <div class="client-amount">${c.amount}</div>
-    <div class="client-pi">${c.country} &nbsp;·&nbsp; ${cLabel} &nbsp;·&nbsp; ${mLabel}</div>
-    <div class="client-meta">${c.status}</div>
-    <div class="tags">${c.tags.map(t=>`<span class="tag ${t.c}">${t.t}</span>`).join('')}</div>
+    <div class="client-pi">${c.country} &nbsp;·&nbsp; ${mLabel} &nbsp;·&nbsp; ${c.pis.length} PI${c.pis.length!==1?'s':''}</div>
+    <div class="tags">${statusTag}</div>
     <div class="client-paidrow">
-      <span class="cpaid">💰 Paid: ${c.paid}</span>
+      <span class="cpaid">💰 Collected: ${fmtUSD(c.collectedUSD)}</span>
       <span style="color:#ddd;margin:0 4px;">·</span>
-      <span class="cbal">⏳ Due: ${c.balance}</span>
+      <span class="${c.outstandingUSD>0?'cbal':'cpaid'}">⏳ Due: ${c.outstandingUSD>0?fmtUSD(c.outstandingUSD):'$0'}</span>
     </div>
   `;
   grid.appendChild(div);
@@ -1512,13 +1716,74 @@ function closeModal(e){
     document.getElementById('modalOverlay').classList.remove('open');
 }
 
+// ── CLIENT PAGE MODAL ────────────────────────────────────────
+function openClientModal(i){
+  const c = allClientsForPage[i];
+  const piCount = c.pis.length;
+  document.getElementById('mShort').textContent = c.short+' · '+piCount+' PI'+(piCount!==1?'s':'')+' · '+c.units+' unit'+(c.units!==1?'s':'');
+  document.getElementById('mName').textContent  = c.name;
+  document.getElementById('mFlag').textContent  = c.flag;
+  let html = '';
+  // Location
+  html+=`<div class="modal-section"><h3>Location</h3><div class="meta-grid">
+    <div class="meta-item"><div class="mi-label">Country</div><div class="mi-value">${c.country}</div></div>
+    ${c.contact?`<div class="meta-item"><div class="mi-label">Contact</div><div class="mi-value">${c.contact}</div></div>`:''}
+  </div></div>`;
+  // Payment summary
+  const collDisp = c.collectedUSD>=1000000?'$'+(c.collectedUSD/1000000).toFixed(2)+'M':'$'+c.collectedUSD.toLocaleString('en-US');
+  const outDisp  = c.outstandingUSD>0?'$'+c.outstandingUSD.toLocaleString('en-US'):'$0';
+  const totDisp  = c.amountUSD>=1000000?'$'+(c.amountUSD/1000000).toFixed(2)+'M':'$'+c.amountUSD.toLocaleString('en-US');
+  html+=`<div class="modal-section"><h3>Payment Summary</h3>
+    <div class="pay-summary">
+      <div class="pay-summary-item"><div class="psi-label">Total Value</div><div class="psi-value">${c.amount||totDisp}</div></div>
+      <div class="pay-summary-item paid"><div class="psi-label">✅ Collected</div><div class="psi-value">${collDisp}</div></div>
+      <div class="pay-summary-item bal"><div class="psi-label">${c.outstandingUSD>0?'⏳ Outstanding':'✅ Fully Paid'}</div><div class="psi-value">${outDisp}</div></div>
+    </div></div>`;
+  // All PIs with status badges
+  const statusBadge = s => s==='paid'
+    ? `<span style="background:#27ae60;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;">✅ Paid</span>`
+    : s==='production'
+    ? `<span style="background:#1e8449;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;">🏭 In Production</span>`
+    : `<span style="background:#e67e22;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;">⏳ Outstanding</span>`;
+  if(piCount){
+    html+=`<div class="modal-section"><h3>Proforma Invoice${piCount>1?'s':''}</h3>`;
+    c.pis.forEach(p=>{
+      html+=`<div class="pi-block"><div class="pi-header">
+        <div><div class="pi-no">PI ${p.no}</div><div class="pi-date">${p.date}</div></div>
+        <div style="display:flex;align-items:center;gap:8px;"><div class="pi-total">${p.total}</div>${statusBadge(p.status||'outstanding')}</div>
+      </div>`;
+      if(p.payment){
+        const lines=p.payment.split('\n');
+        html+=`<div style="background:#f0f8ff;border-top:1px solid #e8f3fc;padding:10px 16px;font-size:12px;color:#2c5f8a;line-height:1.7;">`;
+        lines.forEach(l=>{html+=`<div>${l}</div>`;});
+        html+=`</div>`;
+      }
+      if(p.items&&p.items.length){
+        const hasDesc=p.items.some(it=>it.desc&&it.desc!=='');
+        const hasFactory=p.items.some(it=>it.factory);
+        html+=`<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table style="min-width:340px;"><tr><th>Model</th>${hasDesc?'<th>Config</th>':''}<th style="text-align:center">Qty</th><th style="text-align:right">Unit</th><th style="text-align:right">Total</th></tr>`;
+        p.items.forEach(it=>{
+          const mCell=it.factory?`<strong>${it.model}</strong><br><span style="color:#aaa;font-size:10px;">↳ ${it.factory}</span>`:`<strong>${it.model}</strong>`;
+          html+=`<tr><td>${mCell}</td>${hasDesc?`<td style="color:#888">${it.desc||''}</td>`:''}<td style="text-align:center">${it.qty}</td><td style="text-align:right">${it.unit||'—'}</td><td style="text-align:right;font-weight:600;">${it.total||'—'}</td></tr>`;
+        });
+        html+=`</table></div>`;
+      }
+      html+=`</div>`;
+    });
+    html+=`</div>`;
+  }
+  if(c.notes) html+=`<div class="modal-section"><h3>Notes</h3><div class="note-box">${c.notes}</div></div>`;
+  document.getElementById('mBody').innerHTML=html;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
 // ── CHARTS ───────────────────────────────────────────────────
 const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 
 // ── KPI computation ─────────────────────────────────────────
 const paidByClient = {
   OZCO:0, COMARK:26400, JK:62196, MAQUINAS:32183, ANCLA:20758,
-  GRUPO:38160, MANROD:16866, Tupai:618, KOWAY:21840, REMO:10177, DINTASS:29373
+  GRUPO:85920, MANROD:16866, Tupai:618, KOWAY:21840, REMO:10177, DINTASS:29373
 };
 const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
 const totalPaid = Object.values(paidByClient).reduce((s,v)=>s+v,0);
