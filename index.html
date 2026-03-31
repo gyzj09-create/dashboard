@@ -1916,7 +1916,7 @@ function buildRankedTable(){
     <th>Client</th>
     <th>Country</th>
     <th style="text-align:right;">Total Value</th>
-    ${years.map(y=>`<th class="yr-col">${y}</th>`).join('')}
+    <th class="yr-col">Models &amp; Units (by year)</th>
   </tr>`;
   tbl.appendChild(thead);
 
@@ -1926,28 +1926,43 @@ function buildRankedTable(){
     const tr = document.createElement('tr');
     if(idx % 2 === 1) tr.className = 'alt';
 
-    // Total display
     const totDisp = c.amountUSD >= 1000000
       ? '$'+(c.amountUSD/1000000).toFixed(2)+'M'
       : '$'+(c.amountUSD/1000).toFixed(1)+'K';
 
-    // Status badge color
     const isPaid = c.outstandingUSD <= 0;
     const statusColor = isPaid ? '#1e8449' : '#e67e22';
     const statusTxt   = isPaid ? '✅ Fully Paid' : `⏳ $${Math.round(c.outstandingUSD/1000)}K due`;
 
-    // Year cells
-    const yrCells = years.map(yr => {
-      const models = ymap[yr];
-      if(!models || !Object.keys(models).length)
-        return `<td class="rt-yr"><span class="rt-yr-empty">—</span></td>`;
-      const lines = Object.entries(models)
-        .sort((a,b) => b[1]-a[1])
-        .map(([mdl,qty]) =>
-          `<div class="rt-model-line"><span class="rt-model-name">${mdl}</span> <span class="rt-model-qty">×${qty}</span></div>`)
-        .join('');
-      return `<td class="rt-yr">${lines}</td>`;
-    }).join('');
+    // Merge all years → factory model → {total, perYear}
+    const modelTotals = {}; // model → {total, perYear:{yr:qty}}
+    years.forEach(yr => {
+      const models = ymap[yr] || {};
+      Object.entries(models).forEach(([mdl, qty]) => {
+        if(!modelTotals[mdl]) modelTotals[mdl] = {total:0, perYear:{}};
+        modelTotals[mdl].total += qty;
+        modelTotals[mdl].perYear[yr] = (modelTotals[mdl].perYear[yr]||0) + qty;
+      });
+    });
+
+    // Render merged model list sorted by total qty desc
+    const modelLines = Object.entries(modelTotals)
+      .sort((a,b) => b[1].total - a[1].total)
+      .map(([mdl, data]) => {
+        const yrBreakdown = Object.entries(data.perYear)
+          .sort(([a],[b]) => a.localeCompare(b))
+          .map(([yr,q]) => `<span style="color:#aaa;font-size:10px;">${yr}:×${q}</span>`)
+          .join(' ');
+        return `<div class="rt-model-line">
+          <span class="rt-model-name">${mdl}</span>
+          <span class="rt-model-qty">×${data.total}</span>
+          <span style="margin-left:6px;">${yrBreakdown}</span>
+        </div>`;
+      }).join('');
+
+    const modelsCell = modelLines
+      ? `<td class="rt-yr">${modelLines}</td>`
+      : `<td class="rt-yr"><span class="rt-yr-empty">—</span></td>`;
 
     tr.innerHTML = `
       <td class="rt-rank">${idx+1}</td>
@@ -1962,7 +1977,7 @@ function buildRankedTable(){
         <div class="rt-total-units">${c.units} units</div>
         <div style="font-size:10px;color:${statusColor};margin-top:2px;">${statusTxt}</div>
       </td>
-      ${yrCells}`;
+      ${modelsCell}`;
     tbody.appendChild(tr);
   });
   tbl.appendChild(tbody);
