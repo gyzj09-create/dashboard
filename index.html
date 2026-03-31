@@ -240,6 +240,35 @@ table tr:last-child td{border-bottom:none;}
 /* CLIENT CARD — summary row */
 .client-meta{font-size:11px;color:#aaa;margin-top:6px;}
 .client-paidrow{margin-top:5px;font-size:11px;display:flex;flex-wrap:wrap;gap:4px;}
+/* CLIENT VIEW TOGGLE */
+.client-view-toggle{display:flex;gap:8px;margin-bottom:18px;}
+.view-btn{padding:7px 16px;border-radius:8px;border:1.5px solid #dde3ec;background:white;font-size:12px;font-weight:600;color:#888;cursor:pointer;transition:all 0.15s;}
+.view-btn.active{background:#1a3a5c;color:white;border-color:#1a3a5c;}
+/* RANKED TABLE */
+.ranked-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.ranked-table{width:100%;border-collapse:collapse;font-size:12px;background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+.ranked-table thead tr{background:#1a3a5c;}
+.ranked-table thead th{padding:11px 14px;text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:white;white-space:nowrap;}
+.ranked-table thead th.yr-col{text-align:left;min-width:160px;}
+.ranked-table tbody tr{border-bottom:1px solid #f0f0f0;transition:background 0.1s;}
+.ranked-table tbody tr:last-child{border-bottom:none;}
+.ranked-table tbody tr:hover{background:#f5f8ff;}
+.ranked-table tbody tr.alt{background:#f8fafc;}
+.ranked-table tbody tr.alt:hover{background:#eef3fb;}
+.rt-rank{font-size:13px;font-weight:700;color:#aaa;text-align:center;padding:12px 10px;width:36px;}
+.rt-client{padding:12px 14px;white-space:nowrap;}
+.rt-flag{font-size:16px;margin-right:6px;}
+.rt-name{font-weight:700;font-size:13px;color:#1a1a2e;}
+.rt-sub{font-size:10px;color:#aaa;margin-top:2px;}
+.rt-country{padding:12px 10px;font-size:11px;color:#777;white-space:nowrap;}
+.rt-total{padding:12px 14px;text-align:right;white-space:nowrap;}
+.rt-total-val{font-size:14px;font-weight:700;color:#1a3a5c;}
+.rt-total-units{font-size:10px;color:#aaa;margin-top:2px;}
+.rt-yr{padding:10px 14px;vertical-align:top;min-width:160px;}
+.rt-yr-empty{color:#ddd;font-size:11px;font-style:italic;}
+.rt-model-line{font-size:11px;color:#444;line-height:1.7;}
+.rt-model-name{color:#1a1a2e;font-weight:600;}
+.rt-model-qty{color:#2e6da4;font-weight:700;}
 .cpaid{color:#27ae60;font-weight:600;}
 .cbal{color:#e67e22;font-weight:600;}
 
@@ -476,7 +505,18 @@ table tr:last-child td{border-bottom:none;}
      CLIENTS PAGE
 ══════════════════════════════════════════ -->
 <div id="page-clients" class="page">
-  <div class="grid-4" id="clientGrid"></div>
+  <div class="client-view-toggle">
+    <button class="view-btn active" id="btnCardView" onclick="setClientView('cards')">🗂 Cards</button>
+    <button class="view-btn" id="btnRankView" onclick="setClientView('rank')">📊 Ranked by Value</button>
+  </div>
+  <div id="clientCards">
+    <div class="grid-4" id="clientGrid"></div>
+  </div>
+  <div id="clientRanked" style="display:none;">
+    <div class="ranked-wrap">
+      <table class="ranked-table" id="rankedTable"></table>
+    </div>
+  </div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -1345,7 +1385,7 @@ const clients = [
 // Each PI has a status: 'paid' | 'outstanding' | 'production'
 const allClientsForPage = (function(){
   const piStatus = {
-    'OZCO20260202':'production','YFCORMAK251231':'production',
+    'OZCO20260202':'production','OZCO20260326':'production','YFCORMAK251231':'production',
     '20260127 — JK Colombia':'production','20260129 — JK Colombia':'production',
     '20260325 — JK Ecuador':'production','20260131 — JK Peru':'production',
     '20251030':'outstanding','20260130':'outstanding',
@@ -1775,6 +1815,109 @@ function openModal(i){
 function closeModal(e){
   if(e.target===document.getElementById('modalOverlay'))
     document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ── CLIENT VIEW TOGGLE ───────────────────────────────────────
+function setClientView(mode){
+  const isRank = mode === 'rank';
+  document.getElementById('clientCards').style.display  = isRank ? 'none' : '';
+  document.getElementById('clientRanked').style.display = isRank ? '' : 'none';
+  document.getElementById('btnCardView').classList.toggle('active', !isRank);
+  document.getElementById('btnRankView').classList.toggle('active',  isRank);
+  if(isRank) buildRankedTable();
+}
+
+// ── RANKED TABLE ─────────────────────────────────────────────
+function buildRankedTable(){
+  const tbl = document.getElementById('rankedTable');
+  if(tbl.dataset.built) return; // build once
+  tbl.dataset.built = '1';
+
+  // Sort all 18 clients by total USD value descending
+  const sorted = [...allClientsForPage].sort((a,b) => b.amountUSD - a.amountUSD);
+
+  // Gather all years present in data
+  const allYears = new Set();
+  sorted.forEach(c => c.pis.forEach(p => {
+    const m = p.date.match(/\b(20\d\d)\b/);
+    if(m) allYears.add(m[1]);
+  }));
+  const years = [...allYears].sort();
+
+  // Build year→model→qty map per client
+  function buildYearMap(c){
+    const ymap = {};
+    c.pis.forEach(p => {
+      const m = p.date.match(/\b(20\d\d)\b/);
+      if(!m) return;
+      const yr = m[1];
+      if(!ymap[yr]) ymap[yr] = {};
+      p.items.forEach(it => {
+        if((it.desc||'').toLowerCase()==='accessory' || it.model.toLowerCase().includes('accessory')) return;
+        const key = it.model; // show client-facing model name
+        ymap[yr][key] = (ymap[yr][key]||0) + (it.qty||0);
+      });
+    });
+    return ymap;
+  }
+
+  // Header
+  const thead = document.createElement('thead');
+  thead.innerHTML = `<tr>
+    <th style="text-align:center;">#</th>
+    <th>Client</th>
+    <th>Country</th>
+    <th style="text-align:right;">Total Value</th>
+    ${years.map(y=>`<th class="yr-col">${y}</th>`).join('')}
+  </tr>`;
+  tbl.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  sorted.forEach((c, idx) => {
+    const ymap = buildYearMap(c);
+    const tr = document.createElement('tr');
+    if(idx % 2 === 1) tr.className = 'alt';
+
+    // Total display
+    const totDisp = c.amountUSD >= 1000000
+      ? '$'+(c.amountUSD/1000000).toFixed(2)+'M'
+      : '$'+(c.amountUSD/1000).toFixed(1)+'K';
+
+    // Status badge color
+    const isPaid = c.outstandingUSD <= 0;
+    const statusColor = isPaid ? '#1e8449' : '#e67e22';
+    const statusTxt   = isPaid ? '✅ Fully Paid' : `⏳ $${Math.round(c.outstandingUSD/1000)}K due`;
+
+    // Year cells
+    const yrCells = years.map(yr => {
+      const models = ymap[yr];
+      if(!models || !Object.keys(models).length)
+        return `<td class="rt-yr"><span class="rt-yr-empty">—</span></td>`;
+      const lines = Object.entries(models)
+        .sort((a,b) => b[1]-a[1])
+        .map(([mdl,qty]) =>
+          `<div class="rt-model-line"><span class="rt-model-name">${mdl}</span> <span class="rt-model-qty">×${qty}</span></div>`)
+        .join('');
+      return `<td class="rt-yr">${lines}</td>`;
+    }).join('');
+
+    tr.innerHTML = `
+      <td class="rt-rank">${idx+1}</td>
+      <td class="rt-client">
+        <span class="rt-flag">${c.flag}</span>
+        <span class="rt-name">${c.short}</span>
+        <div class="rt-sub">${c.name}</div>
+      </td>
+      <td class="rt-country">${c.country}</td>
+      <td class="rt-total">
+        <div class="rt-total-val">${totDisp}</div>
+        <div class="rt-total-units">${c.units} units</div>
+        <div style="font-size:10px;color:${statusColor};margin-top:2px;">${statusTxt}</div>
+      </td>
+      ${yrCells}`;
+    tbody.appendChild(tr);
+  });
+  tbl.appendChild(tbody);
 }
 
 // ── CLIENT PAGE MODAL ────────────────────────────────────────
