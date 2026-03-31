@@ -1139,7 +1139,7 @@ const clients = [
     short:'ANCLA', flag:'🇲🇽', name:'GRUPO IDEA SERVICIOS S.A. DE C.V.',
     country:'Mexico', contact:'—', address:'Poniente 27 No. 4106 interior 2, Col. del Gas, Azcapotzalco CDMX, C.P. 02930',
     amount:'$103,374 USD', amountUSD:103374,
-    paid:'$0 (2026)', balance:'~$82,616 USD',
+    paid:'$20,758 (deposits Oct 2025)', balance:'~$82,616 USD',
     contracts:3, machines:21, status:'Deposit Paid',
     tags:[{t:'Deposit Paid ✓',c:'green'},{t:'3 PIs',c:'blue'},{t:'CNC + Conv.',c:'gray'}],
     payment:'20% down payment. 6 months for conventional, 8 months for CNC machinery.',
@@ -1403,7 +1403,7 @@ const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 
 // ── KPI computation ─────────────────────────────────────────
 const paidByClient = {
-  OZCO:0, COMARK:26400, JK:62196, MAQUINAS:32183, ANCLA:0,
+  OZCO:0, COMARK:26400, JK:62196, MAQUINAS:32183, ANCLA:20758,
   GRUPO:38160, MANROD:16866, Tupai:618, KOWAY:21840, REMO:10177, DINTASS:29373
 };
 const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
