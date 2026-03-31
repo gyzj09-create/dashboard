@@ -556,7 +556,7 @@ table tr:last-child td{border-bottom:none;}
     <div class="card event-card"><div class="event-dot green"></div><div class="event-date"><div class="event-day">18</div><div class="event-mon">Apr</div></div><div class="event-body"><div class="event-title">Juan arrives — China visit</div><div class="event-sub">JK Group / Metal Master · Apr 18–28 · Shanghai Machine Tool Exhibition Apr 21–26</div></div></div>
     <div class="card event-card"><div class="event-dot blue"></div><div class="event-date"><div class="event-day">21</div><div class="event-mon">Apr</div></div><div class="event-body"><div class="event-title">上海机床展 — Shanghai Machine Tool Exhibition</div><div class="event-sub">Apr 21–26 · Overlaps with Juan's China visit</div></div></div>
     <div class="card event-card"><div class="event-dot red"></div><div class="event-date"><div class="event-day">1</div><div class="event-mon">May</div></div><div class="event-body"><div class="event-title">Flight: Shanghai → Madrid → São Paulo</div><div class="event-sub">Start of Brazil trip · ⚠️ Confirm OZCO production before departure</div></div></div>
-    <div class="card event-card"><div class="event-dot red"></div><div class="event-date"><div class="event-day">15</div><div class="event-mon">May</div></div><div class="event-body"><div class="event-title">OZCO Delivery Deadline</div><div class="event-sub">102 units must ship · $173,725 · L/C 180d · Izmit port, Turkey</div></div></div>
+    <div class="card event-card"><div class="event-dot red"></div><div class="event-date"><div class="event-day">1</div><div class="event-mon">May</div></div><div class="event-body"><div class="event-title">OZCO Delivery Deadline</div><div class="event-sub">127 units must ship · $209,050 (2 PIs) · L/C 180d · Izmit port, Turkey</div></div></div>
   </div>
 
   <!-- Exhibitions -->
@@ -999,10 +999,10 @@ const clients = [
     short:'OZCO', flag:'🇹🇷', name:'Topçular Endüstriyel Üretim ve Yatırım A.Ş',
     country:'Turkey', contact:'—', address:'Abdurrahmangazi Mh., İmamoğlu Sk. C Blok No: 6, Samandıra / Sancaktepe, 34887 İstanbul',
     port:'Izmit port, Turkey',
-    amount:'$173,725 USD', amountUSD:173725,
-    paid:'$0 (L/C — paid after ship)', balance:'$173,725 USD',
-    contracts:1, machines:102, status:'⚠ Ship by May 15',
-    tags:[{t:'⚠ Deadline May 15',c:'red'},{t:'L/C Confirmed ✓',c:'green'},{t:'102 units',c:'blue'}],
+    amount:'$209,050 USD', amountUSD:209050,
+    paid:'$0 (L/C — paid after ship)', balance:'$209,050 USD',
+    contracts:2, machines:127, status:'⚠ Ship by May 1',
+    tags:[{t:'⚠ Deadline May 1',c:'red'},{t:'L/C Confirmed ✓',c:'green'},{t:'127 units',c:'blue'}],
     payment:'L/C at 180 days — Letter of Credit (bank-to-bank). Payment received 180 days after shipment.',
     pis:[{
       no:'OZCO20260202', date:'Feb 2026', total:'$173,725 USD',
@@ -1016,8 +1016,15 @@ const clients = [
         {model:'CR3610V',factory:'CQ360V×1000 Vario',desc:'Lathe — variable freq, 200mm chuck, 1000mm center',qty:18,unit:'$2,550',total:'$45,900'},
         {model:'MC50E',factory:'Z5050',desc:'Drilling machine (3KW, MT4, 580×580 table)',qty:10,unit:'$2,990',total:'$29,900'},
       ]
+    },{
+      no:'OZCO20260326', date:'Mar 2026', total:'$35,325 USD',
+      depositDate:null, plannedShip:'by May 1, 2026', actualShip:null,
+      nextPayment:'$35,325 USD · 180 days after B/L (L/C — no advance required)',
+      items:[
+        {model:'FS28',factory:'ZX45',desc:'Drilling & Milling Machine 220V/50Hz/1Ph · With stand, 120mm vice, clamping set, collet sets, face mill cutter, chucks, mors tapers',qty:25,unit:'$1,413',total:'$35,325'},
+      ]
     }],
-    notes:'⚠ DEADLINE May 15 2026 — must ship before this date. L/C CONFIRMED Mar 16 2026 (QNB Bank Istanbul, LC# 00875MC016612, USD 173,725, expires Jun 15 2026). Payment: 180 days after shipment — no advance needed. OZCO private-label branding (MC/CR series). 102 units is a very large shipment.'
+    notes:'2 active PIs. PI OZCO20260202: ⚠ deadline May 15 2026 — 102 units, L/C CONFIRMED Mar 16 2026 (QNB Bank Istanbul, LC# 00875MC016612, USD 173,725, expires Jun 15 2026). PI OZCO20260326: 25× FS28 (ZX45), deliver before May 1 2026, $35,325. Payment: 180 days after shipment — no advance needed. OZCO private-label branding (MC/CR/FS series).'
   },
   {
     short:'COMARK', flag:'🇵🇱', name:'CORMAK Jerzy Zalewski',
@@ -1860,8 +1867,8 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
   //   Active 2025 PIs: KOWAY($33,600) + COMARK($88,000) + MAQUINAS-PI1($97,318)
   //                  + ANCLA-PI1+RM($93,174) + GRUPO-PI($76,320) = $388,412
   const v25=1198270, c25=946211, o25=252059, d25=25;
-  // 2026: 10 deals — only 2026-dated PIs (OZCO, JK×4, MAQUINAS-PI2, ANCLA-PI2, MANROD, Tupai, REMO)
-  const v26=536764, c26=92854, o26=443910, d26=10;
+  // 2026: 11 deals — only 2026-dated PIs (OZCO×2, JK×4, MAQUINAS-PI2, ANCLA-PI2, MANROD, Tupai, REMO)
+  const v26=572089, c26=92854, o26=479235, d26=11;
 
   const vAll=v24+v25+v26, cAll=c24+c25+c26, oAll=o24+o25+o26, dAll=d24+d25+d26;
 
@@ -1891,7 +1898,7 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
   // 2026 col = 2026-dated PIs only: OZCO/JK(×4)/MAQUINAS-PI2/ANCLA-PI2/MANROD/Tupai/REMO
   const models = [
     // Drill/Mill combo
-    ['ZX45 / ZX45V',          'Drill/Mill',   6,   44,  25],  // 2025:hist26+MAQUINAS6+GRUPO12; 2026:MANROD MR-206
+    ['ZX45 / ZX45V',          'Drill/Mill',   6,   44,  50],  // 2025:hist26+MAQUINAS6+GRUPO12; 2026:MANROD MR-206(25)+OZCO FS28(25)
     ['ZX40H',                 'Drill/Mill',   3,   50,  76],  // 2025:hist38+KOWAY12; 2026:JK DM40(51)+OZCO MC32F(15)+MANROD MR-245(10)
     ['ZX30',                  'Drill/Mill',   1,    2,  10],  // 2026:MANROD MR-201
     // Milling machines
@@ -1976,7 +1983,7 @@ const _kpiBalance2026=document.getElementById('kpiBalance2026'); if(_kpiBalance2
 (function(){
   if(!document.getElementById('payOutstandingBody')) return;
   const statusMap = {
-    OZCO:   {label:'⚠ Ship by May 15', cls:'pill-red'},
+    OZCO:   {label:'⚠ Ship by May 1', cls:'pill-red'},
     COMARK: {label:'70% due vs B/L',   cls:'pill-orange'},
     JK:     {label:'Partial deposits', cls:'pill-orange'},
     MAQUINAS:{label:'50%+20% pending', cls:'pill-orange'},
@@ -2158,7 +2165,7 @@ const exhibitions = {
       {leg:'④ Return', date:'May 11', flightNo:'MU710', from:'MAD Madrid', to:'PVG Shanghai', depart:'11:05', arrive:'May 12 05:50', airline:'China Eastern'},
     ],
     hotel:{ name:'JW Marriott Hotel São Paulo', address:'Av. das Nações Unidas, 14401, Chácara Santo Antônio, São Paulo, Brazil', checkin:'May 2 (after 14:00)', checkout:'May 10 (before 12:00)', nights:'8 nights' },
-    notes:'⚠️ Must confirm OZCO 102-unit production before leaving on May 1 — OZCO deadline is May 15. MANROD is a Brazil-based client, good opportunity to strengthen relationship.',
+    notes:'⚠️ Must confirm OZCO 127-unit production before leaving on May 1 — OZCO deadline is May 1 (PI OZCO20260326) and May 15 (PI OZCO20260202). MANROD is a Brazil-based client, good opportunity to strengthen relationship.',
     tags:[{t:'35 days away',c:'blue'},{t:'✈ Depart May 1',c:'orange'},{t:'MANROD client 🇧🇷',c:'green'}]
   },
   expomaq: {
