@@ -1828,6 +1828,54 @@ function setClientView(mode){
 }
 
 // ── RANKED TABLE ─────────────────────────────────────────────
+
+// Factory model resolver — maps client/alias names → canonical factory model
+const FACTORY_MAP = {
+  // Milling machines
+  'UM 45 B':'ZX7045','UM45B':'ZX7045','UM 45B':'ZX7045',
+  'UM 45 FE':'ZX7045','UM45FE':'ZX7045','UM 45FE':'ZX7045',
+  'UM 40':'ZX6350Z','UM40':'ZX6350Z',
+  'UM 30':'ZX7550CW','UM30':'ZX7550CW',
+  // Drilling machines
+  'DM40':'ZX40H','D40G':'ZX40H',
+  // Lathes
+  'JUG 3610 V':'CQ360V×1000 Vario','JUG 3610V':'CQ360V×1000 Vario','JUG3610V':'CQ360V×1000 Vario',
+  '420x1000 DRO CE':'420x1000 Lathe','420x1000':'420x1000 Lathe',
+  '560x1500 DRO CE':'560x1500 Lathe',
+  '560x1500 DRO CE T.T.A':'560x1500 Lathe','560x1500 DRO CE T.T.A.':'560x1500 Lathe',
+  // Historical JK items (model strings include parenthetical — apply corrections)
+  'UM30 (ZX7550CW)':'ZX7550CW',
+  'UM40 (ZX6350C)':'ZX6350Z',   // UM40 = ZX6350Z (Jun confirmed)
+  'D40G (ZX40H)':'ZX40H',
+  'UM45B (ZX7045)':'ZX7045',
+  'DM40 (ZX40H)':'ZX40H',
+  'D50G (ZX6350Z)':'D50G',       // D50G is NOT ZX6350Z (Jun confirmed)
+  // TAS private-label
+  'TAS M40 DRILL (ZX40H)':'ZX40H',
+  'TAS 50X10 (ZX6350Z)':'ZX6350Z',
+  'TAS 13X40 (CQ360Vx1000)':'CQ360V×1000 Vario',
+  // Cappato private-label
+  'HY40VS (ZX6350Z)':'ZX6350Z','HY7045 (ZX7045)':'ZX7045','H5040 (Z5040)':'Z5040',
+  // NAREX
+  'ZX45 (Narvik)':'ZX45',
+  // GRUPO private-label
+  'ZX45 220V':'ZX45','ZX7045 220V':'ZX7045','ZS30H 220V':'ZS30H',
+  'CQ6125 EC Vario 110V':'CQ6125 ELS','CQ6128 110V':'CQ6128',
+  'CQ320V 220V':'CQ320V×1000 Vario','CQ320V 110V':'CQ320V×1000 Vario',
+  'CQ6132GV 220V':'CQ6132GV','CQ6132GV 110V':'CQ6132GV',
+  'CQ360 Vario 220V':'CQ360V×1000 Vario','CQ330x1000 220V':'CQC330B×1000',
+};
+
+function resolveFactory(model, factory){
+  if(factory && factory.trim()!=='') return factory.trim();
+  const m = (model||'').trim();
+  if(FACTORY_MAP[m]) return FACTORY_MAP[m];
+  // Try stripping trailing parenthetical
+  const base = m.replace(/\s*\([^)]+\)\s*$/, '').trim();
+  if(base !== m && FACTORY_MAP[base]) return FACTORY_MAP[base];
+  return base || m;
+}
+
 function buildRankedTable(){
   const tbl = document.getElementById('rankedTable');
   if(tbl.dataset.built) return; // build once
@@ -1844,7 +1892,7 @@ function buildRankedTable(){
   }));
   const years = [...allYears].sort();
 
-  // Build year→model→qty map per client
+  // Build year→factoryModel→qty map per client
   function buildYearMap(c){
     const ymap = {};
     c.pis.forEach(p => {
@@ -1853,8 +1901,8 @@ function buildRankedTable(){
       const yr = m[1];
       if(!ymap[yr]) ymap[yr] = {};
       p.items.forEach(it => {
-        if((it.desc||'').toLowerCase()==='accessory' || it.model.toLowerCase().includes('accessory')) return;
-        const key = it.model; // show client-facing model name
+        if((it.desc||'').toLowerCase()==='accessory' || (it.model||'').toLowerCase().includes('accessory')) return;
+        const key = resolveFactory(it.model, it.factory);
         ymap[yr][key] = (ymap[yr][key]||0) + (it.qty||0);
       });
     });
