@@ -119,6 +119,15 @@ header .date{font-size:12px;opacity:0.5;}
 /* ONGOING PI CARDS */
 .ongoing-section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;margin-top:28px;padding-bottom:6px;border-bottom:2px solid #f0f0f0;}
 .ongoing-section-title:first-child{margin-top:0;}
+.pi-shipping-row{display:flex;gap:0;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;margin:0 -18px;background:#f8fafc;}
+.pi-ship-item{flex:1;padding:8px 14px;border-right:1px solid #ececec;min-width:0;}
+.pi-ship-item:last-child{border-right:none;}
+.pi-ship-label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#aaa;margin-bottom:3px;}
+.pi-ship-val{font-size:12px;font-weight:600;color:#1a1a2e;}
+.pi-ship-val.shipped{color:#1e8449;}
+.pi-ship-val.pending-ship{color:#aaa;font-weight:400;font-style:italic;}
+.pi-ship-val.tbd{color:#aaa;font-weight:400;font-style:italic;}
+.pi-ship-val.deadline{color:#c0392b;font-weight:700;}
 .pi-card-full{background:white;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);margin-bottom:16px;}
 .pi-card-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #f0f0f0;}
 .pi-card-header-left{display:flex;align-items:center;gap:10px;}
@@ -997,6 +1006,7 @@ const clients = [
     payment:'L/C at 180 days — Letter of Credit (bank-to-bank). Payment received 180 days after shipment.',
     pis:[{
       no:'OZCO20260202', date:'Feb 2026', total:'$173,725 USD',
+      depositDate:null, plannedShip:'by May 15, 2026 ⚠️', actualShip:null,
       nextPayment:'$173,725 USD · 180 days after B/L (L/C — no advance required)',
       items:[
         {model:'MC32',factory:'ZS40H',desc:'Drilling machine',qty:30,unit:'$1,080',total:'$32,400'},
@@ -1019,6 +1029,7 @@ const clients = [
     payment:'30% T/T advance · 70% T/T against B/L copy within 1 week.',
     pis:[{
       no:'YFCORMAK251231', date:'Dec 2025', total:'RMB 640,800',
+      depositDate:'Jan 5, 2026', plannedShip:null, actualShip:null,
       nextPayment:'RMB 448,560 (~$62K) · Against B/L copy within 1 week of shipment (70% balance)',
       items:[
         {model:'Lathe 360x1000 Vario',desc:'',qty:24,unit:'RMB 16,800',total:'RMB 403,200'},
@@ -1038,6 +1049,7 @@ const clients = [
     pis:[
       {
         no:'20260127 — JK Colombia', date:'Jan 2026', total:'$65,598 USD',
+        depositDate:'Jan 28, 2026', plannedShip:null, actualShip:null,
         nextPayment:'~$19,679 · When goods ready in factory (30% of $65,598)',
         payment:'✅ Deposit RCVD: COP 57,501,715 (~$15,900) · Jan 28 2026 · Bancolombia',
         items:[
@@ -1050,6 +1062,7 @@ const clients = [
       },
       {
         no:'20260129 — JK Colombia', date:'Jan 2026', total:'$66,296 USD',
+        depositDate:'Feb 2, 2026', plannedShip:null, actualShip:null,
         nextPayment:'~$19,889 · When goods ready in factory (30% of $66,296)',
         payment:'✅ Deposit RCVD: $16,296 · Feb 2 2026 · Bancolombia',
         items:[
@@ -1064,6 +1077,7 @@ const clients = [
       },
       {
         no:'20260325 — JK Ecuador', date:'Mar 2026', total:'$62,162 USD',
+        depositDate:'Mar 25, 2026', plannedShip:null, actualShip:null,
         nextPayment:'~$31,081 · After B/L (50% of $62,162 — deposit $20K already covers advance + ready stages)',
         payment:'✅ Deposit RCVD: $20,000 · Mar 25 2026 · Produbanco (fee $15; net rcvd $19,985)',
         items:[
@@ -1078,6 +1092,7 @@ const clients = [
       },
       {
         no:'20260131 — JK Peru', date:'Jan 2026', total:'$56,661 USD',
+        depositDate:'Feb 24, 2026', plannedShip:null, actualShip:null,
         nextPayment:'~$16,998 · When goods ready in factory (30% of $56,661)',
         payment:'✅ Deposit RCVD: $10,000 · Feb 24 2026 · BCP (Banco de Crédito del Perú)',
         items:[
@@ -1098,6 +1113,7 @@ const clients = [
     pis:[
       {
         no:'20251030', date:'Oct 2025', total:'$97,318 USD',
+        depositDate:'Oct 2025', plannedShip:null, actualShip:null,
         payment:'✅ 30% Deposit RCVD: ~$29,195 (Bank of China confirmed)',
         items:[
           {model:'ZX45',desc:'220V 1ph',qty:4,unit:'$1,802',total:'$7,208'},
@@ -1110,6 +1126,7 @@ const clients = [
       },
       {
         no:'20260130', date:'Jan 2026', total:'$9,916 USD',
+        depositDate:'Feb 2, 2026', plannedShip:null, actualShip:null,
         payment:'✅ 30% Deposit RCVD: ~$2,988 · Feb 2 2026',
         items:[
           {model:'CQ360Vx1000',desc:'380V 3ph',qty:4,unit:'$2,479',total:'$9,916'},
@@ -1129,6 +1146,7 @@ const clients = [
     pis:[
       {
         no:'20250910', date:'Jul 2025', total:'$88,224 USD',
+        depositDate:'Oct 13, 2025', plannedShip:null, actualShip:null,
         payment:'✅ Deposit RCVD: $17,858 · Oct 13 2025 · BBVA Mexico → CCB (ref PI20250712)',
         items:[
           {model:'ZX6350Z',desc:'',qty:6,unit:'$5,275',total:'$31,650'},
@@ -1138,6 +1156,7 @@ const clients = [
       },
       {
         no:'20260119', date:'Jan 2026', total:'$10,200 USD',
+        depositDate:null, plannedShip:null, actualShip:null,
         payment:'⏳ 20% Deposit (~$2,040) PENDING',
         items:[
           {model:'360x1000 Vario Lathe',desc:'',qty:4,unit:'$2,550',total:'$10,200'},
@@ -1145,6 +1164,7 @@ const clients = [
       },
       {
         no:'RM20250929 (Shanghai Rising)', date:'Sep 2025', total:'$4,950 USD',
+        depositDate:'Oct 15, 2025', plannedShip:null, actualShip:null,
         payment:'✅ Partial RCVD: $2,900 · Oct 15 2025 · "PAGO TOTAL FACTURA 20250929" (balance $2,050 TBC)',
         items:[
           {model:'BS-0712N Band Saw',desc:'',qty:4,unit:'$780',total:'$3,120'},
@@ -1168,6 +1188,7 @@ const clients = [
     payment:'30% deposit → 50% before shipping → 50% two months after shipping.',
     pis:[{
       no:'YF20241024', date:'Oct 2024', total:'$71,760 USD',
+      depositDate:'Oct 2024', plannedShip:null, actualShip:null,
       payment:'✅ ① $10,004 T/T deposit (advance)\n✅ ② $37,756 at TECMA 2025 (June 2025)\nTotal paid: $47,760 | ⚠️ Balance: $24,000 USD outstanding',
       items:[
         {model:'ZX7045',desc:'',qty:2,unit:'$1,657',total:'$3,314'},
@@ -1183,6 +1204,7 @@ const clients = [
       ]
     },{
       no:'20250811', date:'Aug 2025', total:'$76,320 USD',
+      depositDate:'Oct 9, 2025', plannedShip:null, actualShip:null,
       payment:'✅ ① $7,000 Oct 9 2025 (BBVA Mexico → CCB)\n✅ ② $10,000 Oct 27 2025 (CCB)\n✅ ③ $5,000 Dec 24 2025 — 92,977 MXN → USD (BBVA Mexico → BOC; folio 3799399240)\n✅ ④ MXN 283,439.13 → $16,160 Feb 25 2026 (BBVA Mexico → BOC; ref TI26022500015670)\nTotal paid: $38,160 | Balance: $38,160 USD',
       items:[
         {model:'ZX45 220V',desc:'',qty:12,unit:'$1,179',total:'$14,148'},
@@ -1210,6 +1232,7 @@ const clients = [
     payment:'30% T/T deposit · 70% T/T before shipping.',
     pis:[{
       no:'M2026210', date:'Feb 2025', total:'$56,221.50 USD',
+      depositDate:'Confirmed (BOC)', plannedShip:null, actualShip:null,
       nextPayment:'$39,355 · Before shipping (70% balance)',
       payment:'✅ 30% Deposit RCVD: $16,866.45 · MANROD COMERCIAL E IMPORTADORA (BOC confirmed)',
       items:[
@@ -1232,6 +1255,7 @@ const clients = [
     payment:'30% deposit · 100% before shipping. Pays in EUR.',
     pis:[{
       no:'20260317', date:'Mar 2026', total:'€1,900 EUR',
+      depositDate:'Mar 23, 2026', plannedShip:null, actualShip:null,
       nextPayment:'€1,330 · Before shipping (70% balance)',
       payment:'✅ 30% Deposit RCVD: €570 · Mar 23 2026 · Bankinter Portugal (ref PI20260317)',
       items:[
@@ -1250,6 +1274,7 @@ const clients = [
     payment:'30% T/T down payment ($10,080, paid Jun 18 2025) + 70% in 6 monthly T/T installments of $3,920/month (changed from original L/C agreement).',
     pis:[{
       no:'20250514', date:'May 2025', total:'$33,600 USD',
+      depositDate:'Jun 18, 2025', plannedShip:null, actualShip:null,
       payment:'✅ 30% T/T: $10,080 · Jun 18 2025 · Yapı Kredi Bank (fee $80 our side; net $10,000)\n✅ Installment 1: $3,920 · Dec 29 2025 · Kuveyt Türk Bank\n✅ Installment 2: $3,920 · Jan 2026 · (BOC receipt 1249.JPG)\n✅ Installment 3: $3,920 · Feb 2026 paid late Mar 22 2026 · (BOC ref TI26032200001547)\n⏳ Installment 4–6: $3,920 × 3 = $11,760 remaining',
       items:[
         {model:'ZX40H',desc:'380V/50Hz/3Ph, MT4, X-axis feed, auto quill, 2-speed motor, tapping',qty:12,unit:'$1,400',total:'$16,800'},
@@ -1269,6 +1294,7 @@ const clients = [
     payment:'30% T/T deposit €9,252 in advance · 70% T/T €21,588 before shipping.',
     pis:[{
       no:'202603', date:'Mar 2026', total:'€30,840 EUR',
+      depositDate:'Mar 30, 2026', plannedShip:null, actualShip:null,
       nextPayment:'€21,588 · Before shipping (70% balance)',
       payment:'✅ 30% deposit €9,252 received Mar 30 2026 via Société Générale (Sogecash) · Ref: 032026089154553490000000 · ⏳ 70% balance €21,588 due before shipping',
       items:[
@@ -1567,6 +1593,16 @@ const allClientsForPage = (function(){
           ? `<div class="pi-card-amt due"><div class="amt-label">Outstanding</div><div class="amt-value">${c.balance}</div></div>`
           : `<div class="pi-card-amt due"><div class="amt-label">Outstanding</div><div class="amt-value">See notes</div></div>`;
 
+        const depositVal = p.depositDate
+          ? `<span class="pi-ship-val shipped">${p.depositDate}</span>`
+          : `<span class="pi-ship-val pending-ship">Pending</span>`;
+        const plannedVal = p.plannedShip
+          ? `<span class="pi-ship-val${p.plannedShip.toLowerCase().includes('may 15')||p.plannedShip.toLowerCase().includes('deadline') ? ' deadline' : ''}">${p.plannedShip}</span>`
+          : `<span class="pi-ship-val tbd">TBD</span>`;
+        const actualVal = p.actualShip
+          ? `<span class="pi-ship-val shipped">🚢 ${p.actualShip}</span>`
+          : `<span class="pi-ship-val pending-ship">Not yet shipped</span>`;
+
         div.innerHTML = `
           <div class="pi-card-header">
             <div class="pi-card-header-left">
@@ -1580,6 +1616,11 @@ const allClientsForPage = (function(){
           </div>
           <div class="pi-card-body">
             ${renderItems(p.items)}
+          </div>
+          <div class="pi-shipping-row">
+            <div class="pi-ship-item"><span class="pi-ship-label">💰 Deposit Received</span>${depositVal}</div>
+            <div class="pi-ship-item"><span class="pi-ship-label">📅 Planned Shipment</span>${plannedVal}</div>
+            <div class="pi-ship-item"><span class="pi-ship-label">🚢 Actual Shipment</span>${actualVal}</div>
           </div>
           <div class="pi-card-footer">
             <div class="pi-card-payment"><strong>Payment:</strong> ${payLine}</div>
