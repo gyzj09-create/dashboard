@@ -1638,7 +1638,7 @@ allClientsForPage.forEach((c,i)=>{
     <div class="client-flag">${c.flag}</div>
     <div class="client-short">${c.short}</div>
     <div class="client-name">${c.name}</div>
-    <div class="client-amount">${c.amount}</div>
+    <div class="client-amount">${c.amountUSD>=1000000?'$'+(c.amountUSD/1000000).toFixed(2)+'M':'$'+c.amountUSD.toLocaleString('en-US')+' USD'}</div>
     <div class="client-pi">${c.country} &nbsp;·&nbsp; ${mLabel} &nbsp;·&nbsp; ${c.pis.length} PI${c.pis.length!==1?'s':''}</div>
     <div class="tags">${statusTag}</div>
     <div class="client-paidrow">
@@ -1735,7 +1735,7 @@ function openClientModal(i){
   const totDisp  = c.amountUSD>=1000000?'$'+(c.amountUSD/1000000).toFixed(2)+'M':'$'+c.amountUSD.toLocaleString('en-US');
   html+=`<div class="modal-section"><h3>Payment Summary</h3>
     <div class="pay-summary">
-      <div class="pay-summary-item"><div class="psi-label">Total Value</div><div class="psi-value">${c.amount||totDisp}</div></div>
+      <div class="pay-summary-item"><div class="psi-label">Total Value</div><div class="psi-value">${totDisp}</div></div>
       <div class="pay-summary-item paid"><div class="psi-label">✅ Collected</div><div class="psi-value">${collDisp}</div></div>
       <div class="pay-summary-item bal"><div class="psi-label">${c.outstandingUSD>0?'⏳ Outstanding':'✅ Fully Paid'}</div><div class="psi-value">${outDisp}</div></div>
     </div></div>`;
