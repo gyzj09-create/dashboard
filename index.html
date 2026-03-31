@@ -330,6 +330,7 @@ table tr:last-child td{border-bottom:none;}
 <div class="tabs">
   <div class="tab active" onclick="showTab('overview')">Overview</div>
   <div class="tab" onclick="showTab('clients')">Clients</div>
+  <div class="tab" onclick="showTab('sales')">📊 Sales</div>
   <div class="tab" onclick="showTab('tasks')">Tasks</div>
   <div class="tab" onclick="showTab('calendar')">Calendar</div>
   <div class="tab" onclick="showTab('exhibitions')">Exhibitions</div>
@@ -401,13 +402,9 @@ table tr:last-child td{border-bottom:none;}
       </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
         <span style="font-size:12px;color:#27ae60;">Collected</span>
-        <span style="font-size:14px;font-weight:700;color:#27ae60;">~$226K</span>
+        <span style="font-size:14px;font-weight:700;color:#27ae60;">~$250K ✅</span>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5px 8px;background:#fadbd8;border-radius:6px;margin-top:4px;">
-        <span style="font-size:12px;color:#c0392b;font-weight:600;">⚠ Outstanding</span>
-        <span style="font-size:14px;font-weight:700;color:#c0392b;">$24,000</span>
-      </div>
-      <div style="font-size:10px;color:#999;margin-top:6px;">GRUPO – YF20241024 (unpaid balance)</div>
+      <div style="font-size:10px;color:#999;margin-top:6px;">All 2024 PIs fully collected (GRUPO $24K paid in 2025)</div>
     </div>
 
     <!-- 2025 -->
@@ -423,13 +420,13 @@ table tr:last-child td{border-bottom:none;}
       </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
         <span style="font-size:12px;color:#27ae60;">Collected</span>
-        <span style="font-size:14px;font-weight:700;color:#27ae60;">~$810K</span>
+        <span style="font-size:14px;font-weight:700;color:#27ae60;">~$877K</span>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5px 8px;background:#d5f5e3;border-radius:6px;margin-top:4px;">
         <span style="font-size:12px;color:#1e8449;font-weight:600;">✅ Outstanding</span>
         <span style="font-size:14px;font-weight:700;color:#1e8449;">$0</span>
       </div>
-      <div style="font-size:10px;color:#999;margin-top:6px;">JK · NAREX · TAS IRON · Viber · DINTASS + more</div>
+      <div style="font-size:10px;color:#999;margin-top:6px;">Incl. GRUPO $24K (2024) + ANCLA $21K + GRUPO $22K deposits</div>
     </div>
 
     <!-- 2026 -->
@@ -796,6 +793,210 @@ table tr:last-child td{border-bottom:none;}
   </div>
 </div>
 
+
+<!-- ══════════════════════════════════════════
+     SALES PAGE
+══════════════════════════════════════════ -->
+<div id="page-sales" class="page">
+
+  <!-- All-Time KPIs -->
+  <div class="section-title" style="margin-top:0;">🏆 All-Time Totals</div>
+  <div class="summary-bar">
+    <div class="card" style="border-top:3px solid #1a1a2e;">
+      <div class="s-label">Total Deals</div>
+      <div class="s-value" id="at-deals">—</div>
+      <div class="s-sub">across all years</div>
+    </div>
+    <div class="card" style="border-top:3px solid #3498db;">
+      <div class="s-label">All-Time Value</div>
+      <div class="s-value" id="at-value">—</div>
+      <div class="s-sub">USD equivalent</div>
+    </div>
+    <div class="card" style="border-top:3px solid #27ae60;">
+      <div class="s-label" style="color:#27ae60;">All-Time Collected</div>
+      <div class="s-value" style="color:#27ae60;" id="at-collected">—</div>
+      <div class="s-sub" id="at-collected-pct">of total value</div>
+    </div>
+    <div class="card" style="border-top:3px solid #e67e22;">
+      <div class="s-label" style="color:#e67e22;">All-Time Outstanding</div>
+      <div class="s-value" style="color:#e67e22;" id="at-outstanding">—</div>
+      <div class="s-sub" id="at-outstanding-pct">remaining</div>
+    </div>
+  </div>
+
+  <!-- Year-by-Year Table -->
+  <div class="section-title" style="margin-top:24px;">📅 Year-by-Year Breakdown</div>
+  <div class="card" style="padding:0;overflow:hidden;">
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead>
+        <tr style="background:#1a1a2e;color:white;">
+          <th style="padding:12px 16px;text-align:left;font-weight:600;letter-spacing:0.5px;">Year</th>
+          <th style="padding:12px 16px;text-align:center;font-weight:600;">Deals</th>
+          <th style="padding:12px 16px;text-align:center;font-weight:600;">Units</th>
+          <th style="padding:12px 16px;text-align:right;font-weight:600;">Total Value</th>
+          <th style="padding:12px 16px;text-align:right;font-weight:600;">Collected</th>
+          <th style="padding:12px 16px;text-align:right;font-weight:600;">Outstanding</th>
+          <th style="padding:12px 16px;text-align:center;font-weight:600;">Collection Rate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 2024 -->
+        <tr style="border-bottom:1px solid #f0f0f0;">
+          <td style="padding:14px 16px;">
+            <div style="font-weight:700;color:#e67e22;font-size:15px;">2024</div>
+            <div style="font-size:11px;color:#999;margin-top:2px;">Historical</div>
+          </td>
+          <td style="padding:14px 16px;text-align:center;">
+            <span style="font-size:22px;font-weight:700;color:#1a1a2e;">7</span>
+          </td>
+          <td style="padding:14px 16px;text-align:center;">
+            <span style="font-size:22px;font-weight:700;color:#1a1a2e;">83</span>
+          </td>
+          <td style="padding:14px 16px;text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#1a1a2e;">$250,108</div>
+            <div style="font-size:10px;color:#aaa;">USD equiv.</div>
+          </td>
+          <td style="padding:14px 16px;text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#27ae60;">$250,108</div>
+          </td>
+          <td style="padding:14px 16px;text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#27ae60;">$0</div>
+            <div style="font-size:10px;color:#aaa;">GRUPO $24K collected in 2025</div>
+          </td>
+          <td style="padding:14px 16px;text-align:center;">
+            <div style="display:inline-block;background:#eafaf1;color:#27ae60;font-weight:700;font-size:13px;padding:4px 10px;border-radius:20px;">100%</div>
+          </td>
+        </tr>
+        <!-- 2025 -->
+        <tr style="border-bottom:1px solid #f0f0f0;background:#fafafa;">
+          <td style="padding:14px 16px;">
+            <div style="font-weight:700;color:#27ae60;font-size:15px;">2025</div>
+            <div style="font-size:11px;color:#999;margin-top:2px;">All Paid ✅</div>
+          </td>
+          <td style="padding:14px 16px;text-align:center;">
+            <span style="font-size:22px;font-weight:700;color:#1a1a2e;">19</span>
+          </td>
+          <td style="padding:14px 16px;text-align:center;">
+            <span style="font-size:22px;font-weight:700;color:#1a1a2e;">370</span>
+          </td>
+          <td style="padding:14px 16px;text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#1a1a2e;">$809,858</div>
+            <div style="font-size:10px;color:#aaa;">USD equiv.</div>
+          </td>
+          <td style="padding:14px 16px;text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#27ae60;">$876,616</div>
+            <div style="font-size:10px;color:#aaa;">Incl. GRUPO/ANCLA deposits</div>
+          </td>
+          <td style="padding:14px 16px;text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#27ae60;">$0</div>
+          </td>
+          <td style="padding:14px 16px;text-align:center;">
+            <div style="display:inline-block;background:#eafaf1;color:#27ae60;font-weight:700;font-size:13px;padding:4px 10px;border-radius:20px;">100%</div>
+          </td>
+        </tr>
+        <!-- 2026 — dynamic -->
+        <tr style="border-bottom:2px solid #1a1a2e;">
+          <td style="padding:14px 16px;">
+            <div style="font-weight:700;color:#3498db;font-size:15px;">2026</div>
+            <div style="font-size:11px;color:#999;margin-top:2px;">Active Pipeline</div>
+          </td>
+          <td style="padding:14px 16px;text-align:center;">
+            <span style="font-size:22px;font-weight:700;color:#1a1a2e;" id="yr26-deals">—</span>
+          </td>
+          <td style="padding:14px 16px;text-align:center;">
+            <span style="font-size:22px;font-weight:700;color:#1a1a2e;" id="yr26-units">—</span>
+          </td>
+          <td style="padding:14px 16px;text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#1a1a2e;" id="yr26-value">—</div>
+            <div style="font-size:10px;color:#aaa;">USD equiv.</div>
+          </td>
+          <td style="padding:14px 16px;text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#27ae60;" id="yr26-collected">—</div>
+          </td>
+          <td style="padding:14px 16px;text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#e67e22;" id="yr26-outstanding">—</div>
+          </td>
+          <td style="padding:14px 16px;text-align:center;">
+            <div style="display:inline-block;background:#eaf3fb;color:#2471a3;font-weight:700;font-size:13px;padding:4px 10px;border-radius:20px;" id="yr26-rate">—</div>
+          </td>
+        </tr>
+        <!-- ALL TIME -->
+        <tr style="background:#1a1a2e;">
+          <td style="padding:14px 16px;">
+            <div style="font-weight:700;color:#f1c40f;font-size:15px;">ALL TIME</div>
+            <div style="font-size:11px;color:#aaa;margin-top:2px;">2024 – 2026</div>
+          </td>
+          <td style="padding:14px 16px;text-align:center;">
+            <span style="font-size:22px;font-weight:700;color:white;" id="at-deals-row">—</span>
+          </td>
+          <td style="padding:14px 16px;text-align:center;">
+            <span style="font-size:22px;font-weight:700;color:#f1c40f;" id="at-units-row">—</span>
+          </td>
+          <td style="padding:14px 16px;text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:white;" id="at-value-row">—</div>
+          </td>
+          <td style="padding:14px 16px;text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#2ecc71;" id="at-collected-row">—</div>
+          </td>
+          <td style="padding:14px 16px;text-align:right;">
+            <div style="font-weight:700;font-size:15px;color:#e67e22;" id="at-outstanding-row">—</div>
+          </td>
+          <td style="padding:14px 16px;text-align:center;">
+            <div style="display:inline-block;background:rgba(255,255,255,0.15);color:white;font-weight:700;font-size:13px;padding:4px 10px;border-radius:20px;" id="at-rate-row">—</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Year-over-Year Growth -->
+  <div class="section-title" style="margin-top:24px;">📈 Year-over-Year</div>
+  <div class="summary-bar">
+    <div class="card" style="border-top:3px solid #27ae60;text-align:center;">
+      <div class="s-label">2024 → 2025</div>
+      <div class="s-value" style="color:#27ae60;">+224%</div>
+      <div class="s-sub">$250K → $810K</div>
+    </div>
+    <div class="card" style="border-top:3px solid #3498db;text-align:center;">
+      <div class="s-label">Best Single Deal</div>
+      <div class="s-value" style="color:#1a1a2e;">$173.7K</div>
+      <div class="s-sub">OZCO — Turkey 2026</div>
+    </div>
+    <div class="card" style="border-top:3px solid #9b59b6;text-align:center;">
+      <div class="s-label">Most Active Client</div>
+      <div class="s-value" style="color:#1a1a2e;">JK</div>
+      <div class="s-sub">6 PIs · Peru / Ecuador / Colombia</div>
+    </div>
+    <div class="card" style="border-top:3px solid #e67e22;text-align:center;">
+      <div class="s-label">Total Countries</div>
+      <div class="s-value" style="color:#1a1a2e;">15+</div>
+      <div class="s-sub">across all years</div>
+    </div>
+  </div>
+
+  <!-- Model Breakdown -->
+  <div class="section-title" style="margin-top:24px;">🔧 Sales by Model / Machine Family</div>
+  <div class="card" style="padding:0;overflow:hidden;">
+    <table style="width:100%;border-collapse:collapse;font-size:12px;">
+      <thead>
+        <tr style="background:#2c3e50;color:white;">
+          <th style="padding:10px 14px;text-align:left;font-weight:600;">Model / Family</th>
+          <th style="padding:10px 14px;text-align:center;font-weight:600;">Type</th>
+          <th style="padding:10px 14px;text-align:center;font-weight:600;color:#e67e22;">2024</th>
+          <th style="padding:10px 14px;text-align:center;font-weight:600;color:#2ecc71;">2025</th>
+          <th style="padding:10px 14px;text-align:center;font-weight:600;color:#3498db;">2026</th>
+          <th style="padding:10px 14px;text-align:center;font-weight:600;background:#1a1a2e;">ALL TIME</th>
+        </tr>
+      </thead>
+      <tbody id="modelTableBody">
+      </tbody>
+    </table>
+  </div>
+  <div style="font-size:10px;color:#aaa;margin-top:6px;padding:0 4px;">* 2026 includes active pipeline. Private-label models counted separately. Accessories (vises, DRO, etc.) excluded.</div>
+
+
+</div>
+
 <script>
 // ── AUTO DATE ────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',function(){document.getElementById('headerDate').textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});});
@@ -940,7 +1141,7 @@ const clients = [
     short:'ANCLA', flag:'🇲🇽', name:'GRUPO IDEA SERVICIOS S.A. DE C.V.',
     country:'Mexico', contact:'—', address:'Poniente 27 No. 4106 interior 2, Col. del Gas, Azcapotzalco CDMX, C.P. 02930',
     amount:'$103,374 USD', amountUSD:103374,
-    paid:'~$20,758 USD', balance:'~$82,616 USD',
+    paid:'$0 (2026)', balance:'~$82,616 USD',
     contracts:3, machines:21, status:'Deposit Paid',
     tags:[{t:'Deposit Paid ✓',c:'green'},{t:'3 PIs',c:'blue'},{t:'CNC + Conv.',c:'gray'}],
     payment:'20% down payment. 6 months for conventional, 8 months for CNC machinery.',
@@ -980,7 +1181,7 @@ const clients = [
     short:'GRUPO', flag:'🇲🇽', name:'B&I TRADERS S DE RL DE CV',
     country:'Mexico (ships to USA)', contact:'Eduardo Navarro Ramirez', address:'Mexican entity — final destination USA',
     amount:'$76,320 USD', amountUSD:76320,
-    paid:'$38,160 USD', balance:'$38,160 USD',
+    paid:'$16,160 (2026)', balance:'$60,160 USD',
     contracts:1, machines:45, status:'Partial Shipped',
     tags:[{t:'Partial Shipped',c:'green'},{t:'12 units left',c:'orange'},{t:'4 payments rcvd',c:'blue'}],
     payment:'30% deposit → 50% before shipping → 50% two months after shipping.',
@@ -1204,8 +1405,8 @@ const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 
 // ── KPI computation ─────────────────────────────────────────
 const paidByClient = {
-  OZCO:0, COMARK:26400, JK:62196, MAQUINAS:32183, ANCLA:20758,
-  GRUPO:38160, MANROD:16866, Tupai:618, KOWAY:21840, REMO:10177, DINTASS:29373
+  OZCO:0, COMARK:26400, JK:62196, MAQUINAS:32183, ANCLA:0,
+  GRUPO:16160, MANROD:16866, Tupai:618, KOWAY:21840, REMO:10177, DINTASS:29373
 };
 const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
 const totalPaid = Object.values(paidByClient).reduce((s,v)=>s+v,0);
@@ -1216,6 +1417,126 @@ document.getElementById('kpiPaid').textContent = fmt(totalPaid);
 document.getElementById('kpiBalance').textContent = fmt(totalBal);
 document.getElementById('kpiPaidPct').textContent = Math.round(totalPaid/totalVal*100)+'% of contract value';
 document.getElementById('kpiBalPct').textContent = Math.round(totalBal/totalVal*100)+'% to collect';
+
+// ── SALES PAGE ───────────────────────────────────────────────
+(function(){
+  const fmtFull = v => '$' + v.toLocaleString('en-US');
+  const fmtK    = v => v>=1000000?'$'+(v/1000000).toFixed(2)+'M':'$'+(v/1000).toFixed(0)+'K';
+
+  // 2024 fixed (GRUPO $24K collected in 2025 — 2024 now fully paid)
+  const v24=250108, c24=250108, o24=0, d24=7;
+  // 2025 fixed (incl. cross-year collections: GRUPO 2024 $24K + ANCLA deposits $20,758 + GRUPO PI20250811 $22K paid in 2025)
+  const v25=809858, c25=876616, o25=0,    d25=19;
+  // 2026 dynamic
+  const v26=totalVal, c26=totalPaid, o26=totalBal, d26=clients.length;
+
+  const vAll=v24+v25+v26, cAll=c24+c25+c26, oAll=o24+o25+o26, dAll=d24+d25+d26;
+
+  // Top KPI cards
+  document.getElementById('at-deals').textContent       = dAll;
+  document.getElementById('at-value').textContent       = fmtK(vAll);
+  document.getElementById('at-collected').textContent   = fmtK(cAll);
+  document.getElementById('at-outstanding').textContent = fmtK(oAll);
+  document.getElementById('at-collected-pct').textContent   = Math.round(cAll/vAll*100)+'% of total value';
+  document.getElementById('at-outstanding-pct').textContent = Math.round(oAll/vAll*100)+'% remaining';
+
+  // 2026 row
+  document.getElementById('yr26-deals').textContent       = d26;
+  document.getElementById('yr26-value').textContent       = fmtFull(Math.round(v26));
+  document.getElementById('yr26-collected').textContent   = fmtFull(Math.round(c26));
+  document.getElementById('yr26-outstanding').textContent = fmtFull(Math.round(o26));
+  document.getElementById('yr26-rate').textContent        = Math.round(c26/v26*100)+'%';
+
+  // All-time row
+  document.getElementById('at-deals-row').textContent       = dAll;
+  document.getElementById('at-value-row').textContent       = fmtFull(Math.round(vAll));
+  document.getElementById('at-collected-row').textContent   = fmtFull(Math.round(cAll));
+  document.getElementById('at-outstanding-row').textContent = fmtFull(Math.round(oAll));
+  document.getElementById('at-rate-row').textContent        = Math.round(cAll/vAll*100)+'%';
+})();
+
+// ── MODEL BREAKDOWN TABLE ────────────────────────────────────
+(function(){
+  // Model data: [name, type, qty2024, qty2025, qty2026]
+  const models = [
+    // Drill/Mill combo (ZX series)
+    ['ZX45 / ZX45V',          'Drill/Mill',   6,   12,  12],
+    ['ZX40H',                 'Drill/Mill',   3,   20,  12],
+    ['ZX30',                  'Drill/Mill',   1,    2,   2],
+    // Milling machines
+    ['ZX40',                  'Mill',         2,   12,   0],
+    ['ZX7045',                'Mill',         2,   20,   4],
+    ['ZX6350Z / ZX6350C',     'Mill',         9,   16,   8],
+    ['ZX7550C',               'Mill',         2,   10,   0],
+    ['ZX7550CW / UM30',       'Mill',         1,   20,   6],
+    ['DM40',                  'Mill',         0,   18,  51],
+    ['UM45B / UM45FE',        'Mill',         0,   20,  28],
+    ['JUGG BF20S / BF32S',    'Mill',         0,   24,  12],
+    // Drilling machines
+    ['ZS30H',                 'Drill',        11,   0,   2],
+    ['ZS40H',                 'Drill',        12,  15,  12],
+    ['Z5035',                 'Drill',         8,  10,  10],
+    ['Z5040 / Z5040A',        'Drill',         9,   5,   0],
+    ['Z5050 / Z5050A / V',    'Drill',         0,   6,   6],
+    ['Z3040 / Z3050',         'Drill',         0,   4,   0],
+    // Lathes - conventional
+    ['CQ360V×1000/1300 Vario','Lathe',         0,  18,  43],
+    ['CQ320V×1000 Vario',     'Lathe',         3,  33,  12],
+    ['CQ290V×750 Vario',      'Lathe',         0,   7,   4],
+    ['CQC330B×1000',          'Lathe',         5,   0,   6],
+    ['420×1000 Lathe',        'Lathe',         0,   6,   8],
+    ['560×1500 Lathe',        'Lathe',         0,   4,   8],
+    ['JUG3610V Lathe',        'Lathe',         0,  11,   4],
+    // CNC Lathes
+    ['YF550T / YF600T CNC',   'CNC Lathe',    2,   1,   1],
+    // Private label
+    ['MC/CR series (OZCO)',   'Private Label', 0,   0, 102],
+    ['MR series (MANROD)',    'Private Label', 0,   0,  45],
+    ['Other private label',  'Private Label',  6,  17,   0],
+  ];
+
+  const typeColor = {
+    'Drill/Mill':'#8e44ad','Mill':'#2980b9','Drill':'#16a085',
+    'Lathe':'#c0392b','CNC Lathe':'#e74c3c','Private Label':'#7f8c8d'
+  };
+
+  const tbody = document.getElementById('modelTableBody');
+  let html2 = '';
+  models.forEach(([name, type, q24, q25, q26], i) => {
+    const total = q24+q25+q26;
+    const bg = i%2===0?'#ffffff':'#f9f9f9';
+    html2 += `<tr style="border-bottom:1px solid #f0f0f0;background:${bg};">
+      <td style="padding:9px 14px;font-weight:600;color:#1a1a2e;">${name}</td>
+      <td style="padding:9px 14px;text-align:center;">
+        <span style="display:inline-block;background:${typeColor[type]}22;color:${typeColor[type]};font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;">${type}</span>
+      </td>
+      <td style="padding:9px 14px;text-align:center;font-weight:${q24>0?'700':'400'};color:${q24>0?'#e67e22':'#ccc'};">${q24>0?q24:'—'}</td>
+      <td style="padding:9px 14px;text-align:center;font-weight:${q25>0?'700':'400'};color:${q25>0?'#27ae60':'#ccc'};">${q25>0?q25:'—'}</td>
+      <td style="padding:9px 14px;text-align:center;font-weight:${q26>0?'700':'400'};color:${q26>0?'#2471a3':'#ccc'};">${q26>0?q26:'—'}</td>
+      <td style="padding:9px 14px;text-align:center;background:#1a1a2e;font-weight:700;color:#f1c40f;font-size:14px;">${total}</td>
+    </tr>`;
+  });
+
+  // Totals row
+  const t24=models.reduce((s,m)=>s+m[2],0);
+  const t25=models.reduce((s,m)=>s+m[3],0);
+  const t26=models.reduce((s,m)=>s+m[4],0);
+  const tAll=t24+t25+t26;
+  html2 += `<tr style="background:#2c3e50;">
+    <td style="padding:10px 14px;font-weight:700;color:white;font-size:13px;" colspan="2">TOTAL UNITS</td>
+    <td style="padding:10px 14px;text-align:center;font-weight:700;color:#e67e22;font-size:14px;">${t24}</td>
+    <td style="padding:10px 14px;text-align:center;font-weight:700;color:#2ecc71;font-size:14px;">${t25}</td>
+    <td style="padding:10px 14px;text-align:center;font-weight:700;color:#5dade2;font-size:14px;">${t26}</td>
+    <td style="padding:10px 14px;text-align:center;font-weight:700;color:#f1c40f;font-size:16px;background:#1a1a2e;">${tAll}</td>
+  </tr>`;
+  tbody.innerHTML = html2;
+
+  // Update units in year table
+  document.getElementById('yr26-units').textContent = t26;
+  document.getElementById('at-units-row').textContent = t24+t25+t26;
+})();
+
+
 
 // ── 2026 KPI cards ───────────────────────────────────────────
 document.getElementById('kpiPaid2026').textContent = fmt(totalPaid);
@@ -1256,18 +1577,7 @@ document.getElementById('kpiBalance2026').textContent = fmt(totalBal);
       <td><span class="status-pill ${sm.cls}">${sm.label}</span></td>`;
     tbody.appendChild(tr);
   });
-  // ── Also show 2024 historical outstanding (GRUPO YF20241024) ──
-  const sep = document.createElement('tr');
-  sep.innerHTML = `<td colspan="5" style="background:#f7f0ff;padding:6px 12px;font-size:11px;font-weight:700;color:#6c3483;letter-spacing:0.5px;text-transform:uppercase;">📋 Historical Outstanding (2024)</td>`;
-  tbody.appendChild(sep);
-  const histRow = document.createElement('tr');
-  histRow.innerHTML = `
-    <td><div class="client-tag">🇲🇽 GRUPO</div><div class="client-sub">B&I TRADERS · PI YF20241024 · Oct 2024</div></td>
-    <td class="paid-val">$47,760 USD</td>
-    <td>$71,760 USD</td>
-    <td class="bal-val" style="color:#c0392b;">$24,000 USD</td>
-    <td><span class="status-pill pill-red">⚠ 2024 Overdue</span></td>`;
-  tbody.appendChild(histRow);
+  // ── 2024 GRUPO YF20241024 $24K — collected in 2025, no longer outstanding ──
 })();
 
 // ── Colour palette ───────────────────────────────────────────
