@@ -119,8 +119,8 @@ header .date{font-size:12px;opacity:0.5;}
 /* ONGOING PI CARDS */
 .ongoing-section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;margin-top:28px;padding-bottom:6px;border-bottom:2px solid #f0f0f0;}
 .ongoing-section-title:first-child{margin-top:0;}
-.pi-shipping-row{display:flex;gap:0;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;margin:0 -18px;background:#f8fafc;}
-.pi-ship-item{flex:1;padding:8px 14px;border-right:1px solid #ececec;min-width:0;}
+.pi-shipping-row{display:flex;gap:0;border-top:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;background:#f8fafc;}
+.pi-ship-item{flex:1;padding:8px 16px;border-right:1px solid #ececec;min-width:0;overflow:hidden;}
 .pi-ship-item:last-child{border-right:none;}
 .pi-ship-label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#aaa;margin-bottom:3px;}
 .pi-ship-val{font-size:12px;font-weight:600;color:#1a1a2e;}
@@ -1232,7 +1232,7 @@ const clients = [
     payment:'30% T/T deposit · 70% T/T before shipping.',
     pis:[{
       no:'M2026210', date:'Feb 2025', total:'$56,221.50 USD',
-      depositDate:'Confirmed (BOC)', plannedShip:null, actualShip:null,
+      depositDate:'Mar 4, 2026', plannedShip:null, actualShip:null,
       nextPayment:'$39,355 · Before shipping (70% balance)',
       payment:'✅ 30% Deposit RCVD: $16,866.45 · MANROD COMERCIAL E IMPORTADORA (BOC confirmed)',
       items:[
@@ -1617,11 +1617,11 @@ const allClientsForPage = (function(){
           <div class="pi-card-body">
             ${renderItems(p.items)}
           </div>
-          <div class="pi-shipping-row">
+          ${isProduction ? `<div class="pi-shipping-row">
             <div class="pi-ship-item"><span class="pi-ship-label">💰 Deposit Received</span>${depositVal}</div>
             <div class="pi-ship-item"><span class="pi-ship-label">📅 Planned Shipment</span>${plannedVal}</div>
             <div class="pi-ship-item"><span class="pi-ship-label">🚢 Actual Shipment</span>${actualVal}</div>
-          </div>
+          </div>` : ''}
           <div class="pi-card-footer">
             <div class="pi-card-payment"><strong>Payment:</strong> ${payLine}</div>
             <div class="pi-card-amounts">
