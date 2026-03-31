@@ -113,6 +113,12 @@ header .date{font-size:12px;opacity:0.5;}
 .task-title{font-size:15px;font-weight:600;margin-bottom:6px;line-height:1.3;}
 .task-desc{font-size:13px;color:#666;line-height:1.5;}
 .task-meta{margin-top:10px;font-size:12px;color:#999;}
+.task-done-btn{margin-top:12px;padding:6px 14px;background:transparent;border:1.5px solid #27ae60;color:#27ae60;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;}
+.task-done-btn:hover{background:#27ae60;color:white;}
+.task-card.done{opacity:0.5;border-color:#ccc;}
+.task-card.done .task-title{text-decoration:line-through;color:#999;}
+.done-section{margin-top:32px;}
+.done-section-header{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#aaa;margin-bottom:14px;}
 /* TASK TIMELINE */
 .timeline-section{margin-bottom:28px;}
 .timeline-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
@@ -329,11 +335,11 @@ table tr:last-child td{border-bottom:none;}
 
 <div class="tabs">
   <div class="tab active" onclick="showTab('overview')">Overview</div>
-  <div class="tab" onclick="showTab('clients')">Clients</div>
   <div class="tab" onclick="showTab('sales')">📊 Sales</div>
+  <div class="tab" onclick="showTab('ongoing')">📋 Ongoing</div>
+  <div class="tab" onclick="showTab('clients')">Clients</div>
   <div class="tab" onclick="showTab('tasks')">Tasks</div>
-  <div class="tab" onclick="showTab('calendar')">Calendar</div>
-  <div class="tab" onclick="showTab('exhibitions')">Exhibitions</div>
+  <div class="tab" onclick="showTab('calexh')">📅 Calendar</div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -341,52 +347,8 @@ table tr:last-child td{border-bottom:none;}
 ══════════════════════════════════════════ -->
 <div id="page-overview" class="page active">
 
-  <!-- Financial KPIs -->
-  <div class="section-title" style="margin-top:0;">💰 Financial Summary</div>
-  <div class="summary-bar">
-    <div class="card" style="border-top:3px solid #1a1a2e;">
-      <div class="s-label">Total Contracts</div>
-      <div class="s-value">16</div>
-      <div class="s-sub">across 11 clients</div>
-    </div>
-    <div class="card" style="border-top:3px solid #3498db;">
-      <div class="s-label">Total Contract Value</div>
-      <div class="s-value" id="kpiTotal">—</div>
-      <div class="s-sub">USD equivalent</div>
-    </div>
-    <div class="card" style="border-top:3px solid #27ae60;">
-      <div class="s-label" style="color:#27ae60;">Total Paid</div>
-      <div class="s-value" style="color:#27ae60;" id="kpiPaid">—</div>
-      <div class="s-sub" id="kpiPaidPct">of contract value</div>
-    </div>
-    <div class="card" style="border-top:3px solid #e67e22;">
-      <div class="s-label" style="color:#e67e22;">Total Outstanding</div>
-      <div class="s-value" style="color:#e67e22;" id="kpiBalance">—</div>
-      <div class="s-sub" id="kpiBalPct">to collect</div>
-    </div>
-  </div>
-
-  <!-- Payment Outstanding Table -->
-  <div class="section-title" style="margin-top:22px;">📋 Outstanding Payments</div>
-  <div class="card" style="padding:0;overflow:hidden;">
-    <div class="pay-table-wrap">
-      <table class="pay-table" id="payOutstandingTable">
-        <thead>
-          <tr>
-            <th>Client</th>
-            <th>Paid</th>
-            <th>Contract Total</th>
-            <th>Outstanding</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="payOutstandingBody"></tbody>
-      </table>
-    </div>
-  </div>
-
   <!-- Sales by Year -->
-  <div class="section-title" style="margin-top:22px;">📅 Sales by Year</div>
+  <div class="section-title" style="margin-top:0;">📅 Annual Sales</div>
   <div class="year-stats-grid">
 
     <!-- 2024 -->
@@ -403,6 +365,10 @@ table tr:last-child td{border-bottom:none;}
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
         <span style="font-size:12px;color:#27ae60;">Collected</span>
         <span style="font-size:14px;font-weight:700;color:#27ae60;">~$250K ✅</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:12px;color:#888;">Units Sold</span>
+        <span style="font-size:16px;font-weight:700;color:#1a1a2e;">83</span>
       </div>
       <div style="font-size:10px;color:#999;margin-top:6px;">All 2024 PIs fully collected (GRUPO $24K paid in 2025)</div>
     </div>
@@ -421,6 +387,10 @@ table tr:last-child td{border-bottom:none;}
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
         <span style="font-size:12px;color:#27ae60;">Collected</span>
         <span style="font-size:14px;font-weight:700;color:#27ae60;">~$877K</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:12px;color:#888;">Units Sold</span>
+        <span style="font-size:16px;font-weight:700;color:#1a1a2e;">501</span>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5px 8px;background:#d5f5e3;border-radius:6px;margin-top:4px;">
         <span style="font-size:12px;color:#1e8449;font-weight:600;">✅ Outstanding</span>
@@ -444,43 +414,15 @@ table tr:last-child td{border-bottom:none;}
         <span style="font-size:12px;color:#27ae60;">Collected</span>
         <span style="font-size:14px;font-weight:700;color:#27ae60;" id="kpiPaid2026">—</span>
       </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:12px;color:#888;">Units Sold</span>
+        <span style="font-size:16px;font-weight:700;color:#1a1a2e;" id="yr26-units">296</span>
+      </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;padding:5px 8px;background:#eaf3fb;border-radius:6px;margin-top:4px;">
         <span style="font-size:12px;color:#2471a3;font-weight:600;">📦 Outstanding</span>
         <span style="font-size:14px;font-weight:700;color:#2471a3;" id="kpiBalance2026">—</span>
       </div>
       <div style="font-size:10px;color:#999;margin-top:6px;">252 units ordered · 9 countries</div>
-    </div>
-  </div>
-
-  <!-- General Stats -->
-  <div class="section-title">📊 General</div>
-  <div class="summary-bar">
-    <div class="card"><div class="s-label">Active Clients</div><div class="s-value">11</div><div class="s-sub">across 9 countries</div></div>
-    <div class="card"><div class="s-label">Open Tasks</div><div class="s-value">6</div><div class="s-sub">payments, deposits & visits</div></div>
-    <div class="card"><div class="s-label">Largest Deal</div><div class="s-value">$173.7K</div><div class="s-sub">OZCO — Turkey</div></div>
-    <div class="card"><div class="s-label">Next Key Date</div><div class="s-value">Apr 14</div><div class="s-sub">Giovanni factory visit</div></div>
-  </div>
-
-  <!-- Horizontal bar: Deal Value by Client -->
-  <div class="section-title">Deal Value by Client (USD)</div>
-  <div class="card">
-    <div class="chart-wrap" style="height:370px;"><canvas id="barChart"></canvas></div>
-  </div>
-
-  <!-- Stacked bar: Payment Status per Client -->
-  <div class="section-title">Payment Status by Client</div>
-  <div class="card">
-    <div class="chart-wrap" style="height:370px;"><canvas id="paymentChart"></canvas></div>
-  </div>
-
-  <!-- Status + Region donuts -->
-  <div class="section-title">Deal Status &amp; Regional Breakdown</div>
-  <div class="grid-2">
-    <div class="card">
-      <div class="chart-wrap"><canvas id="statusChart"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="chart-wrap"><canvas id="regionChart"></canvas></div>
     </div>
   </div>
 
@@ -510,46 +452,60 @@ table tr:last-child td{border-bottom:none;}
         <div class="task-title">OZCO Production Check</div>
         <div class="task-desc">Confirm 102-unit order on track. Hard deadline May 15 — only 45 days away. Also verify L/C status with bank.</div>
         <div class="task-meta">⚠️ Flying to Brazil May 1 — must confirm before departure</div>
+        <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
       </div>
       <div class="card task-card urgent">
         <div class="task-label">🔴 Chase Payment</div>
         <div class="task-title">Chase COMARK Balance</div>
         <div class="task-desc">70% T/T balance (~RMB 448,560) due within 1 week of B/L copy. Shipment just went out — follow up immediately.</div>
         <div class="task-meta">Contact: Jerzy Zalewski — +48 607 147 807</div>
+        <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
       </div>
       <div class="card task-card high">
         <div class="task-label">🟠 Chase Payment</div>
         <div class="task-title">Chase MAQUINAS Payment</div>
         <div class="task-desc">50% after shipping (~$48,659) now triggered. 20% after customs clearance will follow. Contact Argentina client.</div>
         <div class="task-meta">Argentina — Maquinas e Insumos SRL</div>
+        <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
       </div>
       <div class="card task-card normal">
         <div class="task-label">🔵 Apr 14</div>
         <div class="task-title">Prep — Giovanni Factory Visit</div>
         <div class="task-desc">DINTASS MOTORI (Chile) visits Gaoyou Apr 14. First order delivered. Likely follow-on order discussion — prepare product proposals.</div>
         <div class="task-meta">Lathes · Milling · Drilling</div>
+        <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
       </div>
       <div class="card task-card normal">
         <div class="task-label">🔵 Follow Up</div>
         <div class="task-title">JK Ecuador — Confirm Production on Track</div>
         <div class="task-desc">PI 20260325 ($62,162). 30% deposit $20,000 received Mar 26, 2026. Confirm production is scheduled and on track.</div>
         <div class="task-meta">Contact: Juan · Remaining: ~$42,162</div>
+        <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
       </div>
       <div class="card task-card normal">
         <div class="task-label">🔵 Status Check</div>
         <div class="task-title">JK Colombia Follow-Up</div>
         <div class="task-desc">Two Jan 2026 PIs totalling ~$131,894. Confirm production / shipping status for both orders.</div>
         <div class="task-meta">JK Investment CO SAS · Bogotá</div>
+        <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
       </div>
     </div>
+  </div>
+
+  <div class="done-section">
+    <div class="done-section-header">✓ Completed Tasks</div>
+    <div class="grid-3" id="doneSectionGrid"></div>
   </div>
 
 </div>
 
 <!-- ══════════════════════════════════════════
-     CALENDAR PAGE
+     CALENDAR & EXHIBITIONS PAGE
 ══════════════════════════════════════════ -->
-<div id="page-calendar" class="page">
+<div id="page-calexh" class="page">
+
+  <!-- Calendar Events -->
+  <div class="section-title" style="margin-top:0;">📅 Upcoming Events</div>
   <div class="grid-2">
     <div class="card event-card"><div class="event-dot orange"></div><div class="event-date"><div class="event-day">14</div><div class="event-mon">Apr</div></div><div class="event-body"><div class="event-title">Giovanni Factory Visit</div><div class="event-sub">DINTASS MOTORI (Chile) · Gaoyou factory · Follow-on order discussion</div></div></div>
     <div class="card event-card"><div class="event-dot blue"></div><div class="event-date"><div class="event-day">17</div><div class="event-mon">Apr</div></div><div class="event-body"><div class="event-title">上海展 — Exhibits Move-In</div><div class="event-sub">Shanghai Machine Tool Exhibition prep · Booth setup begins</div></div></div>
@@ -558,12 +514,9 @@ table tr:last-child td{border-bottom:none;}
     <div class="card event-card"><div class="event-dot red"></div><div class="event-date"><div class="event-day">1</div><div class="event-mon">May</div></div><div class="event-body"><div class="event-title">Flight: Shanghai → Madrid → São Paulo</div><div class="event-sub">Start of Brazil trip · ⚠️ Confirm OZCO production before departure</div></div></div>
     <div class="card event-card"><div class="event-dot red"></div><div class="event-date"><div class="event-day">15</div><div class="event-mon">May</div></div><div class="event-body"><div class="event-title">OZCO Delivery Deadline</div><div class="event-sub">102 units must ship · $173,725 · L/C 180d · Izmit port, Turkey</div></div></div>
   </div>
-</div>
 
-<!-- ══════════════════════════════════════════
-     EXHIBITIONS PAGE
-══════════════════════════════════════════ -->
-<div id="page-exhibitions" class="page">
+  <!-- Exhibitions -->
+  <div class="section-title" style="margin-top:32px;">🏭 Exhibitions</div>
 
   <!-- Stats bar -->
   <div class="summary-bar" style="margin-bottom:24px;">
@@ -929,6 +882,89 @@ table tr:last-child td{border-bottom:none;}
 
 </div>
 
+<!-- ══════════════════════════════════════════
+     ONGOING / PIs PAGE
+══════════════════════════════════════════ -->
+<div id="page-ongoing" class="page">
+
+  <!-- Financial Summary -->
+  <div class="section-title" style="margin-top:0;">💰 Financial Summary</div>
+  <div class="summary-bar">
+    <div class="card" style="border-top:3px solid #1a1a2e;">
+      <div class="s-label">Total Contracts</div>
+      <div class="s-value">16</div>
+      <div class="s-sub">across 11 clients</div>
+    </div>
+    <div class="card" style="border-top:3px solid #3498db;">
+      <div class="s-label">Total Contract Value</div>
+      <div class="s-value" id="kpiTotal">—</div>
+      <div class="s-sub">USD equivalent</div>
+    </div>
+    <div class="card" style="border-top:3px solid #27ae60;">
+      <div class="s-label" style="color:#27ae60;">Total Paid</div>
+      <div class="s-value" style="color:#27ae60;" id="kpiPaid">—</div>
+      <div class="s-sub" id="kpiPaidPct">of contract value</div>
+    </div>
+    <div class="card" style="border-top:3px solid #e67e22;">
+      <div class="s-label" style="color:#e67e22;">Total Outstanding</div>
+      <div class="s-value" style="color:#e67e22;" id="kpiBalance">—</div>
+      <div class="s-sub" id="kpiBalPct">to collect</div>
+    </div>
+  </div>
+
+  <!-- Outstanding Payments Table -->
+  <div class="section-title" style="margin-top:22px;">📋 Outstanding Payments</div>
+  <div class="card" style="padding:0;overflow:hidden;">
+    <div class="pay-table-wrap">
+      <table class="pay-table" id="payOutstandingTable">
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Paid</th>
+            <th>Contract Total</th>
+            <th>Outstanding</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="payOutstandingBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- General Stats -->
+  <div class="section-title">📊 General</div>
+  <div class="summary-bar">
+    <div class="card"><div class="s-label">Active Clients</div><div class="s-value">11</div><div class="s-sub">across 9 countries</div></div>
+    <div class="card"><div class="s-label">Open Tasks</div><div class="s-value">6</div><div class="s-sub">payments, deposits & visits</div></div>
+    <div class="card"><div class="s-label">Largest Deal</div><div class="s-value">$173.7K</div><div class="s-sub">OZCO — Turkey</div></div>
+    <div class="card"><div class="s-label">Next Key Date</div><div class="s-value">Apr 14</div><div class="s-sub">Giovanni factory visit</div></div>
+  </div>
+
+  <!-- Horizontal bar: Deal Value by Client -->
+  <div class="section-title">Deal Value by Client (USD)</div>
+  <div class="card">
+    <div class="chart-wrap" style="height:370px;"><canvas id="barChart"></canvas></div>
+  </div>
+
+  <!-- Stacked bar: Payment Status per Client -->
+  <div class="section-title">Payment Status by Client</div>
+  <div class="card">
+    <div class="chart-wrap" style="height:370px;"><canvas id="paymentChart"></canvas></div>
+  </div>
+
+  <!-- Status + Region donuts -->
+  <div class="section-title">Deal Status &amp; Regional Breakdown</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="chart-wrap"><canvas id="statusChart"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="chart-wrap"><canvas id="regionChart"></canvas></div>
+    </div>
+  </div>
+
+</div>
+
 <script>
 // ── AUTO DATE ────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',function(){document.getElementById('headerDate').textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});});
@@ -940,6 +976,40 @@ function showTab(name){
   event.currentTarget.classList.add('active');
   document.getElementById('page-'+name).classList.add('active');
 }
+
+// ── TASK DONE BUTTON ────────────────────────────────────────
+const _doneTasks = JSON.parse(localStorage.getItem('yf_done_tasks')||'[]');
+function markDone(btn){
+  const card = btn.closest('.task-card');
+  const title = card.querySelector('.task-title').textContent;
+  card.classList.add('done');
+  btn.textContent='✓ Completed';
+  btn.disabled=true;
+  btn.style.opacity='0.5';
+  // Move card to done section
+  const doneSection = document.getElementById('doneSectionGrid');
+  if(doneSection) doneSection.appendChild(card);
+  // Persist
+  const done = JSON.parse(localStorage.getItem('yf_done_tasks')||'[]');
+  if(!done.includes(title)){ done.push(title); localStorage.setItem('yf_done_tasks', JSON.stringify(done)); }
+}
+// On load, restore done state
+document.addEventListener('DOMContentLoaded', function(){
+  const done = JSON.parse(localStorage.getItem('yf_done_tasks')||'[]');
+  if(!done.length) return;
+  setTimeout(function(){
+    document.querySelectorAll('#page-tasks .task-card').forEach(function(card){
+      const title = card.querySelector('.task-title');
+      if(title && done.includes(title.textContent)){
+        card.classList.add('done');
+        const btn = card.querySelector('.task-done-btn');
+        if(btn){ btn.textContent='✓ Completed'; btn.disabled=true; btn.style.opacity='0.5'; }
+        const doneSection = document.getElementById('doneSectionGrid');
+        if(doneSection) doneSection.appendChild(card);
+      }
+    });
+  }, 100);
+});
 
 // ── CLIENT DATA ─────────────────────────────────────────────
 const clients = [
