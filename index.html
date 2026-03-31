@@ -334,8 +334,7 @@ table tr:last-child td{border-bottom:none;}
 </header>
 
 <div class="tabs">
-  <div class="tab active" onclick="showTab('overview')">Overview</div>
-  <div class="tab" onclick="showTab('sales')">📊 Sales</div>
+  <div class="tab active" onclick="showTab('sales')">📊 Sales</div>
   <div class="tab" onclick="showTab('ongoing')">📋 Ongoing</div>
   <div class="tab" onclick="showTab('clients')">Clients</div>
   <div class="tab" onclick="showTab('tasks')">Tasks</div>
@@ -345,10 +344,7 @@ table tr:last-child td{border-bottom:none;}
 <!-- ══════════════════════════════════════════
      OVERVIEW PAGE
 ══════════════════════════════════════════ -->
-<div id="page-overview" class="page active">
-
-  <!-- Sales by Year -->
-  <div class="section-title" style="margin-top:0;">📅 Annual Sales</div>
+<div id="page-overview" class="page" style="display:none!important;">
   <div class="year-stats-grid">
 
     <!-- 2024 -->
@@ -682,7 +678,7 @@ table tr:last-child td{border-bottom:none;}
 <!-- ══════════════════════════════════════════
      SALES PAGE
 ══════════════════════════════════════════ -->
-<div id="page-sales" class="page">
+<div id="page-sales" class="page active">
 
   <!-- All-Time KPIs -->
   <div class="section-title" style="margin-top:0;">🏆 All-Time Totals</div>
@@ -1500,6 +1496,7 @@ document.getElementById('kpiBalPct').textContent = Math.round(totalBal/totalVal*
     'Lathe':'#c0392b','CNC Lathe':'#e74c3c','Private Label':'#7f8c8d'
   };
 
+  models.sort((a, b) => (b[2]+b[3]+b[4]) - (a[2]+a[3]+a[4]));
   const tbody = document.getElementById('modelTableBody');
   let html2 = '';
   models.forEach(([name, type, q24, q25, q26], i) => {
