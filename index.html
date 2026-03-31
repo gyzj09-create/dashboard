@@ -1949,7 +1949,10 @@ function buildRankedTable(){
           `<div class="rt-model-line"><span class="rt-model-name">${mdl}</span> <span class="rt-model-qty">×${qty}</span></div>`)
         .join('');
       return `<td class="rt-yr">
-        <div style="font-size:11px;font-weight:700;color:#2e6da4;margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #e8eef5;">${yrTotal} units</div>
+        <div style="margin-bottom:6px;padding-bottom:5px;border-bottom:1px solid #e8eef5;">
+          <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#aaa;">${yr}</span>
+          <span style="font-size:12px;font-weight:700;color:#2e6da4;margin-left:6px;">${yrTotal} units</span>
+        </div>
         ${lines}
       </td>`;
     }).join('');
