@@ -547,8 +547,8 @@ table tr:last-child td{border-bottom:none;}
       </div>
       <div class="card task-card high">
         <div class="task-label">🟠 Chase Payment</div>
-        <div class="task-title">Chase MAQUINAS Payment</div>
-        <div class="task-desc">50% after shipping (~$48,659) now triggered. 20% after customs clearance will follow. Contact Argentina client.</div>
+        <div class="task-title">Chase MAQUINAS Final Payment</div>
+        <div class="task-desc">$53,617 post-ship payment received Apr 1. Final 20% (~$21,447) due 30 days after customs clearance in Argentina.</div>
         <div class="task-meta">Argentina — Maquinas e Insumos SRL</div>
         <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
       </div>
@@ -1153,9 +1153,9 @@ const clients = [
     short:'MAQUINAS', flag:'🇦🇷', name:'Maquinas e Insumos SRL',
     country:'Argentina', contact:'—', address:'Av. Bernardo Ader 1345, Villa Adelina, Pcia. Bs. As., Argentina',
     amount:'~$107,234 USD', amountUSD:107200,
-    paid:'~$32,183 USD', balance:'~$75,051 USD',
-    contracts:2, machines:33, status:'50% Due Post-Ship',
-    tags:[{t:'Deposits Paid ✓',c:'green'},{t:'50% Due post-ship',c:'orange'},{t:'20% on clearance',c:'gray'}],
+    paid:'~$85,800 USD', balance:'~$21,447 USD',
+    contracts:2, machines:33, status:'20% Final Pending',
+    tags:[{t:'Deposits Paid ✓',c:'green'},{t:'50% Post-Ship Paid ✓',c:'green'},{t:'20% on clearance',c:'orange'}],
     payment:'30% down · 50% after shipping · 20% after customs clearance.',
     pis:[
       {
@@ -1396,7 +1396,7 @@ const allClientsForPage = (function(){
     '20250514':'outstanding','202603':'production','DM20251125':'paid'
   };
   const clientPaid = {
-    OZCO:0,COMARK:26400,JK:62196,MAQUINAS:32183,ANCLA:20758,
+    OZCO:0,COMARK:26400,JK:62196,MAQUINAS:85800,ANCLA:20758,
     GRUPO:85920,MANROD:16866,Tupai:618,KOWAY:21840,REMO:10177,DINTASS:29373
   };
   // Historical PIs for existing clients
@@ -2065,9 +2065,9 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
   // 2025: 25 deals — 19 fully-paid historical + 6 active-client 2025 PIs
   //   Active 2025 PIs: KOWAY($33,600) + COMARK($88,000) + MAQUINAS-PI1($97,318)
   //                  + ANCLA-PI1+RM($93,174) + GRUPO-PI($76,320) = $388,412
-  const v25=1198270, c25=946211, o25=252059, d25=25;
+  const v25=1198270, c25=994870, o25=203400, d25=25;
   // 2026: 11 deals — only 2026-dated PIs (OZCO×2, JK×4, MAQUINAS-PI2, ANCLA-PI2, MANROD, Tupai, REMO)
-  const v26=572089, c26=92854, o26=479235, d26=11;
+  const v26=572089, c26=97812, o26=474277, d26=11;
 
   const vAll=v24+v25+v26, cAll=c24+c25+c26, oAll=o24+o25+o26, dAll=d24+d25+d26;
 
@@ -2185,7 +2185,7 @@ const _kpiBalance2026=document.getElementById('kpiBalance2026'); if(_kpiBalance2
     OZCO:   {label:'⚠ Ship by May 1', cls:'pill-red'},
     COMARK: {label:'70% due vs B/L',   cls:'pill-orange'},
     JK:     {label:'Partial deposits', cls:'pill-orange'},
-    MAQUINAS:{label:'50%+20% pending', cls:'pill-orange'},
+    MAQUINAS:{label:'20% post-customs', cls:'pill-orange'},
     ANCLA:  {label:'80% pending',      cls:'pill-orange'},
     GRUPO:  {label:'Partial shipped',  cls:'pill-orange'},
     MANROD: {label:'70% pre-ship',     cls:'pill-orange'},
