@@ -406,6 +406,35 @@ table tr:last-child td{border-bottom:none;}
   /* Client view toggle — full width on mobile */
   .client-view-toggle{gap:6px;}
   .view-btn{flex:1;padding:8px 10px;font-size:12px;text-align:center;}
+
+  /* ── Ongoing PI cards ── */
+  /* Header: allow badge to wrap below */
+  .pi-card-header{flex-wrap:wrap;gap:6px;padding:12px 14px;}
+  .pi-card-flag{font-size:18px;}
+  .pi-card-client{font-size:12px;}
+  .pi-card-no{font-size:11px;}
+  .pi-status-badge{font-size:10px;padding:3px 9px;}
+
+  /* Items table: hide Unit Price, reduce padding */
+  .unit-col{display:none!important;}
+  .pi-card-items{font-size:11px;}
+  .pi-card-items th,.pi-card-items td{padding:6px 10px;}
+
+  /* Shipping row: stack deposit + shipment vertically */
+  .pi-shipping-row{flex-direction:column;}
+  .pi-ship-item{border-right:none!important;border-bottom:1px solid #ececec;padding:7px 14px;}
+  .pi-ship-item:last-child{border-bottom:none;}
+
+  /* Footer: stack payment terms above amounts */
+  .pi-card-footer{flex-direction:column;}
+  .pi-card-payment{border-right:none!important;border-bottom:1px solid #f0f0f0;padding:10px 14px;}
+  .pi-card-amounts{width:100%;}
+  .pi-card-amt{flex:1;min-width:0;padding:10px 8px;}
+  .pi-card-amt .amt-value{font-size:13px;}
+  .pi-card-amt .amt-label{font-size:9px;}
+
+  /* Collect next strip */
+  .pi-card-next{font-size:11px;padding:8px 14px;}
 }
 
 @media(max-width:400px){
@@ -1621,7 +1650,7 @@ const allClientsForPage = (function(){
         <tr>
           <th>Model</th>${hasDesc?'<th>Config</th>':''}
           <th style="text-align:center">Qty</th>
-          <th>Unit Price</th>
+          <th class="unit-col">Unit Price</th>
           <th>Total</th>
         </tr>`;
     items.forEach(it=>{
@@ -1632,7 +1661,7 @@ const allClientsForPage = (function(){
         <td>${modelCell}</td>
         ${hasDesc?`<td style="color:#888;font-size:11px;">${it.desc||''}</td>`:''}
         <td style="text-align:center;font-weight:600;">${it.qty}</td>
-        <td>${it.unit}</td>
+        <td class="unit-col">${it.unit}</td>
         <td style="font-weight:600;">${it.total}</td>
       </tr>`;
     });
