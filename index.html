@@ -612,7 +612,7 @@ table tr:last-child td{border-bottom:none;}
       <div class="card task-card urgent">
         <div class="task-label">🔴 Chase Payment</div>
         <div class="task-title">Chase COMARK Balance</div>
-        <div class="task-desc">70% T/T balance (~RMB 448,560) due within 1 week of B/L copy. Shipment just went out — follow up immediately.</div>
+        <div class="task-desc">Balance (~RMB 329,760) due within 1 week of B/L copy. PI revised Apr 4: 360x1300 qty 12→6, total RMB 522,000.</div>
         <div class="task-meta">Contact: Jerzy Zalewski — +48 607 147 807</div>
         <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
       </div>
@@ -917,21 +917,21 @@ table tr:last-child td{border-bottom:none;}
             <span style="font-size:22px;font-weight:700;color:#1a1a2e;">25</span>
           </td>
           <td style="padding:14px 16px;text-align:center;">
-            <span style="font-size:22px;font-weight:700;color:#1a1a2e;">501</span>
+            <span style="font-size:22px;font-weight:700;color:#1a1a2e;">495</span>
           </td>
           <td style="padding:14px 16px;text-align:right;">
-            <div style="font-weight:700;font-size:15px;color:#1a1a2e;">$1,198,270</div>
+            <div style="font-weight:700;font-size:15px;color:#1a1a2e;">$1,181,970</div>
             <div style="font-size:10px;color:#aaa;">19 hist + KOWAY/COMARK/MAQUINAS/ANCLA/GRUPO</div>
           </td>
           <td style="padding:14px 16px;text-align:right;">
-            <div style="font-weight:700;font-size:15px;color:#27ae60;">$946,211</div>
+            <div style="font-weight:700;font-size:15px;color:#27ae60;">$994,870</div>
           </td>
           <td style="padding:14px 16px;text-align:right;">
-            <div style="font-weight:700;font-size:15px;color:#e67e22;">$252,059</div>
-            <div style="font-size:10px;color:#aaa;">COMARK/MAQUINAS/ANCLA/GRUPO/KOWAY</div>
+            <div style="font-weight:700;font-size:15px;color:#e67e22;">$187,100</div>
+            <div style="font-size:10px;color:#aaa;">COMARK/ANCLA/GRUPO/KOWAY</div>
           </td>
           <td style="padding:14px 16px;text-align:center;">
-            <div style="display:inline-block;background:#fef3e2;color:#e67e22;font-weight:700;font-size:13px;padding:4px 10px;border-radius:20px;">79%</div>
+            <div style="display:inline-block;background:#fef3e2;color:#e67e22;font-weight:700;font-size:13px;padding:4px 10px;border-radius:20px;">84%</div>
           </td>
         </tr>
         <!-- 2026 — 2026-dated PIs only -->
@@ -1140,21 +1140,21 @@ const clients = [
   {
     short:'COMARK', flag:'🇵🇱', name:'CORMAK Jerzy Zalewski',
     country:'Poland', contact:'Jerzy Zalewski — +48 607 147 807', address:'Str. Brzeska 120, 08-110 Siedlce, Poland',
-    amount:'RMB 640,800', amountUSD:88000,
-    paid:'RMB 192,240 (30% deposit)', balance:'RMB 448,560 (70% due)',
-    contracts:1, machines:36, status:'70% Due Before B/L',
-    tags:[{t:'Deposit Paid ✓',c:'green'},{t:'70% Due Before B/L',c:'orange'},{t:'36 lathes',c:'blue'}],
+    amount:'RMB 522,000', amountUSD:71700,
+    paid:'RMB 192,240 (30% deposit)', balance:'RMB 329,760 (balance due)',
+    contracts:1, machines:30, status:'Balance Due vs B/L',
+    tags:[{t:'Deposit Paid ✓',c:'green'},{t:'Balance Due vs B/L',c:'orange'},{t:'30 lathes',c:'blue'}],
     payment:'30% T/T advance · 70% T/T against B/L copy within 1 week.',
     pis:[{
-      no:'YFCORMAK251231', date:'Dec 2025', total:'RMB 640,800',
+      no:'YFCORMAK251231', date:'Dec 2025', total:'RMB 522,000',
       depositDate:'Jan 5, 2026', plannedShip:null, actualShip:null,
-      nextPayment:'RMB 448,560 (~$62K) · Against B/L copy within 1 week of shipment (70% balance)',
+      nextPayment:'RMB 329,760 (~$45K) · Against B/L copy within 1 week of shipment (balance)',
       items:[
         {model:'Lathe 360x1000 Vario',desc:'',qty:24,unit:'RMB 16,800',total:'RMB 403,200'},
-        {model:'Lathe 360x1300 Vario',desc:'',qty:12,unit:'RMB 19,800',total:'RMB 237,600'},
+        {model:'Lathe 360x1300 Vario',desc:'',qty:6,unit:'RMB 19,800',total:'RMB 118,800'},
       ]
     }],
-    notes:'30% deposit PAID: CNY 192,240 received Jan 5 2026 via PKO Bank Polski. 70% balance (CNY 448,560) due against B/L copy within 1 week of shipment. Pays in RMB — use BOC RMB account (Acct: 492367131118). 36 lathes. CE certification required.'
+    notes:'30% deposit PAID: CNY 192,240 received Jan 5 2026 via PKO Bank Polski. Balance (CNY 329,760) due against B/L copy within 1 week of shipment. PI revised Apr 4 2026: 360x1300 qty 12→6. Pays in RMB — use BOC RMB account (Acct: 492367131118). 30 lathes. CE certification required.'
   },
   {
     short:'JK', flag:'🇨🇴', name:'JK Group / Metal Master Industrial',
@@ -2113,7 +2113,7 @@ const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 
 // ── KPI computation ─────────────────────────────────────────
 const paidByClient = {
-  OZCO:0, COMARK:26400, JK:62196, MAQUINAS:32183, ANCLA:20758,
+  OZCO:0, COMARK:26400, JK:62196, MAQUINAS:85800, ANCLA:20758,
   GRUPO:85920, MANROD:16866, Tupai:618, KOWAY:21840, REMO:10177, DINTASS:29373
 };
 const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
@@ -2134,9 +2134,9 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
   // 2024: 7 deals — GRUPO YF20241024 still has $24,000 outstanding
   const v24=250108, c24=226108, o24=24000, d24=7;
   // 2025: 25 deals — 19 fully-paid historical + 6 active-client 2025 PIs
-  //   Active 2025 PIs: KOWAY($33,600) + COMARK($88,000) + MAQUINAS-PI1($97,318)
-  //                  + ANCLA-PI1+RM($93,174) + GRUPO-PI($76,320) = $388,412
-  const v25=1198270, c25=994870, o25=203400, d25=25;
+  //   Active 2025 PIs: KOWAY($33,600) + COMARK($71,700) + MAQUINAS-PI1($97,318)
+  //                  + ANCLA-PI1+RM($93,174) + GRUPO-PI($76,320) = $372,112
+  const v25=1181970, c25=994870, o25=187100, d25=25;
   // 2026: 11 deals — only 2026-dated PIs (OZCO×2, JK×4, MAQUINAS-PI2, ANCLA-PI2, MANROD, Tupai, REMO)
   const v26=572089, c26=97812, o26=474277, d26=11;
 
@@ -2186,7 +2186,7 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
     ['Z5050 / Z5050A / V',    'Drill',         0,  16,  10],  // 2025:hist10+KOWAY6; 2026:OZCO MC50E
     ['Z3040 / Z3050',         'Drill',         0,   4,   0],
     // Lathes - conventional
-    ['CQ360V×1000/1300 Vario','Lathe',         0,  81,  30],  // 2025:hist41+COMARK36+GRUPO4; 2026:OZCO CR3610V(18)+JK JUG3610V(4)+MAQUINAS-PI2(4)+ANCLA-PI2(4)
+    ['CQ360V×1000/1300 Vario','Lathe',         0,  75,  30],  // 2025:hist41+COMARK30+GRUPO4; 2026:OZCO CR3610V(18)+JK JUG3610V(4)+MAQUINAS-PI2(4)+ANCLA-PI2(4)
     ['CQ320V×1000 Vario',     'Lathe',         3,  40,   0],  // 2025:Viber33+GRUPO7
     ['CQ290V×750 Vario',      'Lathe',         0,   8,   0],  // 2025:DINTASS1+Viber7
     ['CQC330B×1000',          'Lathe',         5,  14,   0],  // 2025:hist3+ANCLA6+GRUPO5
