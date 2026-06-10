@@ -1325,9 +1325,9 @@ const clients = [
   {
     short:'GRUPO', flag:'🇲🇽', name:'B&I TRADERS S DE RL DE CV',
     country:'Mexico (ships to USA)', contact:'Eduardo Navarro Ramirez', address:'Mexican entity — final destination USA',
-    amount:'$148,080 USD', amountUSD:148080,
-    paid:'$96,910 USD', balance:'$51,170 USD',
-    contracts:2, machines:56, status:'Partial Shipped',
+    amount:'$129,963 USD', amountUSD:129963,
+    paid:'$96,910 USD', balance:'$33,053 USD',
+    contracts:2, machines:44, status:'Partial Shipped',
     tags:[{t:'Partial Shipped',c:'green'},{t:'$24K overdue',c:'red'},{t:'5 payments rcvd',c:'blue'}],
     payment:'30% deposit → 50% before shipping → 50% two months after shipping.',
     pis:[{
@@ -1347,24 +1347,22 @@ const clients = [
         {model:'YF550T',desc:'',qty:1,unit:'$24,000',total:'$24,000'},
       ]
     },{
-      no:'20250811', date:'Aug 2025', total:'$76,320 USD',
+      no:'20250811', date:'Aug 2025', total:'$58,203 USD',
       depositDate:'Oct 9, 2025', plannedShip:null, actualShip:null,
-      payment:'✅ ① $7,000 Oct 9 2025 (BBVA Mexico → CCB)\n✅ ② $10,000 Oct 27 2025 (CCB)\n✅ ③ $5,000 Dec 24 2025 (BBVA Mexico → BOC; folio 3799399240)\n✅ ④ $16,160 Feb 25 2026 (BBVA Mexico → BOC; ref TI26022500015670)\n✅ ⑤ $10,990 Jun 9 2026 — MXN 195,573.62 → USD (BBVA Mexico → BOC)\nTotal paid: $49,150 | Balance: $27,170 USD',
+      payment:'✅ ① $7,000 Oct 9 2025 (BBVA Mexico → CCB)\n✅ ② $10,000 Oct 27 2025 (CCB)\n✅ ③ $5,000 Dec 24 2025 (BBVA Mexico → BOC; folio 3799399240)\n✅ ④ $16,160 Feb 25 2026 (BBVA Mexico → BOC; ref TI26022500015670)\n✅ ⑤ $10,990 Jun 9 2026 — MXN 195,573.62 → USD (BBVA Mexico → BOC)\nTotal paid: $49,150 | Balance: $9,053 USD',
       items:[
-        {model:'ZX45 220V',desc:'',qty:12,unit:'$1,179',total:'$14,148'},
-        {model:'ZX7045 220V',desc:'',qty:4,unit:'$1,660',total:'$6,640'},
-        {model:'ZS30H 220V',desc:'',qty:2,unit:'$976',total:'$1,952'},
-        {model:'CQ6125 EC Vario 110V',desc:'',qty:2,unit:'$1,437',total:'$2,874'},
-        {model:'CQ6128 110V',desc:'',qty:2,unit:'$1,232',total:'$2,464'},
-        {model:'CQ320V 220V',desc:'',qty:4,unit:'$1,736',total:'$6,944'},
-        {model:'CQ320V 110V',desc:'',qty:3,unit:'$1,736',total:'$5,208'},
-        {model:'CQ6132GV 220V',desc:'',qty:4,unit:'$1,960',total:'$7,840'},
-        {model:'CQ6132GV 110V',desc:'',qty:3,unit:'$1,960',total:'$5,880'},
-        {model:'CQ360 Vario 220V',desc:'',qty:4,unit:'$2,575',total:'$10,300'},
-        {model:'CQ330x1000 220V',desc:'',qty:5,unit:'$2,414',total:'$12,070'},
+        {model:'ZX45',desc:'R8, 1000×240 table',qty:4,unit:'$1,179',total:'$4,716'},
+        {model:'ZX7045',desc:'X-axis feed, steel stand, LED',qty:4,unit:'$1,660',total:'$6,640'},
+        {model:'ZS30H MT3',desc:'',qty:2,unit:'$976',total:'$1,952'},
+        {model:'CQ6125 EC Vario',desc:'SINO 2-axis DRO',qty:2,unit:'$1,437',total:'$2,874'},
+        {model:'CQ6128',desc:'SINO 2-axis DRO',qty:2,unit:'$1,232',total:'$2,464'},
+        {model:'CQ320V',desc:'SINO 2-axis DRO',qty:6,unit:'$1,736',total:'$10,416'},
+        {model:'CQ6132GV',desc:'SINO 2-axis DRO',qty:6,unit:'$1,960',total:'$11,760'},
+        {model:'CQ360 Vario',desc:'SINO 2-axis DRO',qty:3,unit:'$2,575',total:'$7,725'},
+        {model:'CQ330x1000',desc:'2-axis DRO, change gears',qty:4,unit:'$2,414',total:'$9,656'},
       ]
     }],
-    notes:'PI YF20241024 (Oct 2024): $47,760 paid, $24,000 outstanding. PI 20250811 (Aug 2025): 5 payments confirmed — ① $7,000 ② $10,000 ③ $5,000 ④ $16,160 ⑤ $10,990 (Jun 9 2026) = $49,150 paid, balance $27,170. 33/45 units shipped. 12 remain for next container: ZX45×8, CQ320V×1, CQ6132GV×1, CQ360V×1, CQ330×1.'
+    notes:'PI YF20241024 (Oct 2024): $47,760 paid, $24,000 outstanding. PI 20250811 (Aug 2025) — CORRECTED to the actual shipped PI (33 units, $58,203; prior $76,320 was an error): 5 payments = $49,150 paid, balance $9,053.'
   },
   {
     short:'MANROD', flag:'🇧🇷', name:'Manrod Quality Machines',
@@ -1421,21 +1419,21 @@ const clients = [
     short:'KOWAY', flag:'🇹🇷', name:'KOWAY MAKİNA SANAYİ ve TİCARET LİMİTED ŞİRKETİ',
     country:'Turkey', contact:'—', address:'IŞIKTEPE OSB MAH. PARK CAD. NO 13 NİLÜFER / BURSA / TÜRKİYE',
     amount:'$33,600 USD', amountUSD:33600,
-    paid:'$25,760 USD', balance:'$7,840 USD',
-    contracts:1, machines:18, status:'Down + 4 of 6 Installments',
-    tags:[{t:'30% T/T Paid ✓',c:'green'},{t:'2 Installments Left',c:'orange'},{t:'18 units',c:'blue'}],
+    paid:'$29,680 USD', balance:'$3,920 USD',
+    contracts:1, machines:18, status:'Down + 5 of 6 Installments',
+    tags:[{t:'30% T/T Paid ✓',c:'green'},{t:'1 Installment Left',c:'orange'},{t:'18 units',c:'blue'}],
     payment:'30% T/T down payment ($10,080, paid Jun 18 2025) + 70% in 6 monthly T/T installments of $3,920/month (changed from original L/C agreement).',
     pis:[{
       no:'20250514', date:'May 2025', total:'$33,600 USD',
       depositDate:'Jun 18, 2025', plannedShip:null, actualShip:null,
-      payment:'✅ 30% T/T: $10,080 · Jun 18 2025 · Yapı Kredi Bank (net $10,000)\n✅ Installment 1: $3,920 · Dec 29 2025 · Kuveyt Türk\n✅ Installment 2: $3,920 · Jan 2026 (BOC 1249.JPG)\n✅ Installment 3: $3,920 · Mar 22 2026 (BOC TI26032200001547)\n✅ Installment 4: $3,920 · Jun 2 2026 · Kuveyt Türk (net $3,883, ref NO.20250514)\n⏳ Installments 5–6: $3,920 × 2 = $7,840 remaining',
+      payment:'✅ 30% T/T down: $10,080 · Jun 18 2025 · Yapı Kredi (net $10,000)\n✅ Installment 1: $3,920 · Dec 29 2025 · Kuveyt Türk\n✅ Installment 2: $3,920 · Feb 3 2026 · Kuveyt Türk (net $3,883)\n✅ Installment 3: $3,920 · Mar 12 2026 · Yapı Kredi (net $3,877)\n✅ Installment 4: $3,920 · Mar 31 2026 · Kuveyt Türk (net $3,883)\n✅ Installment 5: $3,920 · Jun 2 2026 · Kuveyt Türk (net $3,883)\n⏳ Installment 6: $3,920 remaining',
       items:[
         {model:'ZX40H',desc:'380V/50Hz/3Ph, MT4, X-axis feed, auto quill, 2-speed motor, tapping',qty:12,unit:'$1,400',total:'$16,800'},
         {model:'Z5050',desc:'380V/50Hz/3Ph, MT5, electromagnetic auto feed, motorized table',qty:4,unit:'$2,800',total:'$11,200'},
         {model:'Z5050V',desc:'380V/50Hz/3Ph, MT5, electromagnetic auto feed, motorized table',qty:2,unit:'$2,800',total:'$5,600'},
       ]
     }],
-    notes:'New client (2025). 70% balance paid as 6× $3,920/month T/T installments (changed from L/C). Total paid: $25,760 (30% down + 4 installments; latest $3,920 on Jun 2 2026). Remaining: 2 × $3,920 = $7,840.'
+    notes:'New client (2025). 70% balance paid as 6× $3,920/month T/T installments (changed from L/C). Total paid: $29,680 (30% down + 5 installments; latest Jun 2 2026). Remaining: 1 × $3,920 = $3,920 (final installment).'
   },
   {
     short:'REMO', flag:'🇫🇷', name:'REMO SARL',
@@ -1524,7 +1522,7 @@ const allClientsForPage = (function(){
   };
   const clientPaid = {
     OZCO:0,COMARK:95637,JK:194736,MAQUINAS:85800,ANCLA:20758,
-    GRUPO:96910,MANROD:135434,Tupai:618,KOWAY:25760,REMO:10177,DINTASS:42273
+    GRUPO:96910,MANROD:135434,Tupai:618,KOWAY:29680,REMO:10177,DINTASS:42273
   };
   // Historical PIs for existing clients
   const histPIs = {
@@ -2170,7 +2168,7 @@ const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 // ── KPI computation ─────────────────────────────────────────
 const paidByClient = {
   OZCO:0, COMARK:95637, JK:194736, MAQUINAS:85800, ANCLA:20758,
-  GRUPO:96910, MANROD:135434, Tupai:618, KOWAY:25760, REMO:10177, DINTASS:42273
+  GRUPO:96910, MANROD:135434, Tupai:618, KOWAY:29680, REMO:10177, DINTASS:42273
 };
 const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
 const totalPaid = Object.values(paidByClient).reduce((s,v)=>s+v,0);
@@ -2192,7 +2190,7 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
   // 2025: 25 deals — 19 fully-paid historical + 6 active-client 2025 PIs
   //   Active 2025 PIs: KOWAY($33,600) + COMARK($71,700) + MAQUINAS-PI1($97,318)
   //                  + ANCLA-PI1+RM($93,174) + GRUPO-PI($76,320) = $372,112
-  const v25=1181970, c25=1055077, o25=126893, d25=25;
+  const v25=1163853, c25=1058997, o25=104856, d25=25;
   // 2026: 17 deals — 2026-dated PIs incl. new JK Ecuador/Colombia, MANROD ×2, DINTASS O2, COMARK O2
   const v26=1052201, c26=385754, o26=666447, d26=17;
 
