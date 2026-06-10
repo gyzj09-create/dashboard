@@ -874,7 +874,37 @@ document.addEventListener('DOMContentLoaded', function(){
 // ===== EDIT OVERRIDES (localStorage) =====
 window.OV=(function(){try{return JSON.parse(localStorage.getItem('db_ov')||'{}');}catch(e){return {};}})();
 function ovGet(no){return window.OV[no]||{};}
-function ovSave(){try{localStorage.setItem('db_ov',JSON.stringify(window.OV));}catch(e){}}
+function ovSave(){try{localStorage.setItem('db_ov',JSON.stringify(window.OV));}catch(e){} cloudPush(); }
+// ===== CLOUD SYNC (Supabase) =====
+var SB_URL='https://yrdrpgmmvlbwnofpuekt.supabase.co';
+var SB_KEY='sb_publishable_Rugoxxgw_x-R3tl5SRUm9A_eNHFpHrv';
+var SB_H={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
+function syncBadge(t,c){var b=document.getElementById('syncBadge');if(b){b.textContent=t;b.style.background=c||'#1a1a2e';}}
+function cloudPush(){
+  if(!SB_URL) return; syncBadge('☁ 同步中…','#888');
+  try{
+    fetch(SB_URL+'/rest/v1/dealboard?on_conflict=id',{
+      method:'POST', keepalive:true,
+      headers:Object.assign({},SB_H,{'Prefer':'resolution=merge-duplicates,return=minimal'}),
+      body:JSON.stringify([{id:'overrides',data:window.OV,updated_at:new Date().toISOString()}])
+    }).then(function(r){ syncBadge(r.ok?'☁ 已同步':'⚠ 同步失败('+r.status+')', r.ok?'#1e8449':'#e74c3c'); })
+     .catch(function(){ syncBadge('⚠ 同步失败','#e74c3c'); });
+  }catch(e){ syncBadge('⚠ 同步失败','#e74c3c'); }
+}
+function cloudPull(){
+  if(!SB_URL) return; syncBadge('☁ 同步中…','#888');
+  fetch(SB_URL+'/rest/v1/dealboard?id=eq.overrides&select=data',{headers:SB_H})
+  .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(function(rows){
+    var remote=(rows&&rows[0]&&rows[0].data)?rows[0].data:null;
+    var localStr=JSON.stringify(window.OV||{});
+    if(remote===null){ if(localStr!=='{}'){ cloudPush(); } else { syncBadge('☁ 已同步','#1e8449'); } return; }
+    var remoteStr=JSON.stringify(remote);
+    if(remoteStr!==localStr){ window.OV=remote; try{localStorage.setItem('db_ov',remoteStr);}catch(e){} location.reload(); }
+    else { syncBadge('☁ 已同步','#1e8449'); }
+  }).catch(function(e){ syncBadge('⚠ 同步失败','#e74c3c'); });
+}
+window.addEventListener('load',function(){ setTimeout(cloudPull,300); });
 function _yr(p){var m=(p.date||'').match(/20\d\d/);return m?+m[0]:0;}
 function pcOf(p){var o=ovGet(p.no);if(typeof o.prodComplete==='boolean')return o.prodComplete;return !!p.prodDone||(_yr(p)>0&&_yr(p)<=2025);}
 function extraPaidUSD(no){return (ovGet(no).payments||[]).reduce(function(s,x){return s+(+x.usd||0);},0);}
@@ -2451,6 +2481,7 @@ function renderContracts(){
 }
 renderContracts();
 </script>
+<div id="syncBadge" style="position:fixed;left:12px;bottom:12px;z-index:5000;background:#1a1a2e;color:#fff;font-size:11px;font-weight:600;padding:6px 10px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:default;">☁ 同步</div>
 <button id="pwaInstall" style="display:none;position:fixed;right:16px;bottom:16px;z-index:5000;background:#1a1a2e;color:#fff;border:none;border-radius:24px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,0.3);cursor:pointer;">📲 安装 App</button>
 <script>
 if('serviceWorker' in navigator){ window.addEventListener('load',function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); }); }
