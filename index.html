@@ -1583,38 +1583,42 @@ const allClientsForPage = (function(){
 // ── RENDER CLIENT GRID ──────────────────────────────────────
 const grid = document.getElementById('clientGrid');
 const fmtUSD = v => v>=1000000?'$'+(v/1000000).toFixed(2)+'M':'$'+(v/1000).toFixed(0)+'K';
-const clientYear = c => { let mx=0; (c.pis||[]).forEach(p=>{const m=(p.date||'').match(/20\d\d/); if(m) mx=Math.max(mx,+m[0]);}); return mx||'Other'; };
-const _byYr={};
-allClientsForPage.forEach((c,i)=>{ const y=clientYear(c); (_byYr[y]=_byYr[y]||[]).push(i); });
-Object.keys(_byYr).sort((a,b)=> a==='Other'?1 : b==='Other'?-1 : (b-a)).forEach(y=>{
+const isAccCl=it=>{const m=(it.model||'').toLowerCase(),d=(it.desc||'').toLowerCase(); if(d.includes('accessor'))return true; return /^(dro|scale|scales|accessories|spacer)\b|vice|vise|\bchuck\b|blade|coolant|\bspare\b/.test(m);};
+const piUSD=p=>{ const t=p.total||''; let m=t.match(/\$\s*([\d,]+(?:\.\d+)?)/); if(m) return Math.round(parseFloat(m[1].replace(/,/g,''))); m=t.match(/(?:RMB|CNY|¥)\s*([\d,]+)/i); if(m) return Math.round(parseFloat(m[1].replace(/,/g,''))/7.28); m=t.match(/(?:€|EUR)\s*([\d,]+)/i); if(m) return Math.round(parseFloat(m[1].replace(/,/g,''))*1.10); return 0; };
+const piUnits=p=>(p.items||[]).reduce((u,it)=>u+(isAccCl(it)?0:(+it.qty||0)),0);
+const yrOf=p=>{const m=(p.date||'').match(/20\d\d/);return m?m[0]:'Other';};
+// Build per-(client, year) slices
+const cells=[];
+allClientsForPage.forEach((c,i)=>{
+  const byy={};
+  (c.pis||[]).forEach(p=>{ const y=yrOf(p); (byy[y]=byy[y]||[]).push(p); });
+  Object.keys(byy).forEach(y=>{
+    const ps=byy[y];
+    cells.push({i:i,c:c,year:y,value:ps.reduce((s,p)=>s+piUSD(p),0),units:ps.reduce((s,p)=>s+piUnits(p),0),n:ps.length});
+  });
+});
+const byYear={};
+cells.forEach(x=>{ (byYear[x.year]=byYear[x.year]||[]).push(x); });
+Object.keys(byYear).sort((a,b)=> a==='Other'?1 : b==='Other'?-1 : (b-a)).forEach(y=>{
+  const list=byYear[y].slice().sort((a,b)=>b.value-a.value);
+  const yVal=list.reduce((s,x)=>s+x.value,0), yUnits=list.reduce((s,x)=>s+x.units,0);
   const hdr=document.createElement('div');
   hdr.style.cssText='grid-column:1/-1;background:#1a1a2e;color:#fff;border-radius:10px;padding:11px 16px;margin:16px 0 2px;display:flex;justify-content:space-between;align-items:center;';
-  hdr.innerHTML='<span style="font-weight:800;font-size:15px;">📅 '+(y==='Other'?'Other':y)+'</span><span style="font-size:12px;font-weight:600;color:#f1c40f;">'+_byYr[y].length+' client'+(_byYr[y].length!==1?'s':'')+' · latest order</span>';
+  hdr.innerHTML='<span style="font-weight:800;font-size:15px;">📅 '+(y==='Other'?'Other':y)+'</span><span style="font-size:12px;font-weight:600;color:#f1c40f;">'+list.length+' client'+(list.length!==1?'s':'')+' · '+fmtUSD(yVal)+' · '+yUnits+' units</span>';
   grid.appendChild(hdr);
-  _byYr[y].forEach(i=>{
-    const c=allClientsForPage[i];
+  list.forEach(x=>{
+    const c=x.c;
     const div = document.createElement('div');
     div.className='card client-card';
-    div.onclick=()=>openClientModal(i);
-    const mLabel=c.units===1?'1 unit':`${c.units} units`;
-    const isPaid = c.outstandingUSD<=0;
-    const statusTag = isPaid
-      ? `<span class="tag green">✅ Fully Paid</span>`
-      : (c.collectedUSD===0
-          ? `<span class="tag blue">🏭 In Production</span>`
-          : `<span class="tag orange">⏳ Balance Due</span>`);
+    div.onclick=()=>openClientModal(x.i);
+    const mLabel=x.units===1?'1 unit':`${x.units} units`;
     div.innerHTML=`
       <div class="client-flag">${c.flag}</div>
       <div class="client-short">${c.short}</div>
       <div class="client-name">${c.name}</div>
-      <div class="client-amount">${c.amountUSD>=1000000?'$'+(c.amountUSD/1000000).toFixed(2)+'M':'$'+c.amountUSD.toLocaleString('en-US')+' USD'}</div>
-      <div class="client-pi">${c.country} &nbsp;·&nbsp; ${mLabel} &nbsp;·&nbsp; ${c.pis.length} PI${c.pis.length!==1?'s':''}</div>
-      <div class="tags">${statusTag}</div>
-      <div class="client-paidrow">
-        <span class="cpaid">💰 Collected: ${fmtUSD(c.collectedUSD)}</span>
-        <span style="color:#ddd;margin:0 4px;">·</span>
-        <span class="${c.outstandingUSD>0?'cbal':'cpaid'}">⏳ Due: ${c.outstandingUSD>0?fmtUSD(c.outstandingUSD):'$0'}</span>
-      </div>
+      <div class="client-amount">${fmtUSD(x.value)}</div>
+      <div class="client-pi">${c.country} &nbsp;·&nbsp; ${mLabel} &nbsp;·&nbsp; ${x.n} PI${x.n!==1?'s':''}</div>
+      <div class="client-paidrow" style="justify-content:center;color:#888;">${y} orders</div>
     `;
     grid.appendChild(div);
   });
