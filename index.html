@@ -548,11 +548,11 @@ table tr:last-child td{border-bottom:none;}
       <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#3498db;margin-bottom:10px;">2026 — Active Pipeline</div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
         <span style="font-size:12px;color:#888;">Active PIs</span>
-        <span style="font-size:18px;font-weight:700;color:#1a1a2e;">9</span>
+        <span style="font-size:18px;font-weight:700;color:#1a1a2e;">17</span>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
         <span style="font-size:12px;color:#888;">Pipeline Value</span>
-        <span style="font-size:16px;font-weight:700;color:#1a1a2e;">~$481K</span>
+        <span style="font-size:16px;font-weight:700;color:#1a1a2e;">~$1.05M</span>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
         <span style="font-size:12px;color:#27ae60;">Collected</span>
@@ -603,16 +603,16 @@ table tr:last-child td{border-bottom:none;}
     </div>
     <div class="grid-3">
       <div class="card task-card urgent">
-        <div class="task-label">🔴 Before May 1 Departure</div>
-        <div class="task-title">OZCO Production Check</div>
-        <div class="task-desc">Confirm 102-unit order on track. Hard deadline May 15 — only 45 days away. Also verify L/C status with bank.</div>
-        <div class="task-meta">⚠️ Flying to Brazil May 1 — must confirm before departure</div>
+        <div class="task-label">🔴 OZCO Shipment</div>
+        <div class="task-title">OZCO Ship Deadlines</div>
+        <div class="task-desc">L/C amended (MT707, Apr 29): ship OZCO20260202 ($173,725) by May 30, expiry Jun 30. OZCO20260326 ($35,325) on separate Kuveyt Türk L/C 712601100 — ship by Jun 15, expiry Jul 15.</div>
+        <div class="task-meta">⚠️ Confirm both shipments + L/C documents with bank</div>
         <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
       </div>
-      <div class="card task-card urgent">
-        <div class="task-label">🔴 Chase Payment</div>
-        <div class="task-title">Chase COMARK Balance</div>
-        <div class="task-desc">Balance (~RMB 329,760) due within 1 week of B/L copy. PI revised Apr 4: 360x1300 qty 12→6, total RMB 522,000.</div>
+      <div class="card task-card high">
+        <div class="task-label">🟠 COMARK Order 2</div>
+        <div class="task-title">COMARK 2nd Order Balance</div>
+        <div class="task-desc">Order 1 (RMB 522,000) FULLY PAID ✓. Order 2 (YFCORMAK260522, RMB 580,800): 30% deposit RMB 174,240 received; 70% RMB 406,560 due against B/L copy within 1 week.</div>
         <div class="task-meta">Contact: Jerzy Zalewski — +48 607 147 807</div>
         <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
       </div>
@@ -1112,12 +1112,12 @@ const clients = [
     port:'Izmit port, Turkey',
     amount:'$209,050 USD', amountUSD:209050,
     paid:'$0 (L/C — paid after ship)', balance:'$209,050 USD',
-    contracts:2, machines:127, status:'⚠ Ship by May 1',
-    tags:[{t:'⚠ Deadline May 1',c:'red'},{t:'L/C Confirmed ✓',c:'green'},{t:'127 units',c:'blue'}],
+    contracts:2, machines:127, status:'⚠ Ship by May 30',
+    tags:[{t:'⚠ Ship by May 30',c:'red'},{t:'L/C Confirmed ✓',c:'green'},{t:'127 units',c:'blue'}],
     payment:'L/C at 180 days — Letter of Credit (bank-to-bank). Payment received 180 days after shipment.',
     pis:[{
       no:'OZCO20260202', date:'Feb 2026', total:'$173,725 USD',
-      depositDate:null, plannedShip:'by May 15, 2026 ⚠️', actualShip:null,
+      depositDate:null, plannedShip:'by May 30, 2026 ⚠️', actualShip:null,
       nextPayment:'$173,725 USD · 180 days after B/L (L/C — no advance required)',
       items:[
         {model:'MC32',factory:'ZS40H',desc:'Drilling machine',qty:30,unit:'$1,080',total:'$32,400'},
@@ -1129,68 +1129,64 @@ const clients = [
       ]
     },{
       no:'OZCO20260326', date:'Mar 2026', total:'$35,325 USD',
-      depositDate:null, plannedShip:'by May 1, 2026', actualShip:null,
+      depositDate:null, plannedShip:'by Jun 15, 2026', actualShip:null,
       nextPayment:'$35,325 USD · 180 days after B/L (L/C — no advance required)',
       items:[
         {model:'FS28',factory:'ZX45',desc:'Drilling & Milling Machine 220V/50Hz/1Ph · With stand, 120mm vice, clamping set, collet sets, face mill cutter, chucks, mors tapers',qty:25,unit:'$1,413',total:'$35,325'},
       ]
     }],
-    notes:'2 active PIs. PI OZCO20260202: ⚠ deadline May 15 2026 — 102 units, L/C CONFIRMED Mar 16 2026 (QNB Bank Istanbul, LC# 00875MC016612, USD 173,725, expires Jun 15 2026). PI OZCO20260326: 25× FS28 (ZX45), deliver before May 1 2026, $35,325. Payment: 180 days after shipment — no advance needed. OZCO private-label branding (MC/CR/FS series).'
+    notes:'2 active PIs. PI OZCO20260202 ($173,725, QNB L/C# 00875MC016612): AMENDED Apr 29 2026 (MT707) — latest shipment now May 30 2026, L/C expiry Jun 30 2026. PI OZCO20260326 ($35,325, 25× FS28/ZX45): on a SEPARATE Kuveyt Türk L/C# 712601100 (issued Apr 27 2026) — ship by Jun 15 2026, expiry Jul 15 2026. Both L/C at 180 days after B/L — no advance needed. OZCO private-label branding (MC/CR/FS series).'
   },
   {
     short:'COMARK', flag:'🇵🇱', name:'CORMAK Jerzy Zalewski',
     country:'Poland', contact:'Jerzy Zalewski — +48 607 147 807', address:'Str. Brzeska 120, 08-110 Siedlce, Poland',
-    amount:'RMB 522,000', amountUSD:71700,
-    paid:'RMB 192,240 (30% deposit)', balance:'RMB 329,760 (balance due)',
-    contracts:1, machines:30, status:'Balance Due vs B/L',
-    tags:[{t:'Deposit Paid ✓',c:'green'},{t:'Balance Due vs B/L',c:'orange'},{t:'30 lathes',c:'blue'}],
+    amount:'RMB 1,102,800', amountUSD:151480,
+    paid:'RMB 696,240 (Order 1 paid + Order 2 deposit)', balance:'RMB 406,560 (Order 2 balance)',
+    contracts:2, machines:78, status:'Order 1 Paid · Order 2 Deposit',
+    tags:[{t:'Order 1 Fully Paid ✓',c:'green'},{t:'Order 2 Deposit ✓',c:'green'},{t:'78 lathes',c:'blue'}],
     payment:'30% T/T advance · 70% T/T against B/L copy within 1 week.',
     pis:[{
       no:'YFCORMAK251231', date:'Dec 2025', total:'RMB 522,000',
       depositDate:'Jan 5, 2026', plannedShip:null, actualShip:null,
-      nextPayment:'RMB 329,760 (~$45K) · Against B/L copy within 1 week of shipment (balance)',
+      payment:'✅ FULLY PAID — 30% RMB 192,240 (Jan 5 2026) + 70% balance RMB 329,760 (May 8 2026, PKO Bank Polski). Order 1 settled in full.',
       items:[
         {model:'Lathe 360x1000 Vario',desc:'',qty:24,unit:'RMB 16,800',total:'RMB 403,200'},
         {model:'Lathe 360x1300 Vario',desc:'',qty:6,unit:'RMB 19,800',total:'RMB 118,800'},
       ]
+    },{
+      no:'YFCORMAK260522', date:'May 2026', total:'RMB 580,800',
+      depositDate:'May 28, 2026', plannedShip:null, actualShip:null,
+      nextPayment:'RMB 406,560 (~$56K) · 70% against B/L copy within 1 week of shipment',
+      payment:'✅ 30% Deposit RCVD: RMB 174,240 · May 28 2026 · PKO Bank Polski → BOC new RMB account (492367131118)',
+      items:[
+        {model:'Lathe 360x1250 Vario',desc:'',qty:6,unit:'RMB 19,800',total:'RMB 118,800'},
+        {model:'Lathe 320x1000 Vario',desc:'',qty:42,unit:'RMB 11,000',total:'RMB 462,000'},
+      ]
     }],
-    notes:'30% deposit PAID: CNY 192,240 received Jan 5 2026 via PKO Bank Polski. Balance (CNY 329,760) due against B/L copy within 1 week of shipment. PI revised Apr 4 2026: 360x1300 qty 12→6. Pays in RMB — use BOC RMB account (Acct: 492367131118). 30 lathes. CE certification required.'
+    notes:'TWO ORDERS. Order 1 (YFCORMAK251231, RMB 522,000): FULLY PAID — 30% deposit RMB 192,240 (Jan 5 2026) + 70% balance RMB 329,760 (May 8 2026). Order 2 (YFCORMAK260522, RMB 580,800, 48 lathes): 30% deposit RMB 174,240 received May 28 2026 to NEW BOC RMB account 492367131118; 70% balance RMB 406,560 due against B/L. Pays in RMB. CE certification required.'
   },
   {
     short:'JK', flag:'🇨🇴', name:'JK Group / Metal Master Industrial',
     country:'Colombia / Ecuador / Peru', contact:'Juan (Owner / Partner)', address:'Multiple entities across LatAm',
-    amount:'~$250,717 USD', amountUSD:250717,
-    paid:'~$62,196 USD', balance:'~$188,521 USD',
-    contracts:4, machines:120, status:'All Deposits Received',
-    tags:[{t:'4 PIs active',c:'blue'},{t:'Deposits rcvd all 4',c:'green'},{t:'Partner',c:'purple'}],
+    amount:'~$468,148 USD', amountUSD:468148,
+    paid:'~$194,736 USD', balance:'~$273,412 USD',
+    contracts:6, machines:181, status:'6 PIs · Deposits Received',
+    tags:[{t:'6 PIs active',c:'blue'},{t:'Deposits rcvd',c:'green'},{t:'Partner',c:'purple'}],
     payment:'20–30% advance → 30% when goods ready → 50% after B/L.',
     pis:[
       {
-        no:'20260127 — JK Colombia', date:'Jan 2026', total:'$65,598 USD',
-        depositDate:'Jan 28, 2026', plannedShip:null, actualShip:null,
-        nextPayment:'~$19,679 · When goods ready in factory (30% of $65,598)',
-        payment:'✅ Deposit RCVD: COP 57,501,715 (~$15,900) · Jan 28 2026 · Bancolombia',
+        no:'20260127 + 20260129 — JK Colombia', date:'Jan 2026', total:'$131,894 USD (combined)',
+        depositDate:'Jan–Feb 2026', plannedShip:null, actualShip:null,
+        nextPayment:'~$49,698 · Balance after goods ready + B/L (combined for both PIs)',
+        payment:'✅ Deposits RCVD: $15,900 (20260127, Jan 28) + $16,296 (20260129, Feb 2) = $32,196 · Bancolombia\n✅ Partial RCVD: $50,000 · May 28 2026 · Bancolombia (net $49,989)\nTotal paid: $82,196 | Balance: $49,698',
         items:[
-          {model:'UM 45 B',factory:'ZX7045',desc:'',qty:4,unit:'$1,333',total:'$5,332'},
-          {model:'UM 45 FE',factory:'ZX7045',desc:'',qty:4,unit:'$1,950',total:'$7,800'},
-          {model:'560x1500 DRO CE T.T.A',desc:'',qty:4,unit:'$8,180',total:'$32,720'},
-          {model:'420x1000 DRO CE',desc:'',qty:3,unit:'$4,520',total:'$13,560'},
-          {model:'UM 30',factory:'ZX7550CW',desc:'',qty:2,unit:'$3,093',total:'$6,186'},
-        ]
-      },
-      {
-        no:'20260129 — JK Colombia', date:'Jan 2026', total:'$66,296 USD',
-        depositDate:'Feb 2, 2026', plannedShip:null, actualShip:null,
-        nextPayment:'~$19,889 · When goods ready in factory (30% of $66,296)',
-        payment:'✅ Deposit RCVD: $16,296 · Feb 2 2026 · Bancolombia',
-        items:[
-          {model:'UM 45 B',factory:'ZX7045',desc:'',qty:6,unit:'$1,333',total:'$7,998'},
-          {model:'UM 45 FE',factory:'ZX7045',desc:'',qty:6,unit:'$1,950',total:'$11,700'},
-          {model:'560x1500 DRO CE T.T.A',desc:'',qty:2,unit:'$8,180',total:'$16,360'},
-          {model:'420x1000 DRO CE',desc:'',qty:2,unit:'$4,520',total:'$9,040'},
+          {model:'UM 45 B',factory:'ZX7045',desc:'',qty:10,unit:'$1,333',total:'$13,330'},
+          {model:'UM 45 FE',factory:'ZX7045',desc:'',qty:10,unit:'$1,950',total:'$19,500'},
+          {model:'560x1500 DRO CE T.T.A',desc:'',qty:6,unit:'$8,180',total:'$49,080'},
+          {model:'420x1000 DRO CE',desc:'',qty:5,unit:'$4,520',total:'$22,600'},
           {model:'JUGG BF20S',factory:'BF20S',desc:'',qty:6,unit:'$553',total:'$3,318'},
           {model:'JUGG BF32S',factory:'BF32S',desc:'',qty:6,unit:'$918',total:'$5,508'},
-          {model:'UM 30',factory:'ZX7550CW',desc:'',qty:4,unit:'$3,093',total:'$12,372'},
+          {model:'UM 30',factory:'ZX7550CW',desc:'',qty:6,unit:'$3,093',total:'$18,558'},
         ]
       },
       {
@@ -1211,14 +1207,44 @@ const clients = [
       {
         no:'20260131 — JK Peru', date:'Jan 2026', total:'$56,661 USD',
         depositDate:'Feb 24, 2026', plannedShip:null, actualShip:null,
-        nextPayment:'~$16,998 · When goods ready in factory (30% of $56,661)',
-        payment:'✅ Deposit RCVD: $10,000 · Feb 24 2026 · BCP (Banco de Crédito del Perú)',
+        nextPayment:'~$28,661 · Balance after goods ready + B/L',
+        payment:'✅ Deposit RCVD: $10,000 · Feb 24 2026 · BCP (Banco de Crédito del Perú)\n✅ Partial RCVD: $18,000 · May 5 2026 · BCP (PI NO. 20260131)\nTotal paid: $28,000 | Balance: $28,661',
         items:[
           {model:'DM40',factory:'ZX40H',desc:'',qty:51,unit:'$1,111',total:'$56,661'},
         ]
       },
+      {
+        no:'2026424 — JK Ecuador', date:'Apr 2026', total:'$166,967 USD',
+        depositDate:'Apr 24, 2026', plannedShip:null, actualShip:null,
+        nextPayment:'~$120,427 · After goods ready (30%) + B/L (50%)',
+        payment:'✅ Deposit RCVD: $46,540 · Apr 24 2026 · Produbanco (Ecuador). Balance $120,427.',
+        items:[
+          {model:'JUG 3610 V',factory:'CQ360V×1000 Vario',desc:'',qty:13,unit:'$2,493',total:'$32,409'},
+          {model:'420x1000 DRO CE',desc:'',qty:5,unit:'$4,520',total:'$22,600'},
+          {model:'560x1500 DRO CE',desc:'',qty:3,unit:'$7,980',total:'$23,940'},
+          {model:'560x2000 DRO CE',desc:'',qty:2,unit:'$9,924',total:'$19,848'},
+          {model:'560x3000 DRO CE',desc:'',qty:1,unit:'$10,792',total:'$10,792'},
+          {model:'UM 45 B',factory:'ZX7045',desc:'',qty:4,unit:'$1,333',total:'$5,332'},
+          {model:'UM 45 FE',factory:'ZX7045',desc:'',qty:4,unit:'$1,950',total:'$7,800'},
+          {model:'UM 30',factory:'ZX7550CW',desc:'',qty:8,unit:'$3,093',total:'$24,744'},
+          {model:'UM 40',factory:'ZX6350C',desc:'',qty:3,unit:'$4,649',total:'$13,947'},
+          {model:'DM40',factory:'ZX40H',desc:'',qty:5,unit:'$1,111',total:'$5,555'},
+        ]
+      },
+      {
+        no:'2026423 — JK Colombia', date:'Apr 2026', total:'$50,464 USD',
+        depositDate:'Apr 27, 2026', plannedShip:null, actualShip:null,
+        nextPayment:'~$32,464 · After goods ready (30%) + B/L (50%)',
+        payment:'✅ Deposit RCVD: ~$18,000 (COP 73,788,068) · Apr 27 2026 · Bancolombia. Balance ~$32,464.',
+        items:[
+          {model:'JUG 3610 V',factory:'CQ360V×1000 Vario',desc:'',qty:5,unit:'$2,493',total:'$12,465'},
+          {model:'560x2000 DRO CE T.T.A',desc:'',qty:1,unit:'$10,124',total:'$10,124'},
+          {model:'UM 30',factory:'ZX7550CW',desc:'',qty:3,unit:'$3,093',total:'$9,279'},
+          {model:'UM 40',factory:'ZX6350C',desc:'',qty:4,unit:'$4,649',total:'$18,596'},
+        ]
+      },
     ],
-    notes:'Juan visiting China Apr 18–28 (Shanghai Machine Tool Exhibition Apr 21–26). Partner relationship — not just a client. 4 PIs across Colombia, Ecuador, Peru. All deposits confirmed.'
+    notes:'Partner relationship. 6 active PIs across Colombia, Ecuador, Peru. NEW Apr 2026: Ecuador 2026424 ($166,967, deposit $46,540) + Colombia 2026423 ($50,464, deposit ~$18,000). Colombia 20260127+20260129 merged for tracking (combined $131,894, paid $82,196). Peru 20260131 partial balance $18,000 received May 5 2026. All deposits confirmed.'
   },
   {
     short:'MAQUINAS', flag:'🇦🇷', name:'Maquinas e Insumos SRL',
@@ -1300,9 +1326,9 @@ const clients = [
     short:'GRUPO', flag:'🇲🇽', name:'B&I TRADERS S DE RL DE CV',
     country:'Mexico (ships to USA)', contact:'Eduardo Navarro Ramirez', address:'Mexican entity — final destination USA',
     amount:'$148,080 USD', amountUSD:148080,
-    paid:'$85,920 USD', balance:'$62,160 USD',
+    paid:'$96,910 USD', balance:'$51,170 USD',
     contracts:2, machines:56, status:'Partial Shipped',
-    tags:[{t:'Partial Shipped',c:'green'},{t:'$24K overdue',c:'red'},{t:'4 payments rcvd',c:'blue'}],
+    tags:[{t:'Partial Shipped',c:'green'},{t:'$24K overdue',c:'red'},{t:'5 payments rcvd',c:'blue'}],
     payment:'30% deposit → 50% before shipping → 50% two months after shipping.',
     pis:[{
       no:'YF20241024', date:'Oct 2024', total:'$71,760 USD',
@@ -1323,7 +1349,7 @@ const clients = [
     },{
       no:'20250811', date:'Aug 2025', total:'$76,320 USD',
       depositDate:'Oct 9, 2025', plannedShip:null, actualShip:null,
-      payment:'✅ ① $7,000 Oct 9 2025 (BBVA Mexico → CCB)\n✅ ② $10,000 Oct 27 2025 (CCB)\n✅ ③ $5,000 Dec 24 2025 — 92,977 MXN → USD (BBVA Mexico → BOC; folio 3799399240)\n✅ ④ MXN 283,439.13 → $16,160 Feb 25 2026 (BBVA Mexico → BOC; ref TI26022500015670)\nTotal paid: $38,160 | Balance: $38,160 USD',
+      payment:'✅ ① $7,000 Oct 9 2025 (BBVA Mexico → CCB)\n✅ ② $10,000 Oct 27 2025 (CCB)\n✅ ③ $5,000 Dec 24 2025 (BBVA Mexico → BOC; folio 3799399240)\n✅ ④ $16,160 Feb 25 2026 (BBVA Mexico → BOC; ref TI26022500015670)\n✅ ⑤ $10,990 Jun 9 2026 — MXN 195,573.62 → USD (BBVA Mexico → BOC)\nTotal paid: $49,150 | Balance: $27,170 USD',
       items:[
         {model:'ZX45 220V',desc:'',qty:12,unit:'$1,179',total:'$14,148'},
         {model:'ZX7045 220V',desc:'',qty:4,unit:'$1,660',total:'$6,640'},
@@ -1338,15 +1364,15 @@ const clients = [
         {model:'CQ330x1000 220V',desc:'',qty:5,unit:'$2,414',total:'$12,070'},
       ]
     }],
-    notes:'PI YF20241024 (Oct 2024): $47,760 paid, $24,000 outstanding. PI 20250811 (Aug 2025): 4 payments confirmed — ① $7,000 Oct 9 2025 ② $10,000 Oct 27 2025 ③ $5,000 Dec 24 2025 ④ $16,160 Feb 25 2026. 33/45 units shipped. 12 remain for next container: ZX45×8, CQ320V×1, CQ6132GV×1, CQ360V×1, CQ330×1.'
+    notes:'PI YF20241024 (Oct 2024): $47,760 paid, $24,000 outstanding. PI 20250811 (Aug 2025): 5 payments confirmed — ① $7,000 ② $10,000 ③ $5,000 ④ $16,160 ⑤ $10,990 (Jun 9 2026) = $49,150 paid, balance $27,170. 33/45 units shipped. 12 remain for next container: ZX45×8, CQ320V×1, CQ6132GV×1, CQ360V×1, CQ330×1.'
   },
   {
     short:'MANROD', flag:'🇧🇷', name:'Manrod Quality Machines',
     country:'Brazil', contact:'—', address:'Brazil',
-    amount:'$56,222 USD', amountUSD:56222,
-    paid:'$16,866 USD', balance:'$39,356 USD',
-    contracts:1, machines:45, status:'Deposit Paid',
-    tags:[{t:'Deposit Paid ✓',c:'green'},{t:'NR-12',c:'gray'},{t:'MR-brand',c:'gray'}],
+    amount:'$174,790 USD', amountUSD:174790,
+    paid:'$135,434 USD', balance:'$39,356 USD',
+    contracts:3, machines:141, status:'Order 1 In Production · Orders 2&3 Paid',
+    tags:[{t:'Orders 2&3 Fully Paid ✓',c:'green'},{t:'NR-12',c:'gray'},{t:'MR-brand',c:'gray'}],
     payment:'30% T/T deposit · 70% T/T before shipping.',
     pis:[{
       no:'M2026210', date:'Feb 2025', total:'$56,221.50 USD',
@@ -1360,8 +1386,17 @@ const clients = [
         {model:'MR-206',factory:'ZX45',desc:'Drill/Mill 380V/60Hz/3Ph — NR-12',qty:5,unit:'$1,213',total:'$6,065'},
         {model:'MR-245',factory:'ZX40H',desc:'Column Mill 220V/60Hz/3Ph — NR-12',qty:10,unit:'$1,403',total:'$14,030'},
       ]
+    },{
+      no:'M2026410 + M2026411', date:'Apr 2026', total:'$118,568 USD (combined)',
+      depositDate:'May 8, 2026', plannedShip:null, actualShip:null,
+      payment:'✅ FULLY PAID — $118,557 net received May 8 2026 · CELMAR COMERCIAL E IMPORTADORA (Banco do Brasil → BOC, P/I M2026410, M2026411). Both orders settled in full.',
+      items:[
+        {model:'MR-201',factory:'ZX30',desc:'Drill/Mill — NR-12',qty:15,unit:'$987',total:'$14,805'},
+        {model:'MR-206',factory:'ZX45',desc:'Drill/Mill — NR-12',qty:52,unit:'$1,213',total:'$63,076'},
+        {model:'MR-245',factory:'ZX40H',desc:'Column Mill — NR-12',qty:29,unit:'$1,403',total:'$40,687'},
+      ]
     }],
-    notes:'30% deposit PAID: $16,866.45 (= exactly 30% of $56,221.50) confirmed via BOC receipt (1392.PNG). 70% balance $39,355 due before shipping. Private-label "MR" branding — not Yongfa. All machines must comply with NR-12 (Brazilian safety standard). Voltage: mix of 220V 1Ph, 220V 3Ph, 380V 3Ph at 60Hz.'
+    notes:'THREE ORDERS. Order 1 (M2026210, $56,222): 30% deposit $16,866.45 paid, 70% balance $39,355 due before shipping (in production). Orders 2&3 (M2026410 $60,825 + M2026411 $57,743 = $118,568): FULLY PAID — $118,557 net received May 8 2026 via CELMAR (Banco do Brasil). Private-label "MR" branding. NR-12 compliant. 96 units in the two paid orders.'
   },
   {
     short:'Tupai', flag:'🇵🇹', name:'Tupai,sa',
@@ -1386,21 +1421,21 @@ const clients = [
     short:'KOWAY', flag:'🇹🇷', name:'KOWAY MAKİNA SANAYİ ve TİCARET LİMİTED ŞİRKETİ',
     country:'Turkey', contact:'—', address:'IŞIKTEPE OSB MAH. PARK CAD. NO 13 NİLÜFER / BURSA / TÜRKİYE',
     amount:'$33,600 USD', amountUSD:33600,
-    paid:'$21,840 USD', balance:'$11,760 USD',
-    contracts:1, machines:18, status:'Installments 4/6 Paid',
-    tags:[{t:'30% T/T Paid ✓',c:'green'},{t:'Installments 4/6 Paid',c:'orange'},{t:'18 units',c:'blue'}],
+    paid:'$25,760 USD', balance:'$7,840 USD',
+    contracts:1, machines:18, status:'Down + 4 of 6 Installments',
+    tags:[{t:'30% T/T Paid ✓',c:'green'},{t:'2 Installments Left',c:'orange'},{t:'18 units',c:'blue'}],
     payment:'30% T/T down payment ($10,080, paid Jun 18 2025) + 70% in 6 monthly T/T installments of $3,920/month (changed from original L/C agreement).',
     pis:[{
       no:'20250514', date:'May 2025', total:'$33,600 USD',
       depositDate:'Jun 18, 2025', plannedShip:null, actualShip:null,
-      payment:'✅ 30% T/T: $10,080 · Jun 18 2025 · Yapı Kredi Bank (fee $80 our side; net $10,000)\n✅ Installment 1: $3,920 · Dec 29 2025 · Kuveyt Türk Bank\n✅ Installment 2: $3,920 · Jan 2026 · (BOC receipt 1249.JPG)\n✅ Installment 3: $3,920 · Feb 2026 paid late Mar 22 2026 · (BOC ref TI26032200001547)\n⏳ Installment 4–6: $3,920 × 3 = $11,760 remaining',
+      payment:'✅ 30% T/T: $10,080 · Jun 18 2025 · Yapı Kredi Bank (net $10,000)\n✅ Installment 1: $3,920 · Dec 29 2025 · Kuveyt Türk\n✅ Installment 2: $3,920 · Jan 2026 (BOC 1249.JPG)\n✅ Installment 3: $3,920 · Mar 22 2026 (BOC TI26032200001547)\n✅ Installment 4: $3,920 · Jun 2 2026 · Kuveyt Türk (net $3,883, ref NO.20250514)\n⏳ Installments 5–6: $3,920 × 2 = $7,840 remaining',
       items:[
         {model:'ZX40H',desc:'380V/50Hz/3Ph, MT4, X-axis feed, auto quill, 2-speed motor, tapping',qty:12,unit:'$1,400',total:'$16,800'},
         {model:'Z5050',desc:'380V/50Hz/3Ph, MT5, electromagnetic auto feed, motorized table',qty:4,unit:'$2,800',total:'$11,200'},
         {model:'Z5050V',desc:'380V/50Hz/3Ph, MT5, electromagnetic auto feed, motorized table',qty:2,unit:'$2,800',total:'$5,600'},
       ]
     }],
-    notes:'New client (2025). Payment structure changed from L/C to 6× $3,920/month T/T installments for the 70% balance. Total paid to date: $21,840 (4 payments). Remaining: 3 more installments × $3,920 = $11,760. Note: Feb 2026 installment was paid late on Mar 22 2026.'
+    notes:'New client (2025). 70% balance paid as 6× $3,920/month T/T installments (changed from L/C). Total paid: $25,760 (30% down + 4 installments; latest $3,920 on Jun 2 2026). Remaining: 2 × $3,920 = $7,840.'
   },
   {
     short:'REMO', flag:'🇫🇷', name:'REMO SARL',
@@ -1425,11 +1460,11 @@ const clients = [
   {
     short:'DINTASS', flag:'🇨🇱', name:'DINTASS MOTORI',
     country:'Chile', contact:'Giovanni', address:'Manuel Antonio Tocornal 389, Santiago Centro, Chile',
-    amount:'$29,373 USD', amountUSD:29373,
-    paid:'$29,373 USD', balance:'$0',
-    contracts:1, machines:16, status:'Delivered ✅',
-    tags:[{t:'✓ Delivered',c:'green'},{t:'Visit Apr 14',c:'blue'}],
-    payment:'50% T/T deposit ($14,687) · 50% T/T ready in factory ($14,687).',
+    amount:'$93,706 USD', amountUSD:93706,
+    paid:'$42,273 USD', balance:'$51,433 USD',
+    contracts:2, machines:57, status:'Order 2 In Production',
+    tags:[{t:'Order 1 Delivered ✓',c:'green'},{t:'Order 2 Deposit ✓',c:'green'},{t:'Repeat Buyer',c:'purple'}],
+    payment:'Order 1: 50% + 50%. Order 2: 20% deposit · 30% before shipment · 50% within 90 days after shipment.',
     pis:[{
       no:'DM20251125', date:'Nov 2025', total:'$29,373 USD',
       payment:'✅ Fully Paid — Order delivered',
@@ -1446,8 +1481,26 @@ const clients = [
         {model:'Z5035',desc:'Standard',qty:2,unit:'$1,495',total:'$2,990'},
         {model:'ZX6350Z',desc:'Bigger worktable 1270×280mm, rotary table, Y-axis power feed',qty:1,unit:'$5,344',total:'$5,344'},
       ]
+    },{
+      no:'DM20260525', date:'May 2026', total:'$64,333 USD',
+      depositDate:'May 28, 2026', plannedShip:null, actualShip:null,
+      nextPayment:'30% before shipment + 50% within 90 days after shipment (balance $51,433)',
+      payment:'✅ 20% Deposit RCVD: $12,900 · May 28 2026 · Banco Santander Chile (ICB Asesorias e Inversiones). Balance $51,433.',
+      items:[
+        {model:'BF18',desc:'376×120mm table',qty:4,unit:'$500',total:'$2,000'},
+        {model:'BF25',desc:'475×180mm table',qty:4,unit:'$610',total:'$2,440'},
+        {model:'ZX7045',desc:'730×210mm table, tapping',qty:4,unit:'$1,119',total:'$4,476'},
+        {model:'ZX7550CW',desc:'800×240mm table, tapping, steel stand',qty:8,unit:'$1,161',total:'$9,288'},
+        {model:'ZX7550CW',desc:'+ automatic quill feed',qty:2,unit:'$1,518',total:'$3,036'},
+        {model:'ZX40H (DRO)',desc:'1000×240 table, Y/Z power feed, 3-axis DRO, vices, milling chuck',qty:2,unit:'$3,426',total:'$6,852'},
+        {model:'CQ320V',desc:'320mm swing, steel stand, rests, 4-jaw chuck',qty:3,unit:'$1,585',total:'$4,755'},
+        {model:'CQ290VM',desc:'750mm center, steel stand, rests',qty:2,unit:'$1,873',total:'$3,746'},
+        {model:'CQ330x1000 PRO',desc:'with stand, rests, cooling, 4-jaw chuck',qty:2,unit:'$2,155',total:'$4,310'},
+        {model:'CQ360x1000 PRO',desc:'360mm swing 1000mm center, rests, cooling, 4-jaw',qty:8,unit:'$2,307',total:'$18,456'},
+        {model:'CQ360x1000 PRO',desc:'+ 2-axis readout & scales',qty:2,unit:'$2,487',total:'$4,974'},
+      ]
     }],
-    notes:'First order fully delivered ✅. Giovanni visiting Gaoyou factory Apr 14, 2026 — likely to discuss follow-on order. Mixed order: lathes (CQ), drill-mills (ZX), drilling machines (ZS/Z).'
+    notes:'TWO ORDERS — repeat buyer. Order 1 (DM20251125, $29,373): fully delivered ✅. Order 2 (DM20260525, $64,333, 41 units): 20% deposit $12,900 received May 28 2026 (Banco Santander Chile); terms 20% / 30% before ship / 50% within 90 days after ship. Balance $51,433. Mixed order: lathes (CQ), drill-mills (BF/ZX).'
   },
 ];
 
@@ -1456,19 +1509,22 @@ const clients = [
 // Each PI has a status: 'paid' | 'outstanding' | 'production'
 const allClientsForPage = (function(){
   const piStatus = {
-    'OZCO20260202':'production','OZCO20260326':'production','YFCORMAK251231':'production',
-    '20260127 — JK Colombia':'production','20260129 — JK Colombia':'production',
+    'OZCO20260202':'production','OZCO20260326':'production',
+    'YFCORMAK251231':'paid','YFCORMAK260522':'production',
+    '20260127 + 20260129 — JK Colombia':'production',
     '20260325 — JK Ecuador':'production','20260131 — JK Peru':'production',
+    '2026424 — JK Ecuador':'production','2026423 — JK Colombia':'production',
     '20251030':'outstanding','20260130':'outstanding',
     '20250910':'outstanding','20260119':'outstanding',
     'RM20250929 (Shanghai Rising)':'outstanding',
     'YF20241024':'outstanding','20250811':'outstanding',
-    'M2026210':'production','20260317':'production',
-    '20250514':'outstanding','202603':'production','DM20251125':'paid'
+    'M2026210':'production','M2026410 + M2026411':'paid','20260317':'production',
+    '20250514':'outstanding','202603':'production',
+    'DM20251125':'paid','DM20260525':'production'
   };
   const clientPaid = {
-    OZCO:0,COMARK:26400,JK:62196,MAQUINAS:85800,ANCLA:20758,
-    GRUPO:85920,MANROD:16866,Tupai:618,KOWAY:21840,REMO:10177,DINTASS:29373
+    OZCO:0,COMARK:95637,JK:194736,MAQUINAS:85800,ANCLA:20758,
+    GRUPO:96910,MANROD:135434,Tupai:618,KOWAY:25760,REMO:10177,DINTASS:42273
   };
   // Historical PIs for existing clients
   const histPIs = {
@@ -1635,9 +1691,9 @@ const allClientsForPage = (function(){
 // ── ONGOING PAGE ─────────────────────────────────────────────
 (function(){
   // Which clients are "In Production" vs "Delivered — Collect Payment"
-  const inProd = ['OZCO','COMARK','JK','REMO','Tupai','MANROD'];
+  const inProd = ['OZCO','COMARK','JK','REMO','Tupai','MANROD','DINTASS'];
   // Exclude fully paid clients
-  const exclude = ['DINTASS'];
+  const exclude = [];
 
   const container = document.getElementById('ongoingCards');
   if(!container) return;
@@ -1715,7 +1771,7 @@ const allClientsForPage = (function(){
           ? `<span class="pi-ship-val shipped">${p.depositDate}</span>`
           : `<span class="pi-ship-val pending-ship">Pending</span>`;
         const plannedVal = p.plannedShip
-          ? `<span class="pi-ship-val${p.plannedShip.toLowerCase().includes('may 15')||p.plannedShip.toLowerCase().includes('deadline') ? ' deadline' : ''}">${p.plannedShip}</span>`
+          ? `<span class="pi-ship-val${p.plannedShip.toLowerCase().includes('may 30')||p.plannedShip.toLowerCase().includes('deadline') ? ' deadline' : ''}">${p.plannedShip}</span>`
           : `<span class="pi-ship-val tbd">TBD</span>`;
         const actualVal = p.actualShip
           ? `<span class="pi-ship-val shipped">🚢 ${p.actualShip}</span>`
@@ -2113,8 +2169,8 @@ const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 
 // ── KPI computation ─────────────────────────────────────────
 const paidByClient = {
-  OZCO:0, COMARK:26400, JK:62196, MAQUINAS:85800, ANCLA:20758,
-  GRUPO:85920, MANROD:16866, Tupai:618, KOWAY:21840, REMO:10177, DINTASS:29373
+  OZCO:0, COMARK:95637, JK:194736, MAQUINAS:85800, ANCLA:20758,
+  GRUPO:96910, MANROD:135434, Tupai:618, KOWAY:25760, REMO:10177, DINTASS:42273
 };
 const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
 const totalPaid = Object.values(paidByClient).reduce((s,v)=>s+v,0);
@@ -2136,9 +2192,9 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
   // 2025: 25 deals — 19 fully-paid historical + 6 active-client 2025 PIs
   //   Active 2025 PIs: KOWAY($33,600) + COMARK($71,700) + MAQUINAS-PI1($97,318)
   //                  + ANCLA-PI1+RM($93,174) + GRUPO-PI($76,320) = $372,112
-  const v25=1181970, c25=994870, o25=187100, d25=25;
-  // 2026: 11 deals — only 2026-dated PIs (OZCO×2, JK×4, MAQUINAS-PI2, ANCLA-PI2, MANROD, Tupai, REMO)
-  const v26=572089, c26=97812, o26=474277, d26=11;
+  const v25=1181970, c25=1055077, o25=126893, d25=25;
+  // 2026: 17 deals — 2026-dated PIs incl. new JK Ecuador/Colombia, MANROD ×2, DINTASS O2, COMARK O2
+  const v26=1052201, c26=385754, o26=666447, d26=17;
 
   const vAll=v24+v25+v26, cAll=c24+c25+c26, oAll=o24+o25+o26, dAll=d24+d25+d26;
 
@@ -2253,7 +2309,7 @@ const _kpiBalance2026=document.getElementById('kpiBalance2026'); if(_kpiBalance2
 (function(){
   if(!document.getElementById('payOutstandingBody')) return;
   const statusMap = {
-    OZCO:   {label:'⚠ Ship by May 1', cls:'pill-red'},
+    OZCO:   {label:'⚠ Ship by May 30', cls:'pill-red'},
     COMARK: {label:'70% due vs B/L',   cls:'pill-orange'},
     JK:     {label:'Partial deposits', cls:'pill-orange'},
     MAQUINAS:{label:'20% post-customs', cls:'pill-orange'},
