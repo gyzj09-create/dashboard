@@ -871,6 +871,22 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 // ── CLIENT DATA ─────────────────────────────────────────────
+// ===== EDIT OVERRIDES (localStorage) =====
+window.OV=(function(){try{return JSON.parse(localStorage.getItem('db_ov')||'{}');}catch(e){return {};}})();
+function ovGet(no){return window.OV[no]||{};}
+function ovSave(){try{localStorage.setItem('db_ov',JSON.stringify(window.OV));}catch(e){}}
+function _yr(p){var m=(p.date||'').match(/20\d\d/);return m?+m[0]:0;}
+function pcOf(p){var o=ovGet(p.no);if(typeof o.prodComplete==='boolean')return o.prodComplete;return !!p.prodDone||(_yr(p)>0&&_yr(p)<=2025);}
+function extraPaidUSD(no){return (ovGet(no).payments||[]).reduce(function(s,x){return s+(+x.usd||0);},0);}
+function togglePI(no,mk){window.OV[no]=window.OV[no]||{};window.OV[no].prodComplete=!!mk;ovSave();location.reload();}
+function addPay(no){var a=prompt('收到付款金额(USD,只填数字):');if(a===null)return;var usd=parseFloat(String(a).replace(/[^0-9.]/g,''));if(!usd){alert('请输入有效金额');return;}var d=prompt('收款日期:',new Date().toISOString().slice(0,10))||'';var nt=prompt('备注(可选,如原币种/PI):','')||'';window.OV[no]=window.OV[no]||{};(window.OV[no].payments=window.OV[no].payments||[]).push({usd:usd,disp:'$'+usd.toLocaleString('en-US'),date:d,note:nt});ovSave();location.reload();}
+function addTodo(no,id){var el=document.getElementById(id);if(!el)return;var v=(el.value||'').trim();if(!v)return;window.OV[no]=window.OV[no]||{};(window.OV[no].todos=window.OV[no].todos||[]).push({text:v,done:false});ovSave();renderContracts();}
+function toggleTodo(no,k){var t=(window.OV[no]||{}).todos;if(!t||!t[k])return;t[k].done=!t[k].done;ovSave();renderContracts();}
+function delTodo(no,k){var t=(window.OV[no]||{}).todos;if(!t)return;t.splice(k,1);ovSave();renderContracts();}
+function exportOV(){var b=new Blob([JSON.stringify(window.OV,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dealboard-edits.json';a.click();}
+function importOV(){var i=document.createElement('input');i.type='file';i.accept='.json,application/json';i.onchange=function(){var f=i.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{window.OV=JSON.parse(r.result);ovSave();location.reload();}catch(e){alert('文件格式不对');}};r.readAsText(f);};i.click();}
+function resetOV(){if(confirm('清空所有本地编辑(生产状态/付款/待办)并恢复原始数据?')){localStorage.removeItem('db_ov');window.OV={};location.reload();}}
+
 const clients = [
   {
     short:'OZCO', flag:'🇹🇷', name:'Topçular Endüstriyel Üretim ve Yatırım A.Ş',
@@ -1271,6 +1287,7 @@ const clients = [
 // ── ALL CLIENTS (CLIENT PAGE) ─────────────────────────────────
 // 18 clients total: 11 active + 7 historical/completed
 // Each PI has a status: 'paid' | 'outstanding' | 'production'
+clients.forEach(function(c){ c.pis.forEach(function(p){ var ex=ovGet(p.no).payments||[]; if(ex.length){ p.payment=(p.payment?p.payment+'\n':'')+ex.map(function(x){return '✅ Recorded: '+x.disp+' · '+x.date+(x.note?' ('+x.note+')':'');}).join('\n'); } }); });
 const allClientsForPage = (function(){
   const piStatus = {
     'OZCO20260202':'ready','OZCO20260326':'ready',
@@ -1290,6 +1307,7 @@ const allClientsForPage = (function(){
     OZCO:0,COMARK:95637,JK:194736,MAQUINAS:85800,ANCLA:20758,
     GRUPO:96910,MANROD:174790,Tupai:618,KOWAY:29680,REMO:10177,DINTASS:42273
   };
+  clients.forEach(function(c){ var ex=c.pis.reduce(function(s,p){return s+extraPaidUSD(p.no);},0); if(ex) clientPaid[c.short]=(clientPaid[c.short]||0)+ex; });
   // Historical PIs for existing clients
   const histPIs = {
     JK:[
@@ -1490,7 +1508,7 @@ const allClientsForPage = (function(){
   }
 
   // Render grouped by production status: In Production first, then Production Complete
-  const isPD=p=>{ if(p.prodDone) return true; const m=(p.date||'').match(/20\d\d/); return m?(+m[0]<=2025):false; };
+  const isPD=pcOf;
   const allPIs=[];
   clients.forEach(c=>{ if(exclude.includes(c.short)) return; (c.pis||[]).forEach(p=>allPIs.push({c:c,p:p})); });
   [['producing','🏭 In Production','#1e8449']].forEach(grp=>{
@@ -1927,6 +1945,7 @@ const paidByClient = {
   OZCO:0, COMARK:95637, JK:194736, MAQUINAS:85800, ANCLA:20758,
   GRUPO:96910, MANROD:174790, Tupai:618, KOWAY:29680, REMO:10177, DINTASS:42273
 };
+clients.forEach(function(c){ var ex=c.pis.reduce(function(s,p){return s+extraPaidUSD(p.no);},0); if(ex) paidByClient[c.short]=(paidByClient[c.short]||0)+ex; });
 const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
 const totalPaid = Object.values(paidByClient).reduce((s,v)=>s+v,0);
 const totalBal = totalVal - totalPaid;
@@ -2363,14 +2382,17 @@ function openExhModal(id){
 }
 
 // ── CONTRACTS PAGE (grouped by year; per-PI products, qty, totals, payment) ──
-(function(){
+function renderContracts(){
   const el=document.getElementById('contractsContent');
   if(!el||typeof allClientsForPage==='undefined') return;
   const isAcc=it=>{const m=(it.model||'').toLowerCase(),d=(it.desc||'').toLowerCase(); if(d.includes('accessor'))return true; return /^(dro|scale|scales|accessories|spacer)\b|vice|vise|\bchuck\b|blade|coolant|\bspare\b/.test(m);};
   const qtyOf=its=>(its||[]).reduce((s,it)=>s+(isAcc(it)?0:(Number(it.qty)||0)),0);
   const yr=p=>{const m=(p.date||'').match(/20\d\d/); return m?m[0]:'Other';};
-  const isPD=p=>{ if(p.prodDone) return true; const m=(p.date||'').match(/20\d\d/); return m?(+m[0]<=2025):false; };
+  const isPD=pcOf;
   const prodBadge=p=>isPD(p)?'<span class="pi-status-badge production" style="background:#d5f5e3;color:#1e8449;">✅ Production Complete</span>':'<span class="pi-status-badge production">🏭 In Production</span>';
+  const esq=v=>String(v).replace(/'/g,"\\'");
+  const escH=v=>String(v).replace(/[&<>"]/g,function(ch){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch];});
+  function todosHtml(no){var t=ovGet(no).todos||[];var rows=t.map(function(it,k){return '<div style="display:flex;align-items:center;gap:6px;padding:2px 0;"><input type="checkbox" '+(it.done?'checked':'')+' onclick="toggleTodo(\''+esq(no)+'\','+k+')"><span style="flex:1;font-size:12px;'+(it.done?'text-decoration:line-through;color:#aaa;':'color:#444;')+'">'+escH(it.text)+'</span><span onclick="delTodo(\''+esq(no)+'\','+k+')" style="color:#e74c3c;cursor:pointer;font-size:12px;">✕</span></div>';}).join('');return rows||'<div style="color:#bbb;font-size:11px;">暂无事项</div>';}
   function items(its){
     if(!its||!its.length) return '';
     const hasDesc=its.some(it=>it.desc&&it.desc!=='');
@@ -2391,7 +2413,8 @@ function openExhModal(id){
   allClientsForPage.forEach(c=>(c.pis||[]).forEach(p=>{ const y=yr(p); (byYear[y]=byYear[y]||[]).push({c:c,p:p}); }));
   const years=Object.keys(byYear).sort((a,b)=> a==='Other'?1 : b==='Other'?-1 : (b-a));
   let html='<h2 style="font-size:18px;font-weight:800;margin:4px 0 6px;">📑 All Contracts</h2>'+
-           '<div style="font-size:12px;color:#888;margin-bottom:14px;">Grouped by year · every PI — products, quantity, totals & payment status.</div>';
+           '<div style="font-size:12px;color:#888;margin-bottom:10px;">Grouped by year · every PI — products, quantity, totals & payment status.</div>'+
+           '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;"><button onclick="exportOV()" style="border:1px solid #ccc;background:#fff;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;">⬇️ 导出编辑</button><button onclick="importOV()" style="border:1px solid #ccc;background:#fff;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;">⬆️ 导入</button><button onclick="resetOV()" style="border:1px solid #e74c3c;color:#e74c3c;background:#fff;border-radius:6px;padding:5px 10px;font-size:12px;cursor:pointer;">♻️ 重置</button></div>';
   years.forEach(function(y){
     const list=byYear[y].slice().sort((a,b)=> ((isPD(a.p)?1:0)-(isPD(b.p)?1:0)) || a.c.short.localeCompare(b.c.short));
     const yUnits=list.reduce((s,x)=>s+qtyOf(x.p.items),0);
@@ -2401,6 +2424,7 @@ function openExhModal(id){
       '<span style="font-size:12px;font-weight:600;color:#f1c40f;">'+yPIs+' PIs · '+yUnits+' units</span></div>';
     list.forEach(function(x){
       const c=x.c,p=x.p,q=qtyOf(p.items);
+      const iid='todo_'+String(p.no).replace(/[^a-zA-Z0-9]/g,'_');
       const pay=p.payment?p.payment.replace(/\n/g,'<br>'):(p.status==='paid'?'✅ Fully paid':(c.payment||'—'));
       html+='<div class="pi-card-full">'+
         '<div class="pi-card-header"><div class="pi-card-header-left"><div class="pi-card-flag">'+c.flag+'</div>'+
@@ -2411,11 +2435,21 @@ function openExhModal(id){
             '<div class="pi-card-amt"><div class="amt-label">Units</div><div class="amt-value">'+q+'</div></div>'+
             '<div class="pi-card-amt total"><div class="amt-label">PI Total</div><div class="amt-value">'+(p.total||'—')+'</div></div>'+
           '</div></div>'+
+        '<div style="border-top:1px dashed #e8e8e8;padding:10px 16px;">'+
+          '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">'+
+            '<button onclick="togglePI(\''+esq(p.no)+'\','+(isPD(p)?'false':'true')+')" style="border:1px solid #16a085;background:#fff;color:#16a085;border-radius:6px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;">'+(isPD(p)?'↩ 改为生产中':'✅ 标记生产完成')+'</button>'+
+            '<button onclick="addPay(\''+esq(p.no)+'\')" style="border:1px solid #2471a3;background:#fff;color:#2471a3;border-radius:6px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;">💰 记一笔付款</button>'+
+          '</div>'+
+          '<div style="font-size:11px;font-weight:700;color:#888;margin-bottom:2px;">📝 待办事项</div>'+
+          todosHtml(p.no)+
+          '<div style="margin-top:6px;display:flex;gap:6px;"><input id="'+iid+'" placeholder="添加事项,回车或点 +" onkeydown="if(event.key===\'Enter\')addTodo(\''+esq(p.no)+'\',\''+iid+'\')" style="flex:1;border:1px solid #ddd;border-radius:6px;padding:5px 8px;font-size:12px;"><button onclick="addTodo(\''+esq(p.no)+'\',\''+iid+'\')" style="border:none;background:#1a1a2e;color:#fff;border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;">+</button></div>'+
+        '</div>'+
       '</div>';
     });
   });
   el.innerHTML=html;
-})();
+}
+renderContracts();
 </script>
 <button id="pwaInstall" style="display:none;position:fixed;right:16px;bottom:16px;z-index:5000;background:#1a1a2e;color:#fff;border:none;border-radius:24px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,0.3);cursor:pointer;">📲 安装 App</button>
 <script>
