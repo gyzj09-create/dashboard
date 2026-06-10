@@ -925,18 +925,18 @@ table tr:last-child td{border-bottom:none;}
             <span style="font-size:22px;font-weight:700;color:#1a1a2e;">495</span>
           </td>
           <td style="padding:14px 16px;text-align:right;">
-            <div style="font-weight:700;font-size:15px;color:#1a1a2e;">$1,181,970</div>
+            <div style="font-weight:700;font-size:15px;color:#1a1a2e;">$1,163,853</div>
             <div style="font-size:10px;color:#aaa;">19 hist + KOWAY/COMARK/MAQUINAS/ANCLA/GRUPO</div>
           </td>
           <td style="padding:14px 16px;text-align:right;">
-            <div style="font-weight:700;font-size:15px;color:#27ae60;">$994,870</div>
+            <div style="font-weight:700;font-size:15px;color:#27ae60;">$1,058,997</div>
           </td>
           <td style="padding:14px 16px;text-align:right;">
-            <div style="font-weight:700;font-size:15px;color:#e67e22;">$187,100</div>
+            <div style="font-weight:700;font-size:15px;color:#e67e22;">$104,856</div>
             <div style="font-size:10px;color:#aaa;">COMARK/ANCLA/GRUPO/KOWAY</div>
           </td>
           <td style="padding:14px 16px;text-align:center;">
-            <div style="display:inline-block;background:#fef3e2;color:#e67e22;font-weight:700;font-size:13px;padding:4px 10px;border-radius:20px;">84%</div>
+            <div style="display:inline-block;background:#fef3e2;color:#e67e22;font-weight:700;font-size:13px;padding:4px 10px;border-radius:20px;">91%</div>
           </td>
         </tr>
         <!-- 2026 — 2026-dated PIs only -->
@@ -953,7 +953,7 @@ table tr:last-child td{border-bottom:none;}
           </td>
           <td style="padding:14px 16px;text-align:right;">
             <div style="font-weight:700;font-size:15px;color:#1a1a2e;" id="yr26-value">$536,764</div>
-            <div style="font-size:10px;color:#aaa;">OZCO/JK/MANROD/REMO/Tupai/MAQUINAS-PI2/ANCLA-PI2</div>
+            <div style="font-size:10px;color:#aaa;">OZCO·COMARK·JK·MANROD·REMO·Tupai·MAQUINAS·ANCLA·DINTASS</div>
           </td>
           <td style="padding:14px 16px;text-align:right;">
             <div style="font-weight:700;font-size:15px;color:#27ae60;" id="yr26-collected">$92,854</div>
@@ -2217,6 +2217,12 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
   document.getElementById('at-collected-row').textContent   = fmtFull(Math.round(cAll));
   document.getElementById('at-outstanding-row').textContent = fmtFull(Math.round(oAll));
   document.getElementById('at-rate-row').textContent        = Math.round(cAll/vAll*100)+'%';
+  // 2026 active-pipeline row — kept in sync with v26/d26 (no longer hardcoded)
+  document.getElementById('yr26-deals').textContent       = d26;
+  document.getElementById('yr26-value').textContent       = fmtFull(Math.round(v26));
+  document.getElementById('yr26-collected').textContent   = fmtFull(Math.round(c26));
+  document.getElementById('yr26-outstanding').textContent = fmtFull(Math.round(o26));
+  document.getElementById('yr26-rate').textContent        = Math.round(c26/v26*100)+'%';
 })();
 
 // ── MODEL BREAKDOWN TABLE ────────────────────────────────────
