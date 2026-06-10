@@ -485,8 +485,6 @@ table tr:last-child td{border-bottom:none;}
   <div class="tab active" onclick="showTab('sales')">📊 Sales</div>
   <div class="tab" onclick="showTab('ongoing')">📋 Ongoing</div>
   <div class="tab" onclick="showTab('clients')">Clients</div>
-  <div class="tab" onclick="showTab('tasks')">Tasks</div>
-  <div class="tab" onclick="showTab('calexh')">📅 Calendar</div>
   <div class="tab" onclick="showTab('contracts')">📑 Contracts</div>
 </div>
 
@@ -597,250 +595,6 @@ table tr:last-child td{border-bottom:none;}
 
 <!-- ══════════════════════════════════════════
      TASKS PAGE
-══════════════════════════════════════════ -->
-<div id="page-tasks" class="page">
-
-  <!-- ══ THIS MONTH ══ -->
-  <div class="timeline-section">
-    <div class="timeline-header">
-      <span class="timeline-badge month">🔵 本月 / This Month</span>
-      <span class="timeline-count">by Apr 30</span>
-    </div>
-    <div class="grid-3">
-      <div class="card task-card urgent">
-        <div class="task-label">🔴 OZCO Shipment</div>
-        <div class="task-title">OZCO Ship Deadlines</div>
-        <div class="task-desc">L/C amended (MT707, Apr 29): ship OZCO20260202 ($173,725) by May 30, expiry Jun 30. OZCO20260326 ($35,325) on separate Kuveyt Türk L/C 712601100 — ship by Jun 15, expiry Jul 15.</div>
-        <div class="task-meta">⚠️ Confirm both shipments + L/C documents with bank</div>
-        <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
-      </div>
-      <div class="card task-card high">
-        <div class="task-label">🟠 COMARK Order 2</div>
-        <div class="task-title">COMARK 2nd Order Balance</div>
-        <div class="task-desc">Order 1 (RMB 522,000) FULLY PAID ✓. Order 2 (YFCORMAK260522, RMB 580,800): 30% deposit RMB 174,240 received; 70% RMB 406,560 due against B/L copy within 1 week.</div>
-        <div class="task-meta">Contact: Jerzy Zalewski — +48 607 147 807</div>
-        <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
-      </div>
-      <div class="card task-card high">
-        <div class="task-label">🟠 Chase Payment</div>
-        <div class="task-title">Chase MAQUINAS Final Payment</div>
-        <div class="task-desc">$53,617 post-ship payment received Apr 1. Final 20% (~$21,447) due 30 days after customs clearance in Argentina.</div>
-        <div class="task-meta">Argentina — Maquinas e Insumos SRL</div>
-        <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
-      </div>
-      <div class="card task-card normal">
-        <div class="task-label">🔵 Apr 14</div>
-        <div class="task-title">Prep — Giovanni Factory Visit</div>
-        <div class="task-desc">DINTASS MOTORI (Chile) visits Gaoyou Apr 14. First order delivered. Likely follow-on order discussion — prepare product proposals.</div>
-        <div class="task-meta">Lathes · Milling · Drilling</div>
-        <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
-      </div>
-      <div class="card task-card normal">
-        <div class="task-label">🔵 Follow Up</div>
-        <div class="task-title">JK Ecuador — Confirm Production on Track</div>
-        <div class="task-desc">PI 20260325 ($62,162). 30% deposit $20,000 received Mar 26, 2026. Confirm production is scheduled and on track.</div>
-        <div class="task-meta">Contact: Juan · Remaining: ~$42,162</div>
-        <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
-      </div>
-      <div class="card task-card normal">
-        <div class="task-label">🔵 Status Check</div>
-        <div class="task-title">JK Colombia Follow-Up</div>
-        <div class="task-desc">Two Jan 2026 PIs totalling ~$131,894. Confirm production / shipping status for both orders.</div>
-        <div class="task-meta">JK Investment CO SAS · Bogotá</div>
-        <button class="task-done-btn" onclick="markDone(this)">✓ Done</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="done-section">
-    <div class="done-section-header">✓ Completed Tasks</div>
-    <div class="grid-3" id="doneSectionGrid"></div>
-  </div>
-
-</div>
-
-<!-- ══════════════════════════════════════════
-     CALENDAR & EXHIBITIONS PAGE
-══════════════════════════════════════════ -->
-<div id="page-calexh" class="page">
-
-  <!-- Calendar Events -->
-  <div class="section-title" style="margin-top:0;">📅 Upcoming Events</div>
-  <div class="grid-2">
-    <div class="card event-card"><div class="event-dot orange"></div><div class="event-date"><div class="event-day">14</div><div class="event-mon">Apr</div></div><div class="event-body"><div class="event-title">Giovanni Factory Visit</div><div class="event-sub">DINTASS MOTORI (Chile) · Gaoyou factory · Follow-on order discussion</div></div></div>
-    <div class="card event-card"><div class="event-dot blue"></div><div class="event-date"><div class="event-day">17</div><div class="event-mon">Apr</div></div><div class="event-body"><div class="event-title">上海展 — Exhibits Move-In</div><div class="event-sub">Shanghai Machine Tool Exhibition prep · Booth setup begins</div></div></div>
-    <div class="card event-card"><div class="event-dot green"></div><div class="event-date"><div class="event-day">18</div><div class="event-mon">Apr</div></div><div class="event-body"><div class="event-title">Juan arrives — China visit</div><div class="event-sub">JK Group / Metal Master · Apr 18–28 · Shanghai Machine Tool Exhibition Apr 21–26</div></div></div>
-    <div class="card event-card"><div class="event-dot blue"></div><div class="event-date"><div class="event-day">21</div><div class="event-mon">Apr</div></div><div class="event-body"><div class="event-title">上海机床展 — Shanghai Machine Tool Exhibition</div><div class="event-sub">Apr 21–26 · Overlaps with Juan's China visit</div></div></div>
-    <div class="card event-card"><div class="event-dot red"></div><div class="event-date"><div class="event-day">1</div><div class="event-mon">May</div></div><div class="event-body"><div class="event-title">Flight: Shanghai → Madrid → São Paulo</div><div class="event-sub">Start of Brazil trip · ⚠️ Confirm OZCO production before departure</div></div></div>
-    <div class="card event-card"><div class="event-dot red"></div><div class="event-date"><div class="event-day">1</div><div class="event-mon">May</div></div><div class="event-body"><div class="event-title">OZCO Delivery Deadline</div><div class="event-sub">127 units must ship · $209,050 (2 PIs) · L/C 180d · Izmit port, Turkey</div></div></div>
-  </div>
-
-  <!-- Exhibitions -->
-  <div class="section-title" style="margin-top:32px;">🏭 Exhibitions</div>
-
-  <!-- Stats bar -->
-  <div class="summary-bar" style="margin-bottom:24px;">
-    <div class="card"><div class="s-label">Total Shows</div><div class="s-value">12</div><div class="s-sub">2025 – 2026</div></div>
-    <div class="card"><div class="s-label">Upcoming</div><div class="s-value">5</div><div class="s-sub">next 7 months</div></div>
-    <div class="card"><div class="s-label">Next Show</div><div class="s-value">21d</div><div class="s-sub">上海机床展 Apr 21</div></div>
-    <div class="card"><div class="s-label">Countries</div><div class="s-value">11</div><div class="s-sub">CN BR MX US DE SA TH ID ES AE TR</div></div>
-  </div>
-
-  <!-- UPCOMING -->
-  <div class="section-title">Upcoming</div>
-  <div class="exh-upcoming">
-
-    <!-- Shanghai -->
-    <div class="exh-card" style="cursor:pointer;" onclick="openExhModal('shanghai')">
-      <div class="exh-bar" style="background:#1a1a2e;"></div>
-      <div class="exh-inner">
-        <div class="exh-date-col"><div class="exh-day">21</div><div class="exh-mon">Apr</div></div>
-        <div class="exh-flag">🇨🇳</div>
-        <div class="exh-info">
-          <div class="exh-title">上海机床展</div>
-          <div class="exh-subtitle">Shanghai Machine Tool Exhibition · Shanghai, China</div>
-          <div class="exh-daterange">Apr 21 – 25, 2026 · 5 days</div>
-          <div class="exh-tags">
-            <span class="tag blue">21 days away</span>
-            <span class="tag green">Setup Apr 17–18</span>
-            <span class="tag purple">Juan here Apr 18–28</span>
-          </div>
-        </div>
-        <div class="exh-right">
-          <span class="tag blue">21 days away</span>
-          <span class="tag green">Setup Apr 17–18</span>
-          <span class="tag purple">Juan Apr 18–28</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Brazil FEIMEC -->
-    <div class="exh-card" style="cursor:pointer;" onclick="openExhModal('feimec')">
-      <div class="exh-bar" style="background:#27ae60;"></div>
-      <div class="exh-inner">
-        <div class="exh-date-col"><div class="exh-day">5</div><div class="exh-mon">May</div></div>
-        <div class="exh-flag">🇧🇷</div>
-        <div class="exh-info">
-          <div class="exh-title">巴西展 FEIMEC</div>
-          <div class="exh-subtitle">FEIMEC · São Paulo, Brazil</div>
-          <div class="exh-daterange">May 5 – 9, 2026 · 5 days</div>
-          <div class="exh-tags">
-            <span class="tag blue">35 days away</span>
-            <span class="tag orange">✈ PVG→MAD→GRU, May 1</span>
-          </div>
-        </div>
-        <div class="exh-right">
-          <span class="tag blue">35 days away</span>
-          <span class="tag orange">✈ PVG→MAD→GRU, May 1</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mexico EXPOMAQ -->
-    <div class="exh-card" style="cursor:pointer;" onclick="openExhModal('expomaq')">
-      <div class="exh-bar" style="background:#e67e22;"></div>
-      <div class="exh-inner">
-        <div class="exh-date-col"><div class="exh-day">2</div><div class="exh-mon">Jun</div></div>
-        <div class="exh-flag">🇲🇽</div>
-        <div class="exh-info">
-          <div class="exh-title">墨西哥莱昂 EXPOMAQ</div>
-          <div class="exh-subtitle">EXPOMAQ · León, Guanajuato, Mexico</div>
-          <div class="exh-daterange">Jun 2 – 4, 2026 · 3 days</div>
-          <div class="exh-tags">
-            <span class="tag blue">63 days away</span>
-            <span class="tag gray">✈ Flight TBD</span>
-            <span class="tag green">ANCLA 🇲🇽</span>
-          </div>
-        </div>
-        <div class="exh-right">
-          <span class="tag blue">63 days away</span>
-          <span class="tag gray">✈ Flight TBD</span>
-          <span class="tag green">ANCLA 🇲🇽</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Chicago IMTS -->
-    <div class="exh-card" style="cursor:pointer;" onclick="openExhModal('imts')">
-      <div class="exh-bar" style="background:#3498db;"></div>
-      <div class="exh-inner">
-        <div class="exh-date-col"><div class="exh-day">14</div><div class="exh-mon">Sep</div></div>
-        <div class="exh-flag">🇺🇸</div>
-        <div class="exh-info">
-          <div class="exh-title">芝加哥 IMTS 机床展</div>
-          <div class="exh-subtitle">IMTS Manufacturing Technology Show · Chicago, USA</div>
-          <div class="exh-daterange">Sep 14 – 19, 2026 · 6 days</div>
-          <div class="exh-tags">
-            <span class="tag blue">167 days away</span>
-            <span class="tag gray">GRUPO 🇺🇸</span>
-          </div>
-        </div>
-        <div class="exh-right">
-          <span class="tag blue">167 days away</span>
-          <span class="tag gray">GRUPO 🇺🇸</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Turkey MAKTEK -->
-    <div class="exh-card" style="cursor:pointer;" onclick="openExhModal('maktek')">
-      <div class="exh-bar" style="background:#8e44ad;"></div>
-      <div class="exh-inner">
-        <div class="exh-date-col"><div class="exh-day">28</div><div class="exh-mon">Sep</div></div>
-        <div class="exh-flag">🇹🇷</div>
-        <div class="exh-info">
-          <div class="exh-title">土耳其MAKTEK展</div>
-          <div class="exh-subtitle">MAKTEK — International Machine Tool & Manufacturing Technologies Fair · Istanbul, Turkey</div>
-          <div class="exh-daterange">Sep 28 – Oct 3, 2026 · 6 days</div>
-          <div class="exh-tags">
-            <span class="tag blue">181 days away</span>
-            <span class="tag green">OZCO/KOWAY clients 🇹🇷</span>
-          </div>
-        </div>
-        <div class="exh-right">
-          <span class="tag blue">181 days away</span>
-          <span class="tag green">OZCO/KOWAY 🇹🇷</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PAST -->
-  <div class="section-title" style="margin-top:32px;">Past (2025 – 2026)</div>
-  <div class="grid-2">
-    <div class="exh-past-card"><div class="exh-past-flag">🇪🇸</div><div class="exh-past-info"><div class="exh-past-title">西班牙毕尔巴鄂展览会</div><div class="exh-past-sub">Bilbao, Spain · Mar 2–6, 2026</div></div><span class="tag gray">Done</span></div>
-    <div class="exh-past-card"><div class="exh-past-flag">🇦🇪</div><div class="exh-past-info"><div class="exh-past-title">阿联酋沙迦展览会</div><div class="exh-past-sub">Sharjah, UAE · Jan 12–15, 2026</div></div><span class="tag gray">Done</span></div>
-    <div class="exh-past-card"><div class="exh-past-flag">🇮🇩</div><div class="exh-past-info"><div class="exh-past-title">印尼雅加达展览会</div><div class="exh-past-sub">Jakarta, Indonesia · Dec 3–6, 2025</div></div><span class="tag gray">Done</span></div>
-    <div class="exh-past-card"><div class="exh-past-flag">🇹🇭</div><div class="exh-past-info"><div class="exh-past-title">泰国曼谷展览会</div><div class="exh-past-sub">Bangkok, Thailand · Nov 19–22, 2025</div></div><span class="tag gray">Done</span></div>
-    <div class="exh-past-card"><div class="exh-past-flag">🇸🇦</div><div class="exh-past-info"><div class="exh-past-title">沙特利雅得展览会</div><div class="exh-past-sub">Riyadh, Saudi Arabia · Oct 12–15, 2025</div></div><span class="tag gray">Done</span></div>
-    <div class="exh-past-card"><div class="exh-past-flag">🇩🇪</div><div class="exh-past-info"><div class="exh-past-title">汉诺威展览会</div><div class="exh-past-sub">Hannover, Germany · Sep 22–26, 2025</div></div><span class="tag gray">Done</span></div>
-    <div class="exh-past-card"><div class="exh-past-flag">🇵🇪</div><div class="exh-past-info"><div class="exh-past-title">秘鲁利马展览会</div><div class="exh-past-sub">Lima, Peru · Aug 21–23, 2025</div></div><span class="tag gray">Done</span></div>
-  </div>
-
-</div>
-
-<!-- ══════════════════════════════════════════
-     CLIENT DETAIL MODAL
-══════════════════════════════════════════ -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
-  <div class="modal" id="modalBox">
-    <div class="modal-header">
-      <div>
-        <div style="font-size:12px;opacity:0.5;margin-bottom:4px;" id="mShort"></div>
-        <h2 id="mName"></h2>
-      </div>
-      <div style="display:flex;align-items:center;gap:12px;">
-        <span id="mFlag" class="mflag"></span>
-        <button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('open')">✕</button>
-      </div>
-    </div>
-    <div class="modal-body" id="mBody"></div>
-  </div>
-</div>
-
-
-<!-- ══════════════════════════════════════════
-     SALES PAGE
 ══════════════════════════════════════════ -->
 <div id="page-sales" class="page active">
 
@@ -1728,89 +1482,61 @@ const allClientsForPage = (function(){
     return h;
   }
 
-  // Render sections: In Production first, then Collect Payment
-  ['production','collect'].forEach(type=>{
-    const isProduction = type==='production';
-    const sectionClients = clients.filter(c=>
-      !exclude.includes(c.short) &&
-      (isProduction ? inProd.includes(c.short) : !inProd.includes(c.short))
-    );
-    if(!sectionClients.length) return;
-
-    const piCount = sectionClients.reduce((s,c)=>s+c.pis.length,0);
-    const titleEl = document.createElement('div');
+  // Render grouped by production status: In Production first, then Production Complete
+  const allPIs=[];
+  clients.forEach(c=>{ if(exclude.includes(c.short)) return; (c.pis||[]).forEach(p=>allPIs.push({c:c,p:p})); });
+  [['producing','🏭 In Production','#1e8449'],['complete','✅ Production Complete','#16a085']].forEach(grp=>{
+    const g=grp[0], label=grp[1], color=grp[2];
+    const list=allPIs.filter(x=> (x.p.prodDone?'complete':'producing')===g);
+    if(!list.length) return;
+    const titleEl=document.createElement('div');
     titleEl.className='ongoing-section-title';
-    titleEl.style.color = isProduction ? '#1e8449' : '#d35400';
-    titleEl.textContent = isProduction
-      ? `🏭 In Production — ${piCount} active PI${piCount!==1?'s':''}`
-      : `📦 Delivered — Collect Payment — ${piCount} PI${piCount!==1?'s':''}`;
+    titleEl.style.color=color;
+    titleEl.textContent=label+' — '+list.length+' PI'+(list.length!==1?'s':'');
     container.appendChild(titleEl);
-
-    sectionClients.forEach(c=>{
-      c.pis.forEach(p=>{
-        // Determine paid/due for this PI
-        // Use client-level paid/balance for single-PI clients, show both for multi-PI
-        const div = document.createElement('div');
-        div.className='pi-card-full';
-        const badge = p.prodDone
-          ? `<span class="pi-status-badge production" style="background:#d5f5e3;color:#1e8449;">✅ Production Complete</span>`
-          : isProduction
-          ? `<span class="pi-status-badge production">🏭 In Production</span>`
-          : `<span class="pi-status-badge collect">📦 Collect Payment</span>`;
-
-        // Payment line: use PI-level payment if available
-        const payLine = p.payment
-          ? p.payment.replace(/\n/g,'<br>')
-          : c.payment;
-
-        // For paid/due: use client totals if only 1 PI, otherwise show PI total only
-        const showClientTotals = c.pis.length === 1;
-        const paidHtml = showClientTotals
-          ? `<div class="pi-card-amt paid"><div class="amt-label">Paid</div><div class="amt-value">${c.paid}</div></div>`
-          : `<div class="pi-card-amt paid"><div class="amt-label">Paid</div><div class="amt-value">${p.payment ? (p.payment.match(/RCVD[:\s]+([^\n·]+)/i)||['','—'])[1].trim() : '—'}</div></div>`;
-        const dueHtml = showClientTotals
-          ? `<div class="pi-card-amt due"><div class="amt-label">Outstanding</div><div class="amt-value">${c.balance}</div></div>`
-          : `<div class="pi-card-amt due"><div class="amt-label">Outstanding</div><div class="amt-value">See notes</div></div>`;
-
-        const depositVal = p.depositDate
-          ? `<span class="pi-ship-val shipped">${p.depositDate}</span>`
-          : `<span class="pi-ship-val pending-ship">Pending</span>`;
-        const plannedVal = p.plannedShip
-          ? `<span class="pi-ship-val${p.plannedShip.toLowerCase().includes('may 30')||p.plannedShip.toLowerCase().includes('deadline') ? ' deadline' : ''}">${p.plannedShip}</span>`
-          : `<span class="pi-ship-val tbd">TBD</span>`;
-        const actualVal = p.actualShip
-          ? `<span class="pi-ship-val shipped">🚢 ${p.actualShip}</span>`
-          : `<span class="pi-ship-val pending-ship">Not yet shipped</span>`;
-
-        div.innerHTML = `
-          <div class="pi-card-header">
-            <div class="pi-card-header-left">
-              <div class="pi-card-flag">${c.flag}</div>
-              <div>
-                <div class="pi-card-client">${c.short}</div>
-                <div class="pi-card-no">PI ${p.no} · ${p.date}</div>
-              </div>
-            </div>
-            ${badge}
-          </div>
-          <div class="pi-card-body">
-            ${renderItems(p.items)}
-          </div>
-          ${isProduction ? `<div class="pi-shipping-row">
-            <div class="pi-ship-item"><span class="pi-ship-label">💰 Deposit Received</span>${depositVal}</div>
-            <div class="pi-ship-item"><span class="pi-ship-label">🚢 Actual Shipment</span>${actualVal}</div>
-          </div>` : ''}
-          <div class="pi-card-footer">
-            <div class="pi-card-payment"><strong>Payment:</strong> ${payLine}</div>
-            <div class="pi-card-amounts">
-              <div class="pi-card-amt total"><div class="amt-label">PI Total</div><div class="amt-value">${p.total}</div></div>
-              ${paidHtml}
-              ${dueHtml}
+    list.forEach(item=>{
+      const c=item.c, p=item.p;
+      const div=document.createElement('div');
+      div.className='pi-card-full';
+      const badge = p.prodDone
+        ? `<span class="pi-status-badge production" style="background:#d5f5e3;color:#1e8449;">✅ Production Complete</span>`
+        : `<span class="pi-status-badge production">🏭 In Production</span>`;
+      const payLine = p.payment ? p.payment.replace(/\n/g,'<br>') : c.payment;
+      const showClientTotals = c.pis.length === 1;
+      const paidHtml = showClientTotals
+        ? `<div class="pi-card-amt paid"><div class="amt-label">Paid</div><div class="amt-value">${c.paid}</div></div>`
+        : `<div class="pi-card-amt paid"><div class="amt-label">Paid</div><div class="amt-value">${p.payment ? (p.payment.match(/RCVD[:\s]+([^\n·]+)/i)||['','—'])[1].trim() : '—'}</div></div>`;
+      const dueHtml = showClientTotals
+        ? `<div class="pi-card-amt due"><div class="amt-label">Outstanding</div><div class="amt-value">${c.balance}</div></div>`
+        : `<div class="pi-card-amt due"><div class="amt-label">Outstanding</div><div class="amt-value">See notes</div></div>`;
+      const depositVal = p.depositDate ? `<span class="pi-ship-val shipped">${p.depositDate}</span>` : `<span class="pi-ship-val pending-ship">Pending</span>`;
+      const actualVal = p.actualShip ? `<span class="pi-ship-val shipped">🚢 ${p.actualShip}</span>` : `<span class="pi-ship-val pending-ship">Not yet shipped</span>`;
+      div.innerHTML = `
+        <div class="pi-card-header">
+          <div class="pi-card-header-left">
+            <div class="pi-card-flag">${c.flag}</div>
+            <div>
+              <div class="pi-card-client">${c.short}</div>
+              <div class="pi-card-no">PI ${p.no} · ${p.date}</div>
             </div>
           </div>
-          ${isProduction && p.nextPayment ? `<div class="pi-card-next">💳 <strong>Collect next:</strong> ${p.nextPayment}</div>` : ''}`;
-        container.appendChild(div);
-      });
+          ${badge}
+        </div>
+        <div class="pi-card-body">${renderItems(p.items)}</div>
+        <div class="pi-shipping-row">
+          <div class="pi-ship-item"><span class="pi-ship-label">💰 Deposit Received</span>${depositVal}</div>
+          <div class="pi-ship-item"><span class="pi-ship-label">🚢 Actual Shipment</span>${actualVal}</div>
+        </div>
+        <div class="pi-card-footer">
+          <div class="pi-card-payment"><strong>Payment:</strong> ${payLine}</div>
+          <div class="pi-card-amounts">
+            <div class="pi-card-amt total"><div class="amt-label">PI Total</div><div class="amt-value">${p.total}</div></div>
+            ${paidHtml}
+            ${dueHtml}
+          </div>
+        </div>
+        ${p.nextPayment ? `<div class="pi-card-next">💳 <strong>Collect next:</strong> ${p.nextPayment}</div>` : ''}`;
+      container.appendChild(div);
     });
   });
 
