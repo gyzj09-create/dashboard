@@ -493,11 +493,16 @@ table tr:last-child td{border-bottom:none;}
   <div class="tab" onclick="showTab('ongoing')">📋 Ongoing</div>
   <div class="tab" onclick="showTab('clients')">Clients</div>
   <div class="tab" onclick="showTab('contracts')">📑 Contracts</div>
+  <div class="tab" onclick="showTab('todos')">✅ 待办</div>
 </div>
 
 <!-- ══════════════════════════════════════════
      OVERVIEW PAGE
 ══════════════════════════════════════════ -->
+<div id="page-todos" class="page">
+  <div id="todosContent" style="max-width:900px;margin:0 auto;"></div>
+</div>
+
 <div id="page-contracts" class="page">
   <div id="contractsContent" style="max-width:1100px;margin:0 auto;"></div>
 </div>
@@ -910,12 +915,13 @@ function pcOf(p){var o=ovGet(p.no);if(typeof o.prodComplete==='boolean')return o
 function extraPaidUSD(no){return (ovGet(no).payments||[]).reduce(function(s,x){return s+(+x.usd||0);},0);}
 function togglePI(no,mk){window.OV[no]=window.OV[no]||{};window.OV[no].prodComplete=!!mk;ovSave();location.reload();}
 function addPay(no){var a=prompt('收到付款金额(USD,只填数字):');if(a===null)return;var usd=parseFloat(String(a).replace(/[^0-9.]/g,''));if(!usd){alert('请输入有效金额');return;}var d=prompt('收款日期:',new Date().toISOString().slice(0,10))||'';var nt=prompt('备注(可选,如原币种/PI):','')||'';window.OV[no]=window.OV[no]||{};(window.OV[no].payments=window.OV[no].payments||[]).push({usd:usd,disp:'$'+usd.toLocaleString('en-US'),date:d,note:nt});ovSave();location.reload();}
-function addTodo(no,id){var el=document.getElementById(id);if(!el)return;var v=(el.value||'').trim();if(!v)return;window.OV[no]=window.OV[no]||{};(window.OV[no].todos=window.OV[no].todos||[]).push({text:v,done:false});ovSave();renderContracts();}
-function toggleTodo(no,k){var t=(window.OV[no]||{}).todos;if(!t||!t[k])return;t[k].done=!t[k].done;ovSave();renderContracts();}
-function delTodo(no,k){var t=(window.OV[no]||{}).todos;if(!t)return;t.splice(k,1);ovSave();renderContracts();}
+function addTodo(no,id){var el=document.getElementById(id);if(!el)return;var v=(el.value||'').trim();if(!v)return;window.OV[no]=window.OV[no]||{};(window.OV[no].todos=window.OV[no].todos||[]).push({text:v,done:false});ovSave();rerenderEdits();}
+function toggleTodo(no,k){var t=(window.OV[no]||{}).todos;if(!t||!t[k])return;t[k].done=!t[k].done;ovSave();rerenderEdits();}
+function delTodo(no,k){var t=(window.OV[no]||{}).todos;if(!t)return;t.splice(k,1);ovSave();rerenderEdits();}
 function exportOV(){var b=new Blob([JSON.stringify(window.OV,null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dealboard-edits.json';a.click();}
 function importOV(){var i=document.createElement('input');i.type='file';i.accept='.json,application/json';i.onchange=function(){var f=i.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{window.OV=JSON.parse(r.result);ovSave();location.reload();}catch(e){alert('文件格式不对');}};r.readAsText(f);};i.click();}
 function resetOV(){if(confirm('清空所有本地编辑(生产状态/付款/待办)并恢复原始数据?')){localStorage.removeItem('db_ov');window.OV={};location.reload();}}
+function rerenderEdits(){ if(typeof renderContracts==='function') renderContracts(); if(typeof renderTodos==='function') renderTodos(); }
 
 const clients = [
   {
@@ -2479,7 +2485,34 @@ function renderContracts(){
   });
   el.innerHTML=html;
 }
-renderContracts();
+function renderTodos(){
+  var el=document.getElementById('todosContent'); if(!el||typeof allClientsForPage==='undefined') return;
+  var esq=function(v){return String(v).replace(/'/g,"\\'");};
+  var escH=function(v){return String(v).replace(/[&<>"]/g,function(ch){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch];});};
+  var look={}; allClientsForPage.forEach(function(c){(c.pis||[]).forEach(function(p){look[p.no]={c:c,p:p};});});
+  var ov=window.OV||{};
+  var nos=Object.keys(ov).filter(function(no){return (ov[no].todos||[]).length;});
+  var pend=0,done=0; nos.forEach(function(no){(ov[no].todos||[]).forEach(function(t){t.done?done++:pend++;});});
+  var html='<h2 style="font-size:18px;font-weight:800;margin:4px 0 6px;">✅ 待办事项</h2>'+
+    '<div style="font-size:12px;color:#888;margin-bottom:16px;">共 <b style="color:#e67e22;">'+pend+'</b> 项待办 · '+done+' 项已完成 · 按合同分组,多设备同步</div>';
+  if(!nos.length){ el.innerHTML=html+'<div style="color:#bbb;padding:30px 0;text-align:center;">暂无待办。在 Contracts 页任意合同卡片底部添加事项,会汇总到这里。</div>'; return; }
+  nos.sort(function(a,b){ var pa=(ov[a].todos||[]).some(function(t){return !t.done;})?0:1; var pb=(ov[b].todos||[]).some(function(t){return !t.done;})?0:1; if(pa!==pb)return pa-pb; var ca=(look[a]&&look[a].c)?look[a].c.short:a, cb=(look[b]&&look[b].c)?look[b].c.short:b; return ca.localeCompare(cb); });
+  nos.forEach(function(no){
+    var info=look[no]||{}, c=info.c, p=info.p;
+    var iid='todoT_'+String(no).replace(/[^a-zA-Z0-9]/g,'_');
+    var todos=ov[no].todos||[];
+    html+='<div class="pi-card-full" style="margin-bottom:12px;">'+
+      '<div class="pi-card-header"><div class="pi-card-header-left">'+(c?'<div class="pi-card-flag">'+c.flag+'</div>':'')+
+        '<div><div class="pi-card-client">'+(c?c.short:'—')+'</div><div class="pi-card-no">PI '+no+(p&&p.date?' · '+p.date:'')+'</div></div></div>'+
+        '<span style="font-size:11px;font-weight:700;color:#888;">'+todos.filter(function(t){return !t.done;}).length+' 待办</span></div>'+
+      '<div style="padding:10px 16px;">'+
+        todos.map(function(it,k){return '<div style="display:flex;align-items:center;gap:8px;padding:3px 0;"><input type="checkbox" '+(it.done?'checked':'')+' onclick="toggleTodo(\''+esq(no)+'\','+k+')"><span style="flex:1;font-size:13px;'+(it.done?'text-decoration:line-through;color:#aaa;':'color:#333;')+'">'+escH(it.text)+'</span><span onclick="delTodo(\''+esq(no)+'\','+k+')" style="color:#e74c3c;cursor:pointer;">✕</span></div>';}).join('')+
+        '<div style="margin-top:8px;display:flex;gap:6px;"><input id="'+iid+'" placeholder="加一项..." onkeydown="if(event.key===\'Enter\')addTodo(\''+esq(no)+'\',\''+iid+'\')" style="flex:1;border:1px solid #ddd;border-radius:6px;padding:6px 8px;font-size:13px;"><button onclick="addTodo(\''+esq(no)+'\',\''+iid+'\')" style="border:none;background:#1a1a2e;color:#fff;border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer;">+</button></div>'+
+      '</div></div>';
+  });
+  el.innerHTML=html;
+}
+renderContracts();renderTodos();
 </script>
 <div id="syncBadge" style="position:fixed;left:12px;bottom:12px;z-index:5000;background:#1a1a2e;color:#fff;font-size:11px;font-weight:600;padding:6px 10px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:default;">☁ 同步</div>
 <button id="pwaInstall" style="display:none;position:fixed;right:16px;bottom:16px;z-index:5000;background:#1a1a2e;color:#fff;border:none;border-radius:24px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,0.3);cursor:pointer;">📲 安装 App</button>
