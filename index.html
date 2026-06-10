@@ -487,11 +487,16 @@ table tr:last-child td{border-bottom:none;}
   <div class="tab" onclick="showTab('clients')">Clients</div>
   <div class="tab" onclick="showTab('tasks')">Tasks</div>
   <div class="tab" onclick="showTab('calexh')">📅 Calendar</div>
+  <div class="tab" onclick="showTab('contracts')">📑 Contracts</div>
 </div>
 
 <!-- ══════════════════════════════════════════
      OVERVIEW PAGE
 ══════════════════════════════════════════ -->
+<div id="page-contracts" class="page">
+  <div id="contractsContent" style="max-width:1100px;margin:0 auto;"></div>
+</div>
+
 <div id="page-overview" class="page" style="display:none!important;">
   <div class="year-stats-grid">
 
@@ -2595,6 +2600,54 @@ function openExhModal(id){
   document.getElementById('mBody').innerHTML=html;
   document.getElementById('modalOverlay').classList.add('open');
 }
+
+// ── CONTRACTS PAGE (per-client, per-PI: products · total · payment) ──
+(function(){
+  const el=document.getElementById('contractsContent');
+  if(!el||typeof allClientsForPage==='undefined') return;
+  const money=v=>'$'+Math.round(v).toLocaleString('en-US');
+  function items(its){
+    if(!its||!its.length) return '';
+    const hasDesc=its.some(it=>it.desc&&it.desc!=='');
+    let h='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><table class="pi-card-items"><tr><th>Model</th>'+(hasDesc?'<th>Config</th>':'')+'<th style="text-align:center">Qty</th><th class="unit-col">Unit Price</th><th>Total</th></tr>';
+    its.forEach(function(it){
+      const m=it.factory?('<strong>'+it.model+'</strong><br><span style="color:#aaa;font-size:10px;font-weight:400;">↳ '+it.factory+'</span>'):('<strong>'+it.model+'</strong>');
+      h+='<tr><td>'+m+'</td>'+(hasDesc?('<td style="color:#888;font-size:11px;">'+(it.desc||'')+'</td>'):'')+'<td style="text-align:center;font-weight:600;">'+it.qty+'</td><td class="unit-col">'+(it.unit||'—')+'</td><td style="font-weight:600;">'+(it.total||'—')+'</td></tr>';
+    });
+    return h+'</table></div>';
+  }
+  function badge(st){
+    if(st==='paid') return '<span class="pi-status-badge collect" style="background:#d5f5e3;color:#1e8449;">✅ Paid</span>';
+    if(st==='production') return '<span class="pi-status-badge production">🏭 In Production</span>';
+    return '<span class="pi-status-badge collect" style="background:#fdebd0;color:#b9770e;">⏳ Balance Due</span>';
+  }
+  const stat=function(label,val,color){
+    return '<div style="flex:1;min-width:110px;background:#fff;border-radius:10px;padding:10px 14px;box-shadow:0 1px 4px rgba(0,0,0,0.06);"><div style="font-size:11px;color:'+(color||'#888')+';">'+label+'</div><div style="font-size:16px;font-weight:700;color:'+(color||'#1a1a2e')+';">'+val+'</div></div>';
+  };
+  let html='<h2 style="font-size:18px;font-weight:800;margin:4px 0 6px;">📑 All Contracts</h2>'+
+           '<div style="font-size:12px;color:#888;margin-bottom:20px;">Every client · every PI — products, totals and payment status.</div>';
+  allClientsForPage.forEach(function(c){
+    html+='<div class="ongoing-section-title" style="color:#1a1a2e;margin-top:30px;">'+c.flag+' '+c.short+' — '+c.name+'</div>';
+    html+='<div style="display:flex;gap:10px;flex-wrap:wrap;margin:-4px 0 14px;">'+
+      stat('Contract Total',money(c.amountUSD))+
+      stat('Collected',money(c.collectedUSD),'#1e8449')+
+      stat('Outstanding',money(c.outstandingUSD),'#2471a3')+
+      stat('PIs',c.pis.length)+
+    '</div>';
+    c.pis.forEach(function(p){
+      const pay=p.payment?p.payment.replace(/\n/g,'<br>'):(p.status==='paid'?'✅ Fully paid':(c.payment||'—'));
+      html+='<div class="pi-card-full">'+
+        '<div class="pi-card-header"><div class="pi-card-header-left"><div class="pi-card-flag">'+c.flag+'</div>'+
+          '<div><div class="pi-card-client">'+c.short+'</div><div class="pi-card-no">PI '+p.no+' · '+(p.date||'')+'</div></div></div>'+
+          badge(p.status)+'</div>'+
+        '<div class="pi-card-body">'+items(p.items)+'</div>'+
+        '<div class="pi-card-footer"><div class="pi-card-payment"><strong>Payment:</strong> '+pay+'</div>'+
+          '<div class="pi-card-amounts"><div class="pi-card-amt total"><div class="amt-label">PI Total</div><div class="amt-value">'+(p.total||'—')+'</div></div></div></div>'+
+      '</div>';
+    });
+  });
+  el.innerHTML=html;
+})();
 </script>
 </body>
 </html>
