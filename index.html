@@ -2610,11 +2610,13 @@ function openExhModal(id){
   document.getElementById('modalOverlay').classList.add('open');
 }
 
-// ── CONTRACTS PAGE (per-client, per-PI: products · total · payment) ──
+// ── CONTRACTS PAGE (grouped by year; per-PI products, qty, totals, payment) ──
 (function(){
   const el=document.getElementById('contractsContent');
   if(!el||typeof allClientsForPage==='undefined') return;
-  const money=v=>'$'+Math.round(v).toLocaleString('en-US');
+  const isAcc=it=>{const m=(it.model||'').toLowerCase(),d=(it.desc||'').toLowerCase(); if(d.includes('accessor'))return true; return /^(dro|scale|scales|accessories|spacer)\b|vice|vise|\bchuck\b|blade|coolant|\bspare\b/.test(m);};
+  const qtyOf=its=>(its||[]).reduce((s,it)=>s+(isAcc(it)?0:(Number(it.qty)||0)),0);
+  const yr=p=>{const m=(p.date||'').match(/20\d\d/); return m?m[0]:'Other';};
   function items(its){
     if(!its||!its.length) return '';
     const hasDesc=its.some(it=>it.desc&&it.desc!=='');
@@ -2630,28 +2632,30 @@ function openExhModal(id){
     if(st==='production') return '<span class="pi-status-badge production">🏭 In Production</span>';
     return '<span class="pi-status-badge collect" style="background:#fdebd0;color:#b9770e;">⏳ Balance Due</span>';
   }
-  const stat=function(label,val,color){
-    return '<div style="flex:1;min-width:110px;background:#fff;border-radius:10px;padding:10px 14px;box-shadow:0 1px 4px rgba(0,0,0,0.06);"><div style="font-size:11px;color:'+(color||'#888')+';">'+label+'</div><div style="font-size:16px;font-weight:700;color:'+(color||'#1a1a2e')+';">'+val+'</div></div>';
-  };
+  const byYear={};
+  allClientsForPage.forEach(c=>(c.pis||[]).forEach(p=>{ const y=yr(p); (byYear[y]=byYear[y]||[]).push({c:c,p:p}); }));
+  const years=Object.keys(byYear).sort((a,b)=> a==='Other'?1 : b==='Other'?-1 : (b-a));
   let html='<h2 style="font-size:18px;font-weight:800;margin:4px 0 6px;">📑 All Contracts</h2>'+
-           '<div style="font-size:12px;color:#888;margin-bottom:20px;">Every client · every PI — products, totals and payment status.</div>';
-  allClientsForPage.forEach(function(c){
-    html+='<div class="ongoing-section-title" style="color:#1a1a2e;margin-top:30px;">'+c.flag+' '+c.short+' — '+c.name+'</div>';
-    html+='<div style="display:flex;gap:10px;flex-wrap:wrap;margin:-4px 0 14px;">'+
-      stat('Contract Total',money(c.amountUSD))+
-      stat('Collected',money(c.collectedUSD),'#1e8449')+
-      stat('Outstanding',money(c.outstandingUSD),'#2471a3')+
-      stat('PIs',c.pis.length)+
-    '</div>';
-    c.pis.forEach(function(p){
+           '<div style="font-size:12px;color:#888;margin-bottom:14px;">Grouped by year · every PI — products, quantity, totals & payment status.</div>';
+  years.forEach(function(y){
+    const list=byYear[y].slice().sort((a,b)=>a.c.short.localeCompare(b.c.short));
+    const yUnits=list.reduce((s,x)=>s+qtyOf(x.p.items),0);
+    const yPIs=list.reduce((s,x)=>s+((String(x.p.no).match(/\+/g)||[]).length+1),0);
+    html+='<div style="background:#1a1a2e;color:#fff;border-radius:10px;padding:12px 16px;margin:26px 0 14px;display:flex;justify-content:space-between;align-items:center;">'+
+      '<span style="font-size:18px;font-weight:800;">'+y+'</span>'+
+      '<span style="font-size:12px;font-weight:600;color:#f1c40f;">'+yPIs+' PIs · '+yUnits+' units</span></div>';
+    list.forEach(function(x){
+      const c=x.c,p=x.p,q=qtyOf(p.items);
       const pay=p.payment?p.payment.replace(/\n/g,'<br>'):(p.status==='paid'?'✅ Fully paid':(c.payment||'—'));
       html+='<div class="pi-card-full">'+
         '<div class="pi-card-header"><div class="pi-card-header-left"><div class="pi-card-flag">'+c.flag+'</div>'+
-          '<div><div class="pi-card-client">'+c.short+'</div><div class="pi-card-no">PI '+p.no+' · '+(p.date||'')+'</div></div></div>'+
-          badge(p.status)+'</div>'+
+          '<div><div class="pi-card-client">'+c.short+'</div><div class="pi-card-no">PI '+p.no+' · '+(p.date||'')+'</div></div></div>'+badge(p.status)+'</div>'+
         '<div class="pi-card-body">'+items(p.items)+'</div>'+
         '<div class="pi-card-footer"><div class="pi-card-payment"><strong>Payment:</strong> '+pay+'</div>'+
-          '<div class="pi-card-amounts"><div class="pi-card-amt total"><div class="amt-label">PI Total</div><div class="amt-value">'+(p.total||'—')+'</div></div></div></div>'+
+          '<div class="pi-card-amounts">'+
+            '<div class="pi-card-amt"><div class="amt-label">Units</div><div class="amt-value">'+q+'</div></div>'+
+            '<div class="pi-card-amt total"><div class="amt-label">PI Total</div><div class="amt-value">'+(p.total||'—')+'</div></div>'+
+          '</div></div>'+
       '</div>';
     });
   });
