@@ -1028,7 +1028,7 @@ const clients = [
         ]
       },
       {
-        no:'20260130', date:'Jan 2026', total:'$9,916 USD',
+        no:'20260130', date:'Jan 2026', total:'$9,916 USD', prodDone:true,
         depositDate:'Feb 2, 2026', plannedShip:null, actualShip:null,
         payment:'✅ 30% Deposit RCVD: ~$2,988 · Feb 2 2026',
         items:[
@@ -1058,7 +1058,7 @@ const clients = [
         ]
       },
       {
-        no:'20260119', date:'Jan 2026', total:'$10,200 USD',
+        no:'20260119', date:'Jan 2026', total:'$10,200 USD', prodDone:true,
         depositDate:null, plannedShip:null, actualShip:null,
         payment:'⏳ 20% Deposit (~$2,040) PENDING',
         items:[
@@ -1132,7 +1132,7 @@ const clients = [
     tags:[{t:'All 3 Orders Paid ✓',c:'green'},{t:'NR-12',c:'gray'},{t:'MR-brand',c:'gray'}],
     payment:'30% T/T deposit · 70% T/T before shipping.',
     pis:[{
-      no:'M2026210', date:'Feb 2026', total:'$56,221.50 USD',
+      no:'M2026210', date:'Feb 2026', total:'$56,221.50 USD', prodDone:true,
       depositDate:'Mar 4, 2026', plannedShip:null, actualShip:null,
       nextPayment:null,
       payment:'✅ FULLY PAID — 30% deposit $16,866.45 + 70% balance $39,355 (net $39,340 received May 12 2026, CELMAR via Itaú Unibanco). Order 1 settled in full.',
@@ -1271,8 +1271,8 @@ const allClientsForPage = (function(){
     '20260127 + 20260129 — JK Colombia':'ready',
     '20260325 — JK Ecuador':'production','20260131 — JK Peru':'ready',
     '2026424 — JK Ecuador':'production','2026423 — JK Colombia':'production',
-    '20251030':'outstanding','20260130':'outstanding',
-    '20250910':'outstanding','20260119':'outstanding',
+    '20251030':'outstanding','20260130':'ready',
+    '20250910':'outstanding','20260119':'ready',
     'RM20250929 (Shanghai Rising)':'outstanding',
     'YF20241024':'outstanding','20250811':'outstanding',
     'M2026210':'paid','M2026410 + M2026411':'paid','20260317':'production',
@@ -1483,11 +1483,12 @@ const allClientsForPage = (function(){
   }
 
   // Render grouped by production status: In Production first, then Production Complete
+  const isPD=p=>{ if(p.prodDone) return true; const m=(p.date||'').match(/20\d\d/); return m?(+m[0]<=2025):false; };
   const allPIs=[];
   clients.forEach(c=>{ if(exclude.includes(c.short)) return; (c.pis||[]).forEach(p=>allPIs.push({c:c,p:p})); });
-  [['producing','🏭 In Production','#1e8449'],['complete','✅ Production Complete','#16a085']].forEach(grp=>{
+  [['producing','🏭 In Production','#1e8449']].forEach(grp=>{
     const g=grp[0], label=grp[1], color=grp[2];
-    const list=allPIs.filter(x=> (x.p.prodDone?'complete':'producing')===g);
+    const list=allPIs.filter(x=> (isPD(x.p)?'complete':'producing')===g);
     if(!list.length) return;
     const titleEl=document.createElement('div');
     titleEl.className='ongoing-section-title';
@@ -1498,7 +1499,7 @@ const allClientsForPage = (function(){
       const c=item.c, p=item.p;
       const div=document.createElement('div');
       div.className='pi-card-full';
-      const badge = p.prodDone
+      const badge = isPD(p)
         ? `<span class="pi-status-badge production" style="background:#d5f5e3;color:#1e8449;">✅ Production Complete</span>`
         : `<span class="pi-status-badge production">🏭 In Production</span>`;
       const payLine = p.payment ? p.payment.replace(/\n/g,'<br>') : c.payment;
@@ -1582,31 +1583,41 @@ const allClientsForPage = (function(){
 // ── RENDER CLIENT GRID ──────────────────────────────────────
 const grid = document.getElementById('clientGrid');
 const fmtUSD = v => v>=1000000?'$'+(v/1000000).toFixed(2)+'M':'$'+(v/1000).toFixed(0)+'K';
-allClientsForPage.forEach((c,i)=>{
-  const div = document.createElement('div');
-  div.className='card client-card';
-  div.onclick=()=>openClientModal(i);
-  const mLabel=c.units===1?'1 unit':`${c.units} units`;
-  const isPaid = c.outstandingUSD<=0;
-  const statusTag = isPaid
-    ? `<span class="tag green">✅ Fully Paid</span>`
-    : (c.collectedUSD===0
-        ? `<span class="tag blue">🏭 In Production</span>`
-        : `<span class="tag orange">⏳ Balance Due</span>`);
-  div.innerHTML=`
-    <div class="client-flag">${c.flag}</div>
-    <div class="client-short">${c.short}</div>
-    <div class="client-name">${c.name}</div>
-    <div class="client-amount">${c.amountUSD>=1000000?'$'+(c.amountUSD/1000000).toFixed(2)+'M':'$'+c.amountUSD.toLocaleString('en-US')+' USD'}</div>
-    <div class="client-pi">${c.country} &nbsp;·&nbsp; ${mLabel} &nbsp;·&nbsp; ${c.pis.length} PI${c.pis.length!==1?'s':''}</div>
-    <div class="tags">${statusTag}</div>
-    <div class="client-paidrow">
-      <span class="cpaid">💰 Collected: ${fmtUSD(c.collectedUSD)}</span>
-      <span style="color:#ddd;margin:0 4px;">·</span>
-      <span class="${c.outstandingUSD>0?'cbal':'cpaid'}">⏳ Due: ${c.outstandingUSD>0?fmtUSD(c.outstandingUSD):'$0'}</span>
-    </div>
-  `;
-  grid.appendChild(div);
+const clientYear = c => { let mx=0; (c.pis||[]).forEach(p=>{const m=(p.date||'').match(/20\d\d/); if(m) mx=Math.max(mx,+m[0]);}); return mx||'Other'; };
+const _byYr={};
+allClientsForPage.forEach((c,i)=>{ const y=clientYear(c); (_byYr[y]=_byYr[y]||[]).push(i); });
+Object.keys(_byYr).sort((a,b)=> a==='Other'?1 : b==='Other'?-1 : (b-a)).forEach(y=>{
+  const hdr=document.createElement('div');
+  hdr.style.cssText='grid-column:1/-1;background:#1a1a2e;color:#fff;border-radius:10px;padding:11px 16px;margin:16px 0 2px;display:flex;justify-content:space-between;align-items:center;';
+  hdr.innerHTML='<span style="font-weight:800;font-size:15px;">📅 '+(y==='Other'?'Other':y)+'</span><span style="font-size:12px;font-weight:600;color:#f1c40f;">'+_byYr[y].length+' client'+(_byYr[y].length!==1?'s':'')+' · latest order</span>';
+  grid.appendChild(hdr);
+  _byYr[y].forEach(i=>{
+    const c=allClientsForPage[i];
+    const div = document.createElement('div');
+    div.className='card client-card';
+    div.onclick=()=>openClientModal(i);
+    const mLabel=c.units===1?'1 unit':`${c.units} units`;
+    const isPaid = c.outstandingUSD<=0;
+    const statusTag = isPaid
+      ? `<span class="tag green">✅ Fully Paid</span>`
+      : (c.collectedUSD===0
+          ? `<span class="tag blue">🏭 In Production</span>`
+          : `<span class="tag orange">⏳ Balance Due</span>`);
+    div.innerHTML=`
+      <div class="client-flag">${c.flag}</div>
+      <div class="client-short">${c.short}</div>
+      <div class="client-name">${c.name}</div>
+      <div class="client-amount">${c.amountUSD>=1000000?'$'+(c.amountUSD/1000000).toFixed(2)+'M':'$'+c.amountUSD.toLocaleString('en-US')+' USD'}</div>
+      <div class="client-pi">${c.country} &nbsp;·&nbsp; ${mLabel} &nbsp;·&nbsp; ${c.pis.length} PI${c.pis.length!==1?'s':''}</div>
+      <div class="tags">${statusTag}</div>
+      <div class="client-paidrow">
+        <span class="cpaid">💰 Collected: ${fmtUSD(c.collectedUSD)}</span>
+        <span style="color:#ddd;margin:0 4px;">·</span>
+        <span class="${c.outstandingUSD>0?'cbal':'cpaid'}">⏳ Due: ${c.outstandingUSD>0?fmtUSD(c.outstandingUSD):'$0'}</span>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
 });
 
 // ── MODAL ────────────────────────────────────────────────────
@@ -2347,6 +2358,8 @@ function openExhModal(id){
   const isAcc=it=>{const m=(it.model||'').toLowerCase(),d=(it.desc||'').toLowerCase(); if(d.includes('accessor'))return true; return /^(dro|scale|scales|accessories|spacer)\b|vice|vise|\bchuck\b|blade|coolant|\bspare\b/.test(m);};
   const qtyOf=its=>(its||[]).reduce((s,it)=>s+(isAcc(it)?0:(Number(it.qty)||0)),0);
   const yr=p=>{const m=(p.date||'').match(/20\d\d/); return m?m[0]:'Other';};
+  const isPD=p=>{ if(p.prodDone) return true; const m=(p.date||'').match(/20\d\d/); return m?(+m[0]<=2025):false; };
+  const prodBadge=p=>isPD(p)?'<span class="pi-status-badge production" style="background:#d5f5e3;color:#1e8449;">✅ Production Complete</span>':'<span class="pi-status-badge production">🏭 In Production</span>';
   function items(its){
     if(!its||!its.length) return '';
     const hasDesc=its.some(it=>it.desc&&it.desc!=='');
@@ -2369,7 +2382,7 @@ function openExhModal(id){
   let html='<h2 style="font-size:18px;font-weight:800;margin:4px 0 6px;">📑 All Contracts</h2>'+
            '<div style="font-size:12px;color:#888;margin-bottom:14px;">Grouped by year · every PI — products, quantity, totals & payment status.</div>';
   years.forEach(function(y){
-    const list=byYear[y].slice().sort((a,b)=>a.c.short.localeCompare(b.c.short));
+    const list=byYear[y].slice().sort((a,b)=> ((isPD(a.p)?1:0)-(isPD(b.p)?1:0)) || a.c.short.localeCompare(b.c.short));
     const yUnits=list.reduce((s,x)=>s+qtyOf(x.p.items),0);
     const yPIs=list.reduce((s,x)=>s+((String(x.p.no).match(/\+/g)||[]).length+1),0);
     html+='<div style="background:#1a1a2e;color:#fff;border-radius:10px;padding:12px 16px;margin:26px 0 14px;display:flex;justify-content:space-between;align-items:center;">'+
@@ -2380,7 +2393,7 @@ function openExhModal(id){
       const pay=p.payment?p.payment.replace(/\n/g,'<br>'):(p.status==='paid'?'✅ Fully paid':(c.payment||'—'));
       html+='<div class="pi-card-full">'+
         '<div class="pi-card-header"><div class="pi-card-header-left"><div class="pi-card-flag">'+c.flag+'</div>'+
-          '<div><div class="pi-card-client">'+c.short+'</div><div class="pi-card-no">PI '+p.no+' · '+(p.date||'')+'</div></div></div>'+badge(p.status)+'</div>'+
+          '<div><div class="pi-card-client">'+c.short+'</div><div class="pi-card-no">PI '+p.no+' · '+(p.date||'')+'</div></div></div>'+prodBadge(p)+'</div>'+
         '<div class="pi-card-body">'+items(p.items)+'</div>'+
         '<div class="pi-card-footer"><div class="pi-card-payment"><strong>Payment:</strong> '+pay+'</div>'+
           '<div class="pi-card-amounts">'+
