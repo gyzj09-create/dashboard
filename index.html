@@ -1121,7 +1121,7 @@ const clients = [
     tags:[{t:'⚠ Ship by May 30',c:'red'},{t:'L/C Confirmed ✓',c:'green'},{t:'127 units',c:'blue'}],
     payment:'L/C at 180 days — Letter of Credit (bank-to-bank). Payment received 180 days after shipment.',
     pis:[{
-      no:'OZCO20260202', date:'Feb 2026', total:'$173,725 USD',
+      no:'OZCO20260202', date:'Feb 2026', total:'$173,725 USD', prodDone:true,
       depositDate:null, plannedShip:'by May 30, 2026 ⚠️', actualShip:null,
       nextPayment:'$173,725 USD · 180 days after B/L (L/C — no advance required)',
       items:[
@@ -1133,7 +1133,7 @@ const clients = [
         {model:'MC50E',factory:'Z5050',desc:'Drilling machine (3KW, MT4, 580×580 table)',qty:10,unit:'$2,990',total:'$29,900'},
       ]
     },{
-      no:'OZCO20260326', date:'Mar 2026', total:'$35,325 USD',
+      no:'OZCO20260326', date:'Mar 2026', total:'$35,325 USD', prodDone:true,
       depositDate:null, plannedShip:'by Jun 15, 2026', actualShip:null,
       nextPayment:'$35,325 USD · 180 days after B/L (L/C — no advance required)',
       items:[
@@ -1180,7 +1180,7 @@ const clients = [
     payment:'20–30% advance → 30% when goods ready → 50% after B/L.',
     pis:[
       {
-        no:'20260127 + 20260129 — JK Colombia', date:'Jan 2026', total:'$131,894 USD (combined)',
+        no:'20260127 + 20260129 — JK Colombia', date:'Jan 2026', total:'$131,894 USD (combined)', prodDone:true,
         depositDate:'Jan–Feb 2026', plannedShip:null, actualShip:null,
         nextPayment:'~$49,698 · Balance after goods ready + B/L (combined for both PIs)',
         payment:'✅ Deposits RCVD: $15,900 (20260127, Jan 28) + $16,296 (20260129, Feb 2) = $32,196 · Bancolombia\n✅ Partial RCVD: $50,000 · May 28 2026 · Bancolombia (net $49,989)\nTotal paid: $82,196 | Balance: $49,698',
@@ -1210,7 +1210,7 @@ const clients = [
         ]
       },
       {
-        no:'20260131 — JK Peru', date:'Jan 2026', total:'$56,661 USD',
+        no:'20260131 — JK Peru', date:'Jan 2026', total:'$56,661 USD', prodDone:true,
         depositDate:'Feb 24, 2026', plannedShip:null, actualShip:null,
         nextPayment:'~$28,661 · Balance after goods ready + B/L',
         payment:'✅ Deposit RCVD: $10,000 · Feb 24 2026 · BCP (Banco de Crédito del Perú)\n✅ Partial RCVD: $18,000 · May 5 2026 · BCP (PI NO. 20260131)\nTotal paid: $28,000 | Balance: $28,661',
@@ -1512,10 +1512,10 @@ const clients = [
 // Each PI has a status: 'paid' | 'outstanding' | 'production'
 const allClientsForPage = (function(){
   const piStatus = {
-    'OZCO20260202':'production','OZCO20260326':'production',
+    'OZCO20260202':'ready','OZCO20260326':'ready',
     'YFCORMAK251231':'paid','YFCORMAK260522':'production',
-    '20260127 + 20260129 — JK Colombia':'production',
-    '20260325 — JK Ecuador':'production','20260131 — JK Peru':'production',
+    '20260127 + 20260129 — JK Colombia':'ready',
+    '20260325 — JK Ecuador':'production','20260131 — JK Peru':'ready',
     '2026424 — JK Ecuador':'production','2026423 — JK Colombia':'production',
     '20251030':'outstanding','20260130':'outstanding',
     '20250910':'outstanding','20260119':'outstanding',
@@ -1752,7 +1752,9 @@ const allClientsForPage = (function(){
         // Use client-level paid/balance for single-PI clients, show both for multi-PI
         const div = document.createElement('div');
         div.className='pi-card-full';
-        const badge = isProduction
+        const badge = p.prodDone
+          ? `<span class="pi-status-badge production" style="background:#d5f5e3;color:#1e8449;">✅ Production Complete</span>`
+          : isProduction
           ? `<span class="pi-status-badge production">🏭 In Production</span>`
           : `<span class="pi-status-badge collect">📦 Collect Payment</span>`;
 
@@ -2132,6 +2134,8 @@ function openClientModal(i){
   // All PIs with status badges
   const statusBadge = s => s==='paid'
     ? `<span style="background:#27ae60;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;">✅ Paid</span>`
+    : s==='ready'
+    ? `<span style="background:#16a085;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;">✅ Production Complete</span>`
     : s==='production'
     ? `<span style="background:#1e8449;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;">🏭 In Production</span>`
     : `<span style="background:#e67e22;color:#fff;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;">⏳ Outstanding</span>`;
@@ -2629,6 +2633,7 @@ function openExhModal(id){
   }
   function badge(st){
     if(st==='paid') return '<span class="pi-status-badge collect" style="background:#d5f5e3;color:#1e8449;">✅ Paid</span>';
+    if(st==='ready') return '<span class="pi-status-badge production" style="background:#d5f5e3;color:#1e8449;">✅ Production Complete</span>';
     if(st==='production') return '<span class="pi-status-badge production">🏭 In Production</span>';
     return '<span class="pi-status-badge collect" style="background:#fdebd0;color:#b9770e;">⏳ Balance Due</span>';
   }
