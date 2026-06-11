@@ -494,11 +494,16 @@ table tr:last-child td{border-bottom:none;}
   <div class="tab" onclick="showTab('clients')">Clients</div>
   <div class="tab" onclick="showTab('contracts')">📑 Contracts</div>
   <div class="tab" onclick="showTab('todos')">✅ 待办</div>
+  <div class="tab" onclick="showTab('cal')">📅 日历</div>
 </div>
 
 <!-- ══════════════════════════════════════════
      OVERVIEW PAGE
 ══════════════════════════════════════════ -->
+<div id="page-cal" class="page">
+  <div id="calContent" style="max-width:760px;margin:0 auto;"></div>
+</div>
+
 <div id="page-todos" class="page">
   <div id="todosContent" style="max-width:900px;margin:0 auto;"></div>
 </div>
@@ -928,6 +933,62 @@ function exportOV(){var b=new Blob([JSON.stringify(window.OV,null,2)],{type:'app
 function importOV(){var i=document.createElement('input');i.type='file';i.accept='.json,application/json';i.onchange=function(){var f=i.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{window.OV=JSON.parse(r.result);ovSave();location.reload();}catch(e){alert('文件格式不对');}};r.readAsText(f);};i.click();}
 function resetOV(){if(confirm('清空所有本地编辑(生产状态/付款/待办)并恢复原始数据?')){localStorage.removeItem('db_ov');window.OV={};location.reload();}}
 function rerenderEdits(){ if(typeof renderContracts==='function') renderContracts(); if(typeof renderTodos==='function') renderTodos(); }
+// ===== CALENDAR =====
+function _pad(n){return n<10?'0'+n:''+n;}
+function _dkey(d){return d.getFullYear()+'-'+_pad(d.getMonth()+1)+'-'+_pad(d.getDate());}
+function _parseDate(str){
+  if(!str) return null; str=String(str);
+  var m=str.match(/(\d{4})-(\d{1,2})-(\d{1,2})/); if(m) return new Date(+m[1],+m[2]-1,+m[3]);
+  var mm=str.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2}),?\s*(\d{4})/i);
+  if(mm){ var mo={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11}[mm[1].toLowerCase().slice(0,3)]; return new Date(+mm[3],mo,+mm[2]); }
+  return null;
+}
+function calEvents(){ return (window.OV['__CALENDAR__']&&window.OV['__CALENDAR__'].events)||[]; }
+function addCalEvent(dateStr){
+  var t=prompt('在 '+dateStr+' 添加事项 / 提醒:'); if(!t) return;
+  window.OV['__CALENDAR__']=window.OV['__CALENDAR__']||{events:[]};
+  window.OV['__CALENDAR__'].events.push({date:dateStr,text:t});
+  ovSave(); renderCal();
+}
+function delCalEvent(i){ var e=calEvents(); if(!e[i])return; if(!confirm('删除「'+e[i].text+'」?'))return; e.splice(i,1); ovSave(); renderCal(); }
+function calNav(d){ if(window.__calY==null){var n=new Date();window.__calY=n.getFullYear();window.__calM=n.getMonth();} var nn=new Date(window.__calY,window.__calM+d,1); window.__calY=nn.getFullYear(); window.__calM=nn.getMonth(); renderCal(); }
+function renderCal(){
+  var el=document.getElementById('calContent'); if(!el) return;
+  if(window.__calY==null){ var now=new Date(); window.__calY=now.getFullYear(); window.__calM=now.getMonth(); }
+  var Y=window.__calY, M=window.__calM;
+  var escH=function(v){return String(v).replace(/[&<>"]/g,function(ch){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch];});};
+  var ev={};
+  function put(key,text,auto,idx){ (ev[key]=ev[key]||[]).push({text:text,auto:auto,idx:idx}); }
+  if(typeof clients!=='undefined'){ clients.forEach(function(c){ (c.pis||[]).forEach(function(p){ var d=_parseDate(p.plannedShip); if(d) put(_dkey(d),'🚢 '+c.short+' 装运',true); }); }); }
+  calEvents().forEach(function(e,i){ var d=_parseDate(e.date); if(d) put(_dkey(d),escH(e.text),false,i); });
+  var todayKey=_dkey(new Date());
+  var first=new Date(Y,M,1), startDow=first.getDay(), days=new Date(Y,M+1,0).getDate();
+  var html='<div style="display:flex;justify-content:space-between;align-items:center;margin:4px 0 14px;">'+
+    '<button onclick="calNav(-1)" style="border:1px solid #ccc;background:#fff;border-radius:8px;padding:6px 12px;font-size:14px;cursor:pointer;">‹</button>'+
+    '<div style="font-size:18px;font-weight:800;">'+Y+' 年 '+(M+1)+' 月</div>'+
+    '<button onclick="calNav(1)" style="border:1px solid #ccc;background:#fff;border-radius:8px;padding:6px 12px;font-size:14px;cursor:pointer;">›</button></div>';
+  html+='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;">';
+  ['日','一','二','三','四','五','六'].forEach(function(w){ html+='<div style="text-align:center;font-size:11px;font-weight:700;color:#888;padding:4px 0;">'+w+'</div>'; });
+  for(var i=0;i<startDow;i++) html+='<div></div>';
+  for(var day=1;day<=days;day++){
+    var key=Y+'-'+_pad(M+1)+'-'+_pad(day);
+    var list=ev[key]||[];
+    var isToday=key===todayKey;
+    var chips=list.slice(0,3).map(function(x){ var bg=x.auto?'#fdebd0':'#e7eefb'; var col=x.auto?'#b9770e':'#0a3890'; var del=(!x.auto)?'<span onclick="event.stopPropagation();delCalEvent('+x.idx+')" style="float:right;color:#e74c3c;cursor:pointer;">✕</span>':''; return '<div style="background:'+bg+';color:'+col+';font-size:9px;line-height:1.3;border-radius:3px;padding:1px 3px;margin-top:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+x.text+del+'</div>'; }).join('');
+    if(list.length>3) chips+='<div style="font-size:9px;color:#aaa;">+'+(list.length-3)+'</div>';
+    html+='<div onclick="addCalEvent(\''+key+'\')" style="min-height:64px;border:1px solid '+(isToday?'#0a3890':'#eee')+';border-radius:6px;padding:3px 4px;cursor:pointer;background:'+(isToday?'#f0f5ff':'#fff')+';">'+
+      '<div style="font-size:12px;font-weight:'+(isToday?'800':'600')+';color:'+(isToday?'#0a3890':'#333')+';">'+day+'</div>'+chips+'</div>';
+  }
+  html+='</div>';
+  // upcoming list (next 120 days)
+  var ups=[]; var now=new Date(); now.setHours(0,0,0,0);
+  Object.keys(ev).forEach(function(k){ var d=_parseDate(k); if(d && d>=now){ ev[k].forEach(function(x){ ups.push({d:d,k:k,x:x}); }); } });
+  ups.sort(function(a,b){return a.d-b.d;});
+  html+='<div style="font-size:13px;font-weight:800;margin:22px 0 8px;">📋 即将到来</div>';
+  if(!ups.length){ html+='<div style="color:#bbb;font-size:12px;">没有即将到来的日程。点任意日期格子可添加事项。</div>'; }
+  else { ups.slice(0,30).forEach(function(u){ var del=(!u.x.auto)?'<span onclick="delCalEvent('+u.x.idx+')" style="color:#e74c3c;cursor:pointer;margin-left:8px;">✕</span>':''; html+='<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid #f3f3f3;"><span style="font-size:12px;font-weight:700;color:#0a3890;min-width:84px;">'+u.k+'</span><span style="flex:1;font-size:13px;">'+u.x.text+'</span>'+del+'</div>'; }); }
+  el.innerHTML=html;
+}
 
 const clients = [
   {
@@ -2528,7 +2589,7 @@ function renderTodos(){
   }
   el.innerHTML=html;
 }
-renderContracts();renderTodos();
+renderContracts();renderTodos();renderCal();
 </script>
 <div id="syncBadge" style="position:fixed;left:12px;bottom:12px;z-index:5000;background:#1a1a2e;color:#fff;font-size:11px;font-weight:600;padding:6px 10px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:default;">☁ 同步</div>
 <button id="pwaInstall" style="display:none;position:fixed;right:16px;bottom:16px;z-index:5000;background:#1a1a2e;color:#fff;border:none;border-radius:24px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,0.3);cursor:pointer;">📲 安装 App</button>
