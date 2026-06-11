@@ -973,6 +973,7 @@ function renderCal(){
   if(typeof clients!=='undefined'){ clients.forEach(function(c){ (c.pis||[]).forEach(function(p){
     var d=_parseDate(p.plannedShip); if(d) put(_dkey(d),'🚢 '+c.short+' 装运',true);
     var cr=_parseDate(p.cargoReady); if(cr){ put(_dkey(cr),'📦 '+c.short+' 货好 ('+p.no+')',true); var nd=(p.inspectDays||20); var ins=new Date(cr.getTime()-nd*86400000); put(_dkey(ins),'📋 '+c.short+' '+p.no+' 预约验货(货好前'+nd+'天)',true); }
+    var bk=_parseDate(p.bookingDate); if(bk) put(_dkey(bk),'⚓ '+c.short+' '+p.no+' 订舱',true);
   }); }); }
   calEvents().forEach(function(e,i){ var d=_parseDate(e.date); if(d) put(_dkey(d),escH(e.text),false,i); });
   var todayKey=_dkey(new Date());
@@ -1414,7 +1415,7 @@ const clients = [
     payment:'Direct PO — Grizzly switched from Yangzhou Super to direct sourcing. Terms per agreement.',
     pis:[
       {
-        no:'PO1127504', date:'May 2026', total:'$120,268 USD', cargoReady:'2026-08-10', inspectDays:20,
+        no:'PO1127504', date:'May 2026', total:'$120,268 USD', cargoReady:'2026-08-10', inspectDays:20, bookingDate:'2026-07-27',
         depositDate:null, plannedShip:'by Aug 17, 2026', actualShip:null,
         nextPayment:'Cargo ready Aug 10 · ship Aug 17 · delivery Sep 24, 2026',
         payment:'New PO received May 22 2026. Cargo ready 8/10, ship 8/17, delivery 9/24 2026. Ocean → Springfield MO.',
@@ -1433,7 +1434,7 @@ const clients = [
         ]
       },
       {
-        no:'PO1127642', date:'May 2026', total:'$680.20 USD', cargoReady:'2026-08-31', inspectDays:20,
+        no:'PO1127642', date:'May 2026', total:'$680.20 USD', cargoReady:'2026-08-31', inspectDays:20, bookingDate:'2026-08-17',
         depositDate:null, plannedShip:'by Sep 7, 2026', actualShip:null,
         nextPayment:'Cargo ready Aug 31 · delivery Oct 15, 2026',
         payment:'Spare parts PO received May 22 2026. Cargo ready 8/31, delivery 10/15 2026.',
