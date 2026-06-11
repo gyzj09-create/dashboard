@@ -954,7 +954,7 @@ function delCalEvent(i){ var e=calEvents(); if(!e[i])return; if(!confirm('删除
 function calNav(d){ if(window.__calY==null){var n=new Date();window.__calY=n.getFullYear();window.__calM=n.getMonth();} var nn=new Date(window.__calY,window.__calM+d,1); window.__calY=nn.getFullYear(); window.__calM=nn.getMonth(); renderCal(); }
 function piDate(no){
   var s=String(no).replace(/^[^0-9]+/,''); s=s.replace(/[^0-9].*$/,'');
-  function mk(y,m,d){ if(m<1||m>12||d<1||d>31) return null; var dt=new Date(y,m-1,d); return isNaN(dt.getTime())?null:dt; }
+  function mk(y,m,d){ if(y<2020||y>2035||m<1||m>12||d<1||d>31) return null; var dt=new Date(y,m-1,d); return isNaN(dt.getTime())?null:dt; }
   if(s.length>=8){ var r=mk(+s.slice(0,4),+s.slice(4,6),+s.slice(6,8)); if(r) return r; }
   if(s.length===7){ var r2=mk(+s.slice(0,4),+s.slice(4,5),+s.slice(5,7)); if(r2) return r2; }
   if(s.length===6){ if(s.slice(0,2)==='20'){ var mo=+s.slice(4,6); if(mo>=1&&mo<=12) return mk(+s.slice(0,4),mo,1); } var r3=mk(2000+ +s.slice(0,2),+s.slice(2,4),+s.slice(4,6)); if(r3) return r3; }
@@ -970,7 +970,10 @@ function renderCal(){
   var escH=function(v){return String(v).replace(/[&<>"]/g,function(ch){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch];});};
   var ev={};
   function put(key,text,auto,idx){ (ev[key]=ev[key]||[]).push({text:text,auto:auto,idx:idx}); }
-  if(typeof clients!=='undefined'){ clients.forEach(function(c){ (c.pis||[]).forEach(function(p){ var d=_parseDate(p.plannedShip); if(d) put(_dkey(d),'🚢 '+c.short+' 装运',true); }); }); }
+  if(typeof clients!=='undefined'){ clients.forEach(function(c){ (c.pis||[]).forEach(function(p){
+    var d=_parseDate(p.plannedShip); if(d) put(_dkey(d),'🚢 '+c.short+' 装运',true);
+    var cr=_parseDate(p.cargoReady); if(cr){ put(_dkey(cr),'📦 '+c.short+' 货好 ('+p.no+')',true); var nd=(p.inspectDays||20); var ins=new Date(cr.getTime()-nd*86400000); put(_dkey(ins),'📋 '+c.short+' '+p.no+' 预约验货(货好前'+nd+'天)',true); }
+  }); }); }
   calEvents().forEach(function(e,i){ var d=_parseDate(e.date); if(d) put(_dkey(d),escH(e.text),false,i); });
   var todayKey=_dkey(new Date());
   var first=new Date(Y,M,1), startDow=first.getDay(), days=new Date(Y,M+1,0).getDate();
@@ -1401,6 +1404,46 @@ const clients = [
     }],
     notes:'TWO ORDERS — repeat buyer. Order 1 (DM20251125, $29,373): fully delivered ✅. Order 2 (DM20260525, $64,333, 41 units): 20% deposit $12,900 received May 28 2026 (Banco Santander Chile); terms 20% / 30% before ship / 50% within 90 days after ship. Balance $51,433. Mixed order: lathes (CQ), drill-mills (BF/ZX).'
   },
+  {
+    short:'Grizzly', flag:'🇺🇸', name:'Grizzly Industrial, Inc.',
+    country:'USA', contact:'Mike', address:'Springfield, MO, USA',
+    amount:'$120,948 USD', amountUSD:120948,
+    paid:'$0', balance:'$120,948 USD',
+    contracts:2, machines:134, status:'New — Direct Sourcing',
+    tags:[{t:'NEW Direct Deal',c:'purple'},{t:'2 POs',c:'blue'},{t:'134 units',c:'blue'}],
+    payment:'Direct PO — Grizzly switched from Yangzhou Super to direct sourcing. Terms per agreement.',
+    pis:[
+      {
+        no:'PO1127504', date:'May 2026', total:'$120,268 USD', cargoReady:'2026-08-10', inspectDays:20,
+        depositDate:null, plannedShip:'by Aug 17, 2026', actualShip:null,
+        nextPayment:'Cargo ready Aug 10 · ship Aug 17 · delivery Sep 24, 2026',
+        payment:'New PO received May 22 2026. Cargo ready 8/10, ship 8/17, delivery 9/24 2026. Ocean → Springfield MO.',
+        items:[
+          {model:'G0602',desc:'10" x 22" Lathe',qty:20,unit:'$779',total:'$15,580'},
+          {model:'G0705',desc:'Mill/Drill w/Stand 29"x8"',qty:30,unit:'$810',total:'$24,300'},
+          {model:'G0755',desc:'HD Mill/Drill w/Stand & Power Feed',qty:18,unit:'$1,483',total:'$26,694'},
+          {model:'G0757',desc:'9" x 39" H/V Mill',qty:4,unit:'$2,545',total:'$10,180'},
+          {model:'G0779',desc:'HD Floor Gearhead Drill Press',qty:10,unit:'$910',total:'$9,100'},
+          {model:'G0827',desc:'H/V Mill with DRO',qty:4,unit:'$3,400',total:'$13,600'},
+          {model:'G0949G',desc:'12" x 35" V/S Gunsmith Lathe',qty:12,unit:'$1,498',total:'$17,976'},
+          {model:'G5942',desc:'accessory · Quick change tool holder',qty:14,unit:'$5',total:'$70'},
+          {model:'T10556',desc:'accessory · Taper attachment',qty:4,unit:'$131',total:'$524'},
+          {model:'T24824',desc:'accessory · Power feed AS-350',qty:6,unit:'$166',total:'$996'},
+          {model:'T25677',desc:'accessory · Mill/drill stand',qty:12,unit:'$104',total:'$1,248'}
+        ]
+      },
+      {
+        no:'PO1127642', date:'May 2026', total:'$680.20 USD', cargoReady:'2026-08-31', inspectDays:20,
+        depositDate:null, plannedShip:'by Sep 7, 2026', actualShip:null,
+        nextPayment:'Cargo ready Aug 31 · delivery Oct 15, 2026',
+        payment:'Spare parts PO received May 22 2026. Cargo ready 8/31, delivery 10/15 2026.',
+        items:[
+          {model:'Spare parts (18 SKUs)',desc:'accessory · oil cup, fuse, cranks, way covers, brushes, transformer, drill chuck arbor, etc.',qty:60,unit:'—',total:'$680.20'}
+        ]
+      }
+    ],
+    notes:'Grizzly Industrial (USA) — major direct-sourcing client (contact: Mike). Switched from Yangzhou Super to direct. First 2 POs received May 22 2026: PO1127504 ($120,268 — 7 machine models, 134 units, ~98 machines) + PO1127642 (spare parts, $680.20). Destination Springfield MO, by ocean. Cargo ready Aug 2026.'
+  },
 ];
 
 // ── ALL CLIENTS (CLIENT PAGE) ─────────────────────────────────
@@ -1420,11 +1463,12 @@ const allClientsForPage = (function(){
     'YF20241024':'outstanding','20250811':'outstanding',
     'M2026210':'paid','M2026410 + M2026411':'paid','20260317':'production',
     '20250514':'outstanding','202603':'production',
-    'DM20251125':'paid','DM20260525':'production'
+    'DM20251125':'paid','DM20260525':'production',
+    'PO1127504':'production','PO1127642':'production'
   };
   const clientPaid = {
     OZCO:0,COMARK:95637,JK:194736,MAQUINAS:85615,ANCLA:20550,
-    GRUPO:96910,MANROD:174790,Tupai:618,KOWAY:29680,REMO:10177,DINTASS:42273
+    GRUPO:96910,MANROD:174790,Tupai:618,KOWAY:29680,REMO:10177,DINTASS:42273,Grizzly:0
   };
   clients.forEach(function(c){ var ex=c.pis.reduce(function(s,p){return s+extraPaidUSD(p.no);},0); if(ex) clientPaid[c.short]=(clientPaid[c.short]||0)+ex; });
   // Historical PIs for existing clients
@@ -2062,7 +2106,7 @@ const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 // ── KPI computation ─────────────────────────────────────────
 const paidByClient = {
   OZCO:0, COMARK:95637, JK:194736, MAQUINAS:85615, ANCLA:20550,
-  GRUPO:96910, MANROD:174790, Tupai:618, KOWAY:29680, REMO:10177, DINTASS:42273
+  GRUPO:96910, MANROD:174790, Tupai:618, KOWAY:29680, REMO:10177, DINTASS:42273, Grizzly:0
 };
 clients.forEach(function(c){ var ex=c.pis.reduce(function(s,p){return s+extraPaidUSD(p.no);},0); if(ex) paidByClient[c.short]=(paidByClient[c.short]||0)+ex; });
 const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
@@ -2087,7 +2131,7 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
   //                  + ANCLA-PI1+RM($93,174) + GRUPO-PI($76,320) = $372,112
   const v25=1163853, c25=1058997, o25=104856, d25=25;
   // 2026: 17 deals — 2026-dated PIs incl. new JK Ecuador/Colombia, MANROD ×2, DINTASS O2, COMARK O2
-  const v26=1052201, c26=425110, o26=627091, d26=17;
+  const v26=1173149, c26=425110, o26=748039, d26=19;
 
   const vAll=v24+v25+v26, cAll=c24+c25+c26, oAll=o24+o25+o26, dAll=d24+d25+d26;
 
