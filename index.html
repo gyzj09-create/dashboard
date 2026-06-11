@@ -952,6 +952,16 @@ function addCalEvent(dateStr){
 }
 function delCalEvent(i){ var e=calEvents(); if(!e[i])return; if(!confirm('删除「'+e[i].text+'」?'))return; e.splice(i,1); ovSave(); renderCal(); }
 function calNav(d){ if(window.__calY==null){var n=new Date();window.__calY=n.getFullYear();window.__calM=n.getMonth();} var nn=new Date(window.__calY,window.__calM+d,1); window.__calY=nn.getFullYear(); window.__calM=nn.getMonth(); renderCal(); }
+function piDate(no){
+  var s=String(no).replace(/^[^0-9]+/,''); s=s.replace(/[^0-9].*$/,'');
+  function mk(y,m,d){ if(m<1||m>12||d<1||d>31) return null; var dt=new Date(y,m-1,d); return isNaN(dt.getTime())?null:dt; }
+  if(s.length>=8){ var r=mk(+s.slice(0,4),+s.slice(4,6),+s.slice(6,8)); if(r) return r; }
+  if(s.length===7){ var r2=mk(+s.slice(0,4),+s.slice(4,5),+s.slice(5,7)); if(r2) return r2; }
+  if(s.length===6){ if(s.slice(0,2)==='20'){ var mo=+s.slice(4,6); if(mo>=1&&mo<=12) return mk(+s.slice(0,4),mo,1); } var r3=mk(2000+ +s.slice(0,2),+s.slice(2,4),+s.slice(4,6)); if(r3) return r3; }
+  return null;
+}
+var CN_HOLIDAYS=[['2025-01-01','2025-01-01','元旦'],['2025-01-28','2025-02-04','春节'],['2025-04-04','2025-04-06','清明'],['2025-05-01','2025-05-05','劳动节'],['2025-05-31','2025-06-02','端午'],['2025-10-01','2025-10-08','国庆中秋'],['2026-01-01','2026-01-01','元旦'],['2026-02-16','2026-02-22','春节'],['2026-04-04','2026-04-06','清明'],['2026-05-01','2026-05-05','劳动节'],['2026-06-19','2026-06-21','端午'],['2026-09-25','2026-09-27','中秋'],['2026-10-01','2026-10-07','国庆']];
+function holidayName(key){ for(var i=0;i<CN_HOLIDAYS.length;i++){ if(key>=CN_HOLIDAYS[i][0]&&key<=CN_HOLIDAYS[i][1]) return CN_HOLIDAYS[i][2]; } return null; }
 function renderCal(){
   var el=document.getElementById('calContent'); if(!el) return;
   if(window.__calY==null){ var now=new Date(); window.__calY=now.getFullYear(); window.__calM=now.getMonth(); }
@@ -973,13 +983,17 @@ function renderCal(){
   for(var day=1;day<=days;day++){
     var key=Y+'-'+_pad(M+1)+'-'+_pad(day);
     var list=ev[key]||[];
+    var hol=holidayName(key);
     var isToday=key===todayKey;
     var chips=list.slice(0,3).map(function(x){ var bg=x.auto?'#fdebd0':'#e7eefb'; var col=x.auto?'#b9770e':'#0a3890'; var del=(!x.auto)?'<span onclick="event.stopPropagation();delCalEvent('+x.idx+')" style="float:right;color:#e74c3c;cursor:pointer;">✕</span>':''; return '<div style="background:'+bg+';color:'+col+';font-size:9px;line-height:1.3;border-radius:3px;padding:1px 3px;margin-top:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+x.text+del+'</div>'; }).join('');
     if(list.length>3) chips+='<div style="font-size:9px;color:#aaa;">+'+(list.length-3)+'</div>';
-    html+='<div onclick="addCalEvent(\''+key+'\')" style="min-height:64px;border:1px solid '+(isToday?'#0a3890':'#eee')+';border-radius:6px;padding:3px 4px;cursor:pointer;background:'+(isToday?'#f0f5ff':'#fff')+';">'+
-      '<div style="font-size:12px;font-weight:'+(isToday?'800':'600')+';color:'+(isToday?'#0a3890':'#333')+';">'+day+'</div>'+chips+'</div>';
+    var cbg=isToday?'#f0f5ff':(hol?'#fdeaea':'#fff'), cbd=isToday?'#0a3890':(hol?'#e7a8a3':'#eee');
+    var holChip=hol?'<div style="background:#fadbd8;color:#c0392b;font-size:9px;border-radius:3px;padding:1px 3px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🎌 '+hol+'</div>':'';
+    html+='<div onclick="addCalEvent(\''+key+'\')" style="min-height:64px;border:1px solid '+cbd+';border-radius:6px;padding:3px 4px;cursor:pointer;background:'+cbg+';">'+
+      '<div style="font-size:12px;font-weight:'+(isToday?'800':'600')+';color:'+(isToday?'#0a3890':(hol?'#c0392b':'#333'))+';">'+day+'</div>'+holChip+chips+'</div>';
   }
   html+='</div>';
+  html+='<div style="font-size:10px;color:#aaa;margin-top:10px;">🎌 已标注中国法定节假日(红色);2026 年具体调休安排以国务院公布为准。</div>';
   // upcoming list (next 120 days)
   var ups=[]; var now=new Date(); now.setHours(0,0,0,0);
   Object.keys(ev).forEach(function(k){ var d=_parseDate(k); if(d && d>=now){ ev[k].forEach(function(x){ ups.push({d:d,k:k,x:x}); }); } });
@@ -2528,10 +2542,11 @@ function renderContracts(){
     list.forEach(function(x){
       const c=x.c,p=x.p,q=qtyOf(p.items);
       const iid='todo_'+String(p.no).replace(/[^a-zA-Z0-9]/g,'_');
+      var _sd=piDate(p.no), _days=_sd?Math.floor((Date.now()-_sd.getTime())/86400000):null;
       const pay=p.payment?p.payment.replace(/\n/g,'<br>'):(p.status==='paid'?'✅ Fully paid':(c.payment||'—'));
       html+='<div class="pi-card-full">'+
         '<div class="pi-card-header"><div class="pi-card-header-left"><div class="pi-card-flag">'+c.flag+'</div>'+
-          '<div><div class="pi-card-client">'+c.short+'</div><div class="pi-card-no">PI '+p.no+' · '+(p.date||'')+'</div></div></div>'+prodBadge(p)+'</div>'+
+          '<div><div class="pi-card-client">'+c.short+'</div><div class="pi-card-no">PI '+p.no+' · '+(p.date||'')+'</div>'+(_days!=null?'<div style="font-size:11px;color:#0a3890;font-weight:700;">⏱ 已签约 '+_days+' 天</div>':'')+'</div></div>'+prodBadge(p)+'</div>'+
         '<div class="pi-card-body">'+items(p.items)+'</div>'+
         '<div class="pi-card-footer"><div class="pi-card-payment"><strong>Payment:</strong> '+pay+'</div>'+
           '<div class="pi-card-amounts">'+
