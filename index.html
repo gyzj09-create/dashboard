@@ -1074,7 +1074,7 @@ const clients = [
     short:'MAQUINAS', flag:'🇦🇷', name:'Maquinas e Insumos SRL',
     country:'Argentina', contact:'—', address:'Av. Bernardo Ader 1345, Villa Adelina, Pcia. Bs. As., Argentina',
     amount:'~$107,234 USD', amountUSD:107200,
-    paid:'~$85,800 USD', balance:'~$21,447 USD',
+    paid:'~$85,615 USD', balance:'~$21,619 USD',
     contracts:2, machines:33, status:'20% Final Pending',
     tags:[{t:'Deposits Paid ✓',c:'green'},{t:'50% Post-Ship Paid ✓',c:'green'},{t:'20% on clearance',c:'orange'}],
     payment:'30% down · 50% after shipping · 20% after customs clearance.',
@@ -1107,7 +1107,7 @@ const clients = [
     short:'ANCLA', flag:'🇲🇽', name:'GRUPO IDEA SERVICIOS S.A. DE C.V.',
     country:'Mexico', contact:'—', address:'Poniente 27 No. 4106 interior 2, Col. del Gas, Azcapotzalco CDMX, C.P. 02930',
     amount:'$103,374 USD', amountUSD:103374,
-    paid:'$20,758 (deposits Oct 2025)', balance:'~$82,616 USD',
+    paid:'$20,550 (deposits Oct 2025)', balance:'~$82,824 USD',
     contracts:3, machines:21, status:'Deposit Paid',
     tags:[{t:'Deposit Paid ✓',c:'green'},{t:'3 PIs',c:'blue'},{t:'CNC + Conv.',c:'gray'}],
     payment:'20% down payment. 6 months for conventional, 8 months for CNC machinery.',
@@ -1115,7 +1115,7 @@ const clients = [
       {
         no:'20250910', date:'Jul 2025', total:'$88,224 USD',
         depositDate:'Oct 13, 2025', plannedShip:null, actualShip:null,
-        payment:'✅ Deposit RCVD: $17,858 · Oct 13 2025 · BBVA Mexico → CCB (ref PI20250712)',
+        payment:'✅ Deposit RCVD: $17,650 · Oct 13 2025 · BBVA Mexico → CCB (ref PI20250712)',
         items:[
           {model:'ZX6350Z',desc:'',qty:6,unit:'$5,275',total:'$31,650'},
           {model:'CQC330x1000',desc:'',qty:6,unit:'$2,429',total:'$14,574'},
@@ -1144,7 +1144,7 @@ const clients = [
         ]
       },
     ],
-    notes:'Main deposit PAID: $17,858 received Oct 13 2025 via BBVA Mexico (ref PI20250712, → CCB). Rising Machine PI (RM20250929) via separate entity — BOC account 455986228612. PI20260119 deposit ($2,040) still pending. Tax ID: GIS 980216 MP9.'
+    notes:'Main deposit PAID: $17,650 received Oct 13 2025 via BBVA Mexico (ref PI20250712, → CCB; 20% of $88,224). Rising Machine PI (RM20250929) via separate entity — BOC account 455986228612. PI20260119 deposit ($2,040) still pending. Tax ID: GIS 980216 MP9.'
   },
   {
     short:'GRUPO', flag:'🇲🇽', name:'B&I TRADERS S DE RL DE CV',
@@ -1346,7 +1346,7 @@ const allClientsForPage = (function(){
     'DM20251125':'paid','DM20260525':'production'
   };
   const clientPaid = {
-    OZCO:0,COMARK:95637,JK:194736,MAQUINAS:85800,ANCLA:20758,
+    OZCO:0,COMARK:95637,JK:194736,MAQUINAS:85615,ANCLA:20550,
     GRUPO:96910,MANROD:174790,Tupai:618,KOWAY:29680,REMO:10177,DINTASS:42273
   };
   clients.forEach(function(c){ var ex=c.pis.reduce(function(s,p){return s+extraPaidUSD(p.no);},0); if(ex) clientPaid[c.short]=(clientPaid[c.short]||0)+ex; });
@@ -1984,7 +1984,7 @@ const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 
 // ── KPI computation ─────────────────────────────────────────
 const paidByClient = {
-  OZCO:0, COMARK:95637, JK:194736, MAQUINAS:85800, ANCLA:20758,
+  OZCO:0, COMARK:95637, JK:194736, MAQUINAS:85615, ANCLA:20550,
   GRUPO:96910, MANROD:174790, Tupai:618, KOWAY:29680, REMO:10177, DINTASS:42273
 };
 clients.forEach(function(c){ var ex=c.pis.reduce(function(s,p){return s+extraPaidUSD(p.no);},0); if(ex) paidByClient[c.short]=(paidByClient[c.short]||0)+ex; });
