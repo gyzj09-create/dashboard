@@ -879,36 +879,42 @@ document.addEventListener('DOMContentLoaded', function(){
 // ===== EDIT OVERRIDES (localStorage) =====
 window.OV=(function(){try{return JSON.parse(localStorage.getItem('db_ov')||'{}');}catch(e){return {};}})();
 function ovGet(no){return window.OV[no]||{};}
-function ovSave(){try{localStorage.setItem('db_ov',JSON.stringify(window.OV));}catch(e){} cloudPush(); }
-// ===== CLOUD SYNC (Supabase) =====
+function ovSave(){try{localStorage.setItem('db_ov',JSON.stringify(window.OV));localStorage.setItem('db_ov_ts',String(Date.now()));}catch(e){} cloudPush(); }
+// ===== CLOUD SYNC (Supabase, offline-safe last-write-wins) =====
 var SB_URL='https://yrdrpgmmvlbwnofpuekt.supabase.co';
 var SB_KEY='sb_publishable_Rugoxxgw_x-R3tl5SRUm9A_eNHFpHrv';
 var SB_H={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
-function syncBadge(t,c){var b=document.getElementById('syncBadge');if(b){b.textContent=t;b.style.background=c||'#1a1a2e';}}
+function localTs(){ return +(localStorage.getItem('db_ov_ts')||0); }
+function syncBadge(t,c){var b=document.getElementById('syncBadge');if(b){b.textContent=t;b.style.background=c||'#0a3890';}}
 function cloudPush(){
-  if(!SB_URL) return; syncBadge('☁ 同步中…','#888');
+  if(!SB_URL) return;
+  if(typeof navigator!=='undefined' && navigator.onLine===false){ syncBadge('⚠ 离线·本地已存','#e67e22'); return; }
+  syncBadge('☁ 同步中…','#888');
+  var ts=localTs()||Date.now();
   try{
-    fetch(SB_URL+'/rest/v1/dealboard?on_conflict=id',{
-      method:'POST', keepalive:true,
+    fetch(SB_URL+'/rest/v1/dealboard?on_conflict=id',{method:'POST',keepalive:true,
       headers:Object.assign({},SB_H,{'Prefer':'resolution=merge-duplicates,return=minimal'}),
-      body:JSON.stringify([{id:'overrides',data:window.OV,updated_at:new Date().toISOString()}])
+      body:JSON.stringify([{id:'overrides',data:window.OV,updated_at:new Date(ts).toISOString()}])
     }).then(function(r){ syncBadge(r.ok?'☁ 已同步':'⚠ 同步失败('+r.status+')', r.ok?'#1e8449':'#e74c3c'); })
-     .catch(function(){ syncBadge('⚠ 同步失败','#e74c3c'); });
-  }catch(e){ syncBadge('⚠ 同步失败','#e74c3c'); }
+     .catch(function(){ syncBadge('⚠ 离线·本地已存','#e67e22'); });
+  }catch(e){ syncBadge('⚠ 离线·本地已存','#e67e22'); }
 }
 function cloudPull(){
-  if(!SB_URL) return; syncBadge('☁ 同步中…','#888');
-  fetch(SB_URL+'/rest/v1/dealboard?id=eq.overrides&select=data',{headers:SB_H})
+  if(!SB_URL) return;
+  if(typeof navigator!=='undefined' && navigator.onLine===false){ syncBadge('⚠ 离线·本地已存','#e67e22'); return; }
+  syncBadge('☁ 同步中…','#888');
+  fetch(SB_URL+'/rest/v1/dealboard?id=eq.overrides&select=data,updated_at',{headers:SB_H})
   .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
   .then(function(rows){
-    var remote=(rows&&rows[0]&&rows[0].data)?rows[0].data:null;
-    var localStr=JSON.stringify(window.OV||{});
-    if(remote===null){ if(localStr!=='{}'){ cloudPush(); } else { syncBadge('☁ 已同步','#1e8449'); } return; }
-    var remoteStr=JSON.stringify(remote);
-    if(remoteStr!==localStr){ window.OV=remote; try{localStorage.setItem('db_ov',remoteStr);}catch(e){} location.reload(); }
-    else { syncBadge('☁ 已同步','#1e8449'); }
-  }).catch(function(e){ syncBadge('⚠ 同步失败','#e74c3c'); });
+    var row=rows&&rows[0]; var remote=(row&&row.data)?row.data:null;
+    var rts=(row&&row.updated_at)?Date.parse(row.updated_at):0; var lts=localTs();
+    if(remote===null){ if(JSON.stringify(window.OV||{})!=='{}'){ cloudPush(); } else { syncBadge('☁ 已同步','#1e8449'); } return; }
+    if(rts>lts){ window.OV=remote; try{localStorage.setItem('db_ov',JSON.stringify(remote));localStorage.setItem('db_ov_ts',String(rts));}catch(e){} location.reload(); return; }
+    if(lts>rts){ cloudPush(); return; }
+    syncBadge('☁ 已同步','#1e8449');
+  }).catch(function(){ syncBadge('⚠ 同步失败','#e74c3c'); });
 }
+window.addEventListener('online', function(){ cloudPull(); });
 window.addEventListener('load',function(){ setTimeout(cloudPull,300); });
 function _yr(p){var m=(p.date||'').match(/20\d\d/);return m?+m[0]:0;}
 function pcOf(p){var o=ovGet(p.no);if(typeof o.prodComplete==='boolean')return o.prodComplete;return !!p.prodDone||(_yr(p)>0&&_yr(p)<=2025);}
