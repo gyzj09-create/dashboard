@@ -960,7 +960,8 @@ function piDate(no){
   if(s.length===6){ if(s.slice(0,2)==='20'){ var mo=+s.slice(4,6); if(mo>=1&&mo<=12) return mk(+s.slice(0,4),mo,1); } var r3=mk(2000+ +s.slice(0,2),+s.slice(2,4),+s.slice(4,6)); if(r3) return r3; }
   return null;
 }
-var CN_HOLIDAYS=[['2025-01-01','2025-01-01','元旦'],['2025-01-28','2025-02-04','春节'],['2025-04-04','2025-04-06','清明'],['2025-05-01','2025-05-05','劳动节'],['2025-05-31','2025-06-02','端午'],['2025-10-01','2025-10-08','国庆中秋'],['2026-01-01','2026-01-01','元旦'],['2026-02-16','2026-02-22','春节'],['2026-04-04','2026-04-06','清明'],['2026-05-01','2026-05-05','劳动节'],['2026-06-19','2026-06-21','端午'],['2026-09-25','2026-09-27','中秋'],['2026-10-01','2026-10-07','国庆']];
+var CN_HOLIDAYS=[['2025-01-01','2025-01-01','元旦'],['2025-01-28','2025-02-04','春节'],['2025-04-04','2025-04-06','清明'],['2025-05-01','2025-05-05','劳动节'],['2025-05-31','2025-06-02','端午'],['2025-10-01','2025-10-08','国庆中秋'],['2026-01-01','2026-01-03','元旦'],['2026-02-15','2026-02-23','春节'],['2026-04-04','2026-04-06','清明'],['2026-05-01','2026-05-05','劳动节'],['2026-06-19','2026-06-21','端午'],['2026-09-25','2026-09-27','中秋'],['2026-10-01','2026-10-07','国庆']];
+var CN_WORKDAYS={'2026-01-04':1,'2026-02-14':1,'2026-02-28':1,'2026-05-09':1,'2026-09-20':1,'2026-10-10':1};
 function holidayName(key){ for(var i=0;i<CN_HOLIDAYS.length;i++){ if(key>=CN_HOLIDAYS[i][0]&&key<=CN_HOLIDAYS[i][1]) return CN_HOLIDAYS[i][2]; } return null; }
 function renderCal(){
   var el=document.getElementById('calContent'); if(!el) return;
@@ -987,13 +988,14 @@ function renderCal(){
     var isToday=key===todayKey;
     var chips=list.slice(0,3).map(function(x){ var bg=x.auto?'#fdebd0':'#e7eefb'; var col=x.auto?'#b9770e':'#0a3890'; var del=(!x.auto)?'<span onclick="event.stopPropagation();delCalEvent('+x.idx+')" style="float:right;color:#e74c3c;cursor:pointer;">✕</span>':''; return '<div style="background:'+bg+';color:'+col+';font-size:9px;line-height:1.3;border-radius:3px;padding:1px 3px;margin-top:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+x.text+del+'</div>'; }).join('');
     if(list.length>3) chips+='<div style="font-size:9px;color:#aaa;">+'+(list.length-3)+'</div>';
-    var cbg=isToday?'#f0f5ff':(hol?'#fdeaea':'#fff'), cbd=isToday?'#0a3890':(hol?'#e7a8a3':'#eee');
-    var holChip=hol?'<div style="background:#fadbd8;color:#c0392b;font-size:9px;border-radius:3px;padding:1px 3px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🎌 '+hol+'</div>':'';
+    var wk=CN_WORKDAYS[key];
+    var cbg=isToday?'#f0f5ff':(hol?'#fdeaea':(wk?'#f4f6f7':'#fff')), cbd=isToday?'#0a3890':(hol?'#e7a8a3':(wk?'#d5dbdb':'#eee'));
+    var holChip=hol?'<div style="background:#fadbd8;color:#c0392b;font-size:9px;border-radius:3px;padding:1px 3px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">🎌 '+hol+'</div>':(wk?'<div style="background:#eaeded;color:#7f8c8d;font-size:9px;border-radius:3px;padding:1px 3px;margin-top:2px;">🛠 补班</div>':'');
     html+='<div onclick="addCalEvent(\''+key+'\')" style="min-height:64px;border:1px solid '+cbd+';border-radius:6px;padding:3px 4px;cursor:pointer;background:'+cbg+';">'+
       '<div style="font-size:12px;font-weight:'+(isToday?'800':'600')+';color:'+(isToday?'#0a3890':(hol?'#c0392b':'#333'))+';">'+day+'</div>'+holChip+chips+'</div>';
   }
   html+='</div>';
-  html+='<div style="font-size:10px;color:#aaa;margin-top:10px;">🎌 已标注中国法定节假日(红色);2026 年具体调休安排以国务院公布为准。</div>';
+  html+='<div style="font-size:10px;color:#aaa;margin-top:10px;">🎌 红色=法定节假日 · 🛠 灰色=周末补班(2026 年依国办发明电〔2025〕7号)。</div>';
   // upcoming list (next 120 days)
   var ups=[]; var now=new Date(); now.setHours(0,0,0,0);
   Object.keys(ev).forEach(function(k){ var d=_parseDate(k); if(d && d>=now){ ev[k].forEach(function(x){ ups.push({d:d,k:k,x:x}); }); } });
