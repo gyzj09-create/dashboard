@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jun's Deal Board</title>
-<meta name="theme-color" content="#1a1a2e">
+<meta name="theme-color" content="#0a3890">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -2491,25 +2491,35 @@ function renderTodos(){
   var escH=function(v){return String(v).replace(/[&<>"]/g,function(ch){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch];});};
   var look={}; allClientsForPage.forEach(function(c){(c.pis||[]).forEach(function(p){look[p.no]={c:c,p:p};});});
   var ov=window.OV||{};
-  var nos=Object.keys(ov).filter(function(no){return (ov[no].todos||[]).length;});
-  var pend=0,done=0; nos.forEach(function(no){(ov[no].todos||[]).forEach(function(t){t.done?done++:pend++;});});
+  function rowsHtml(no,todos,iid){
+    return todos.map(function(it,k){return '<div style="display:flex;align-items:center;gap:8px;padding:3px 0;"><input type="checkbox" '+(it.done?'checked':'')+' onclick="toggleTodo(\''+esq(no)+'\','+k+')"><span style="flex:1;font-size:13px;'+(it.done?'text-decoration:line-through;color:#aaa;':'color:#333;')+'">'+escH(it.text)+'</span><span onclick="delTodo(\''+esq(no)+'\','+k+')" style="color:#e74c3c;cursor:pointer;">✕</span></div>';}).join('')
+      +'<div style="margin-top:8px;display:flex;gap:6px;"><input id="'+iid+'" placeholder="加一项..." onkeydown="if(event.key===\'Enter\')addTodo(\''+esq(no)+'\',\''+iid+'\')" style="flex:1;border:1px solid #ddd;border-radius:6px;padding:6px 8px;font-size:13px;"><button onclick="addTodo(\''+esq(no)+'\',\''+iid+'\')" style="border:none;background:#0a3890;color:#fff;border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer;">+</button></div>';
+  }
+  var nos=Object.keys(ov).filter(function(no){return no!=='__GENERAL__' && (ov[no].todos||[]).length;});
+  var gen=(ov['__GENERAL__']&&ov['__GENERAL__'].todos)||[];
+  var pend=0,done=0;
+  nos.forEach(function(no){(ov[no].todos||[]).forEach(function(t){t.done?done++:pend++;});});
+  gen.forEach(function(t){t.done?done++:pend++;});
   var html='<h2 style="font-size:18px;font-weight:800;margin:4px 0 6px;">✅ 待办事项</h2>'+
-    '<div style="font-size:12px;color:#888;margin-bottom:16px;">共 <b style="color:#e67e22;">'+pend+'</b> 项待办 · '+done+' 项已完成 · 按合同分组,多设备同步</div>';
-  if(!nos.length){ el.innerHTML=html+'<div style="color:#bbb;padding:30px 0;text-align:center;">暂无待办。在 Contracts 页任意合同卡片底部添加事项,会汇总到这里。</div>'; return; }
-  nos.sort(function(a,b){ var pa=(ov[a].todos||[]).some(function(t){return !t.done;})?0:1; var pb=(ov[b].todos||[]).some(function(t){return !t.done;})?0:1; if(pa!==pb)return pa-pb; var ca=(look[a]&&look[a].c)?look[a].c.short:a, cb=(look[b]&&look[b].c)?look[b].c.short:b; return ca.localeCompare(cb); });
-  nos.forEach(function(no){
-    var info=look[no]||{}, c=info.c, p=info.p;
-    var iid='todoT_'+String(no).replace(/[^a-zA-Z0-9]/g,'_');
-    var todos=ov[no].todos||[];
-    html+='<div class="pi-card-full" style="margin-bottom:12px;">'+
-      '<div class="pi-card-header"><div class="pi-card-header-left">'+(c?'<div class="pi-card-flag">'+c.flag+'</div>':'')+
-        '<div><div class="pi-card-client">'+(c?c.short:'—')+'</div><div class="pi-card-no">PI '+no+(p&&p.date?' · '+p.date:'')+'</div></div></div>'+
-        '<span style="font-size:11px;font-weight:700;color:#888;">'+todos.filter(function(t){return !t.done;}).length+' 待办</span></div>'+
-      '<div style="padding:10px 16px;">'+
-        todos.map(function(it,k){return '<div style="display:flex;align-items:center;gap:8px;padding:3px 0;"><input type="checkbox" '+(it.done?'checked':'')+' onclick="toggleTodo(\''+esq(no)+'\','+k+')"><span style="flex:1;font-size:13px;'+(it.done?'text-decoration:line-through;color:#aaa;':'color:#333;')+'">'+escH(it.text)+'</span><span onclick="delTodo(\''+esq(no)+'\','+k+')" style="color:#e74c3c;cursor:pointer;">✕</span></div>';}).join('')+
-        '<div style="margin-top:8px;display:flex;gap:6px;"><input id="'+iid+'" placeholder="加一项..." onkeydown="if(event.key===\'Enter\')addTodo(\''+esq(no)+'\',\''+iid+'\')" style="flex:1;border:1px solid #ddd;border-radius:6px;padding:6px 8px;font-size:13px;"><button onclick="addTodo(\''+esq(no)+'\',\''+iid+'\')" style="border:none;background:#1a1a2e;color:#fff;border-radius:6px;padding:6px 12px;font-size:13px;cursor:pointer;">+</button></div>'+
-      '</div></div>';
-  });
+    '<div style="font-size:12px;color:#888;margin-bottom:16px;">共 <b style="color:#e67e22;">'+pend+'</b> 项待办 · '+done+' 项已完成 · 多设备同步</div>';
+  html+='<div class="pi-card-full" style="margin-bottom:14px;border:2px solid #0a3890;">'+
+    '<div class="pi-card-header" style="background:#eef2fb;"><div class="pi-card-header-left"><div class="pi-card-flag">📌</div><div><div class="pi-card-client">其他事项</div><div class="pi-card-no">不属于具体合同</div></div></div>'+
+    '<span style="font-size:11px;font-weight:700;color:#888;">'+gen.filter(function(t){return !t.done;}).length+' 待办</span></div>'+
+    '<div style="padding:10px 16px;">'+rowsHtml('__GENERAL__',gen,'todoG')+'</div></div>';
+  if(nos.length){
+    nos.sort(function(a,b){ var pa=(ov[a].todos||[]).some(function(t){return !t.done;})?0:1; var pb=(ov[b].todos||[]).some(function(t){return !t.done;})?0:1; if(pa!==pb)return pa-pb; var ca=(look[a]&&look[a].c)?look[a].c.short:a, cb=(look[b]&&look[b].c)?look[b].c.short:b; return ca.localeCompare(cb); });
+    html+='<div style="font-size:12px;font-weight:700;color:#888;margin:18px 0 8px;">按合同 / By contract</div>';
+    nos.forEach(function(no){
+      var info=look[no]||{}, c=info.c, p=info.p;
+      var iid='todoT_'+String(no).replace(/[^a-zA-Z0-9]/g,'_');
+      var todos=ov[no].todos||[];
+      html+='<div class="pi-card-full" style="margin-bottom:12px;">'+
+        '<div class="pi-card-header"><div class="pi-card-header-left">'+(c?'<div class="pi-card-flag">'+c.flag+'</div>':'')+
+          '<div><div class="pi-card-client">'+(c?c.short:'—')+'</div><div class="pi-card-no">PI '+no+(p&&p.date?' · '+p.date:'')+'</div></div></div>'+
+          '<span style="font-size:11px;font-weight:700;color:#888;">'+todos.filter(function(t){return !t.done;}).length+' 待办</span></div>'+
+        '<div style="padding:10px 16px;">'+rowsHtml(no,todos,iid)+'</div></div>';
+    });
+  }
   el.innerHTML=html;
 }
 renderContracts();renderTodos();
