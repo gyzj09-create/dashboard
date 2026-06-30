@@ -491,6 +491,7 @@ table tr:last-child td{border-bottom:none;}
 <div class="tabs">
   <div class="tab active" onclick="showTab('sales')">📊 Sales</div>
   <div class="tab" onclick="showTab('ongoing')">📋 Ongoing</div>
+  <div class="tab" onclick="showTab('ar')">💰 应收</div>
   <div class="tab" onclick="showTab('clients')">Clients</div>
   <div class="tab" onclick="showTab('contracts')">📑 Contracts</div>
   <div class="tab" onclick="showTab('todos')">✅ 待办</div>
@@ -611,6 +612,47 @@ table tr:last-child td{border-bottom:none;}
 </div>
 
 <!-- ══════════════════════════════════════════
+     RECEIVABLES (应收账款) PAGE
+══════════════════════════════════════════ -->
+<style>
+#page-ar .ar-kpis{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:8px;}
+#page-ar .ar-kpi{flex:1;min-width:220px;background:#fff;border-radius:12px;padding:16px 20px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+#page-ar .ar-kpi-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#888;}
+#page-ar .ar-kpi-val{font-size:30px;font-weight:800;margin-top:4px;line-height:1.1;}
+#page-ar .ar-kpi-val.orange{color:#e67e22;}#page-ar .ar-kpi-val.red{color:#c0392b;}
+#page-ar .ar-kpi-sub{font-size:12px;color:#999;margin-top:3px;}
+#page-ar .ar-client{margin-bottom:14px;padding:0;overflow:hidden;}
+#page-ar .ar-client.ar-risk{border-left:4px solid #e74c3c;}
+#page-ar .ar-ch{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:16px 20px 12px;}
+#page-ar .ar-ch-l{display:flex;gap:12px;align-items:flex-start;}
+#page-ar .ar-flag{font-size:28px;line-height:1;}
+#page-ar .ar-name{font-size:15px;font-weight:700;color:#1a1a2e;}
+#page-ar .ar-terms{font-size:11px;color:#999;margin-top:3px;max-width:420px;}
+#page-ar .ar-ch-r{text-align:right;flex-shrink:0;}
+#page-ar .ar-out-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#aaa;}
+#page-ar .ar-out{font-size:24px;font-weight:800;color:#e67e22;line-height:1.1;}
+#page-ar .ar-coll{font-size:11px;color:#27ae60;margin-top:2px;}
+#page-ar .ar-pis{background:#fafbfc;border-top:1px solid #eef0f3;padding:6px 20px 12px;}
+#page-ar .ar-pi{padding:10px 0;border-bottom:1px solid #eef0f3;}
+#page-ar .ar-pi:last-child{border-bottom:none;}
+#page-ar .ar-pi-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+#page-ar .ar-pi-no{font-size:13px;font-weight:700;color:#34495e;}
+#page-ar .ar-pi-meta{font-size:12px;color:#888;margin-top:3px;}
+#page-ar .ar-pi-due{font-size:12px;color:#d35400;font-weight:600;margin-top:3px;}
+#page-ar .ar-prodtag{display:inline-block;background:#fadbd8;color:#c0392b;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+#page-ar .ar-pill{display:inline-block;padding:2px 9px;border-radius:11px;font-size:11px;font-weight:700;}
+#page-ar .ar-pill.production{background:#fdebd0;color:#d35400;}
+#page-ar .ar-pill.ready{background:#fadbd8;color:#c0392b;}
+#page-ar .ar-pill.outstanding{background:#eef0f3;color:#7f8c8d;}
+#page-ar .ar-pill.collect{background:#fadbd8;color:#c0392b;}
+#page-ar .ar-pill.paid{background:#d5f5e3;color:#1e8449;}
+#page-ar .ar-note{font-size:12px;color:#999;margin:18px 2px 0;line-height:1.5;}
+</style>
+<div id="page-ar" class="page">
+  <div id="arContent"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
      TASKS PAGE
 ══════════════════════════════════════════ -->
 <div id="page-sales" class="page active">
@@ -700,14 +742,14 @@ table tr:last-child td{border-bottom:none;}
             <div style="font-size:10px;color:#aaa;">19 hist + KOWAY/COMARK/MAQUINAS/ANCLA/GRUPO</div>
           </td>
           <td style="padding:14px 16px;text-align:right;">
-            <div style="font-weight:700;font-size:15px;color:#27ae60;">$1,058,997</div>
+            <div style="font-weight:700;font-size:15px;color:#27ae60;">$1,082,176</div>
           </td>
           <td style="padding:14px 16px;text-align:right;">
-            <div style="font-weight:700;font-size:15px;color:#e67e22;">$104,856</div>
-            <div style="font-size:10px;color:#aaa;">COMARK/ANCLA/GRUPO/KOWAY</div>
+            <div style="font-weight:700;font-size:15px;color:#e67e22;">$81,677</div>
+            <div style="font-size:10px;color:#aaa;">ANCLA / GRUPO</div>
           </td>
           <td style="padding:14px 16px;text-align:center;">
-            <div style="display:inline-block;background:#fef3e2;color:#e67e22;font-weight:700;font-size:13px;padding:4px 10px;border-radius:20px;">91%</div>
+            <div style="display:inline-block;background:#eafaf1;color:#1e8449;font-weight:700;font-size:13px;padding:4px 10px;border-radius:20px;">93%</div>
           </td>
         </tr>
         <!-- 2026 — 2026-dated PIs only -->
@@ -2127,12 +2169,13 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
 
   // 2024: 7 deals — GRUPO YF20241024 still has $24,000 outstanding
   const v24=250108, c24=226108, o24=24000, d24=7;
-  // 2025: 25 deals — 19 fully-paid historical + 6 active-client 2025 PIs
-  //   Active 2025 PIs: KOWAY($33,600) + COMARK($71,700) + MAQUINAS-PI1($97,318)
-  //                  + ANCLA-PI1+RM($93,174) + GRUPO-PI($76,320) = $372,112
-  const v25=1163853, c25=1058997, o25=104856, d25=25;
+  // 2025: 25 deals — 19 fully-paid historical + active-client 2025 PIs
+  //   KOWAY, COMARK Order1 and MAQUINAS-PI1 are now FULLY PAID (Jun 2026).
+  //   Remaining 2025 outstanding = ANCLA-2025 ($72,624) + GRUPO-2025 ($9,053) = $81,677
+  const v25=1163853, c25=1082176, o25=81677, d25=25;
   // 2026: 17 deals — 2026-dated PIs incl. new JK Ecuador/Colombia, MANROD ×2, DINTASS O2, COMARK O2
-  const v26=1173149, c26=425110, o26=748039, d26=19;
+  //   Tupai & MAQUINAS-PI2 now fully paid (removed from outstanding).
+  const v26=1173149, c26=428516, o26=744633, d26=19;
 
   const vAll=v24+v25+v26, cAll=c24+c25+c26, oAll=o24+o25+o26, dAll=d24+d25+d26;
 
@@ -2651,7 +2694,65 @@ function renderTodos(){
   }
   el.innerHTML=html;
 }
-renderContracts();renderTodos();renderCal();
+// ── RECEIVABLES (应收账款) — auto-computed from contract data ──
+function renderAR(){
+  var el=document.getElementById('arContent');
+  if(!el||typeof allClientsForPage==='undefined') return;
+  var fmt=function(v){return '$'+Math.round(v).toLocaleString('en-US');};
+  var stTxt={production:'🏭 生产中',ready:'✅ 货已好 · 待发/待收',outstanding:'📋 账期内 · 待收尾款',collect:'💰 待收尾款',paid:'✓ 已付清'};
+
+  var owing=allClientsForPage.filter(function(c){return c.outstandingUSD>0;})
+            .sort(function(a,b){return b.outstandingUSD-a.outstandingUSD;});
+  var totalOut=owing.reduce(function(s,c){return s+c.outstandingUSD;},0);
+
+  function isProduced(p){return pcOf(p)||p.status==='ready'||p.status==='collect';}
+  function unpaid(c){return (c.pis||[]).filter(function(p){return (p.status||'')!=='paid';});}
+  function producedUnpaid(c){return unpaid(c).filter(isProduced);}
+
+  var risk=owing.filter(function(c){return producedUnpaid(c).length>0;});
+  var others=owing.filter(function(c){return producedUnpaid(c).length===0;});
+  var riskTotal=risk.reduce(function(s,c){return s+c.outstandingUSD;},0);
+
+  var h='';
+  h+='<div class="ar-kpis">'+
+       '<div class="ar-kpi"><div class="ar-kpi-label">总应收账款</div><div class="ar-kpi-val orange">'+fmt(totalOut)+'</div><div class="ar-kpi-sub">'+owing.length+' 个客户未付清</div></div>'+
+       '<div class="ar-kpi"><div class="ar-kpi-label">货已生产 · 尾款未收</div><div class="ar-kpi-val red">'+fmt(riskTotal)+'</div><div class="ar-kpi-sub">'+risk.length+' 个客户 · 优先催收</div></div>'+
+     '</div>';
+
+  function piRow(p){
+    var st=(p.status&&stTxt[p.status])?p.status:'outstanding';
+    var prod=isProduced(p)?'<span class="ar-prodtag">货已产</span>':'';
+    var due=p.nextPayment?'<div class="ar-pi-due">💳 待收：'+p.nextPayment+'</div>':'';
+    return '<div class="ar-pi"><div class="ar-pi-top">'+
+      '<span class="ar-pi-no">PI '+p.no+'</span>'+
+      '<span class="ar-pill '+st+'">'+stTxt[st]+'</span>'+prod+
+      '</div><div class="ar-pi-meta">'+(p.date||'')+' · 合同额 '+(p.total||'—')+'</div>'+due+'</div>';
+  }
+  function card(c,isRisk){
+    var pis=unpaid(c);
+    var body=pis.length?pis.map(piRow).join(''):'<div class="ar-pi"><div class="ar-pi-meta">尾款待收（明细见客户页）</div></div>';
+    return '<div class="card ar-client'+(isRisk?' ar-risk':'')+'">'+
+      '<div class="ar-ch"><div class="ar-ch-l"><span class="ar-flag">'+c.flag+'</span>'+
+        '<div><div class="ar-name">'+c.short+' · '+(c.name||'')+'</div>'+
+        '<div class="ar-terms">'+(c.country||'')+' · '+(c.payment||'')+'</div></div></div>'+
+      '<div class="ar-ch-r"><div class="ar-out-label">未付清</div><div class="ar-out">'+fmt(c.outstandingUSD)+'</div>'+
+        '<div class="ar-coll">已收 '+fmt(c.collectedUSD)+' / '+fmt(c.amountUSD)+'</div></div></div>'+
+      '<div class="ar-pis">'+body+'</div></div>';
+  }
+
+  if(risk.length){
+    h+='<div class="section-title">🔴 货已生产 / 可交付 · 尾款未收齐 — 优先催收</div>';
+    h+=risk.map(function(c){return card(c,true);}).join('');
+  }
+  if(others.length){
+    h+='<div class="section-title">🟡 生产中 / 账期内 · 其余应收</div>';
+    h+=others.map(function(c){return card(c,false);}).join('');
+  }
+  if(!owing.length) h='<div class="card" style="text-align:center;padding:40px;color:#27ae60;font-weight:700;">🎉 全部款项已收齐，无应收账款</div>';
+  h+='<div class="ar-note">数字按客户合同自动汇总，与「Clients」「Sales」页同源。「货已产」标记表示该 PI 生产已完成（2025 年及以前订单，或手动标记）——货已出但款未齐，是催收重点。</div>';
+  el.innerHTML=h;
+}
+renderContracts();renderTodos();renderCal();renderAR();
 </script>
 <div id="syncBadge" style="position:fixed;left:12px;bottom:12px;z-index:5000;background:#1a1a2e;color:#fff;font-size:11px;font-weight:600;padding:6px 10px;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:default;">☁ 同步</div>
 <button id="pwaInstall" style="display:none;position:fixed;right:16px;bottom:16px;z-index:5000;background:#1a1a2e;color:#fff;border:none;border-radius:24px;padding:12px 20px;font-size:14px;font-weight:700;box-shadow:0 4px 16px rgba(0,0,0,0.3);cursor:pointer;">📲 安装 App</button>
