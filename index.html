@@ -647,6 +647,11 @@ table tr:last-child td{border-bottom:none;}
 #page-ar .ar-pill.collect{background:#fadbd8;color:#c0392b;}
 #page-ar .ar-pill.paid{background:#d5f5e3;color:#1e8449;}
 #page-ar .ar-note{font-size:12px;color:#999;margin:18px 2px 0;line-height:1.5;}
+#page-ar .ar-sub{font-size:11px;font-weight:800;letter-spacing:.4px;margin:10px 0 2px;padding-top:4px;}
+#page-ar .ar-sub.sub-ship{color:#c0392b;}
+#page-ar .ar-sub.sub-prod{color:#d35400;}
+#page-ar .ar-tag{display:inline-block;font-size:10px;font-weight:700;background:#e8f4fd;color:#2471a3;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle;}
+#page-ar .ar-client.ar-lc{border-left:4px solid #2471a3;}
 </style>
 <div id="page-ar" class="page">
   <div id="arContent"></div>
@@ -2699,57 +2704,48 @@ function renderAR(){
   var el=document.getElementById('arContent');
   if(!el||typeof allClientsForPage==='undefined') return;
   var fmt=function(v){return '$'+Math.round(v).toLocaleString('en-US');};
-  var stTxt={production:'🏭 生产中',ready:'✅ 货已好 · 待发/待收',outstanding:'📋 账期内 · 待收尾款',collect:'💰 待收尾款',paid:'✓ 已付清'};
+  function isLC(c){return /l\/c|letter of credit|信用证/i.test(c.payment||'');}
+  function shipped(p){return pcOf(p)||p.status==='ready'||p.status==='collect'||p.prodDone===true;}
+  function unpaid(c){return (c.pis||[]).filter(function(p){return (p.status||'')!=='paid';});}
 
   var owing=allClientsForPage.filter(function(c){return c.outstandingUSD>0;})
             .sort(function(a,b){return b.outstandingUSD-a.outstandingUSD;});
   var totalOut=owing.reduce(function(s,c){return s+c.outstandingUSD;},0);
-
-  function isProduced(p){return pcOf(p)||p.status==='ready'||p.status==='collect';}
-  function unpaid(c){return (c.pis||[]).filter(function(p){return (p.status||'')!=='paid';});}
-  function producedUnpaid(c){return unpaid(c).filter(isProduced);}
-
-  var risk=owing.filter(function(c){return producedUnpaid(c).length>0;});
-  var others=owing.filter(function(c){return producedUnpaid(c).length===0;});
-  var riskTotal=risk.reduce(function(s,c){return s+c.outstandingUSD;},0);
-
-  var h='';
-  h+='<div class="ar-kpis">'+
-       '<div class="ar-kpi"><div class="ar-kpi-label">总应收账款</div><div class="ar-kpi-val orange">'+fmt(totalOut)+'</div><div class="ar-kpi-sub">'+owing.length+' 个客户未付清</div></div>'+
-       '<div class="ar-kpi"><div class="ar-kpi-label">货已生产 · 尾款未收</div><div class="ar-kpi-val red">'+fmt(riskTotal)+'</div><div class="ar-kpi-sub">'+risk.length+' 个客户 · 优先催收</div></div>'+
-     '</div>';
+  var lc=owing.filter(isLC), tt=owing.filter(function(c){return !isLC(c);});
+  var lcTotal=lc.reduce(function(s,c){return s+c.outstandingUSD;},0);
 
   function piRow(p){
-    var st=(p.status&&stTxt[p.status])?p.status:'outstanding';
-    var prod=isProduced(p)?'<span class="ar-prodtag">货已产</span>':'';
     var due=p.nextPayment?'<div class="ar-pi-due">💳 待收：'+p.nextPayment+'</div>':'';
-    return '<div class="ar-pi"><div class="ar-pi-top">'+
-      '<span class="ar-pi-no">PI '+p.no+'</span>'+
-      '<span class="ar-pill '+st+'">'+stTxt[st]+'</span>'+prod+
-      '</div><div class="ar-pi-meta">'+(p.date||'')+' · 合同额 '+(p.total||'—')+'</div>'+due+'</div>';
+    return '<div class="ar-pi"><div class="ar-pi-top"><span class="ar-pi-no">PI '+p.no+'</span></div>'+
+      '<div class="ar-pi-meta">'+(p.date||'')+' · 合同额 '+(p.total||'—')+'</div>'+due+'</div>';
   }
-  function card(c,isRisk){
-    var pis=unpaid(c);
-    var body=pis.length?pis.map(piRow).join(''):'<div class="ar-pi"><div class="ar-pi-meta">尾款待收（明细见客户页）</div></div>';
-    return '<div class="card ar-client'+(isRisk?' ar-risk':'')+'">'+
-      '<div class="ar-ch"><div class="ar-ch-l"><span class="ar-flag">'+c.flag+'</span>'+
-        '<div><div class="ar-name">'+c.short+' · '+(c.name||'')+'</div>'+
-        '<div class="ar-terms">'+(c.country||'')+' · '+(c.payment||'')+'</div></div></div>'+
+  function sub(label,cls,arr){return arr.length?('<div class="ar-sub '+cls+'">'+label+'（'+arr.length+'）</div>'+arr.map(piRow).join('')):'';}
+  function header(c,tag){
+    return '<div class="ar-ch"><div class="ar-ch-l"><span class="ar-flag">'+c.flag+'</span>'+
+      '<div><div class="ar-name">'+c.short+' · '+(c.name||'')+(tag?' <span class="ar-tag">'+tag+'</span>':'')+'</div>'+
+      '<div class="ar-terms">'+(c.country||'')+' · '+(c.payment||'')+'</div></div></div>'+
       '<div class="ar-ch-r"><div class="ar-out-label">未付清</div><div class="ar-out">'+fmt(c.outstandingUSD)+'</div>'+
-        '<div class="ar-coll">已收 '+fmt(c.collectedUSD)+' / '+fmt(c.amountUSD)+'</div></div></div>'+
-      '<div class="ar-pis">'+body+'</div></div>';
+      '<div class="ar-coll">已收 '+fmt(c.collectedUSD)+' / '+fmt(c.amountUSD)+'</div></div></div>';
+  }
+  function ttCard(c){
+    var u=unpaid(c), sh=u.filter(shipped), pr=u.filter(function(p){return !shipped(p);});
+    return '<div class="card ar-client'+(sh.length?' ar-risk':'')+'">'+header(c)+
+      '<div class="ar-pis">'+sub('🚢 已发货 / 已交付 · 待收尾款','sub-ship',sh)+sub('🏭 在生产 · 未交付','sub-prod',pr)+'</div></div>';
+  }
+  function lcCard(c){
+    return '<div class="card ar-client ar-lc">'+header(c,'信用证 L/C · 已交付')+
+      '<div class="ar-pis">'+unpaid(c).map(piRow).join('')+'</div></div>';
   }
 
-  if(risk.length){
-    h+='<div class="section-title">🔴 货已生产 / 可交付 · 尾款未收齐 — 优先催收</div>';
-    h+=risk.map(function(c){return card(c,true);}).join('');
-  }
-  if(others.length){
-    h+='<div class="section-title">🟡 生产中 / 账期内 · 其余应收</div>';
-    h+=others.map(function(c){return card(c,false);}).join('');
-  }
+  var h='<div class="ar-kpis">'+
+    '<div class="ar-kpi"><div class="ar-kpi-label">总应收账款</div><div class="ar-kpi-val orange">'+fmt(totalOut)+'</div><div class="ar-kpi-sub">'+owing.length+' 个客户未付清</div></div>'+
+    '<div class="ar-kpi"><div class="ar-kpi-label">T/T 开账 · 需催收</div><div class="ar-kpi-val red">'+fmt(totalOut-lcTotal)+'</div><div class="ar-kpi-sub">'+tt.length+' 个客户 · 含已发货尾款</div></div>'+
+    '<div class="ar-kpi"><div class="ar-kpi-label">信用证 L/C · 已交付待兑付</div><div class="ar-kpi-val" style="color:#2471a3;">'+fmt(lcTotal)+'</div><div class="ar-kpi-sub">'+lc.length+' 个客户 · 银行担保</div></div>'+
+    '</div>';
+  if(tt.length){h+='<div class="section-title">💵 T/T 应收 — 按客户（已发货 / 在生产 分列）</div>'+tt.map(ttCard).join('');}
+  if(lc.length){h+='<div class="section-title">📄 信用证 L/C · 已交付 · 待兑付（银行担保，到期自动收款）</div>'+lc.map(lcCard).join('');}
   if(!owing.length) h='<div class="card" style="text-align:center;padding:40px;color:#27ae60;font-weight:700;">🎉 全部款项已收齐，无应收账款</div>';
-  h+='<div class="ar-note">数字按客户合同自动汇总，与「Clients」「Sales」页同源。「货已产」标记表示该 PI 生产已完成（2025 年及以前订单，或手动标记）——货已出但款未齐，是催收重点。</div>';
+  h+='<div class="ar-note">数字按客户合同自动汇总，与「Clients」「Sales」页同源。「已发货/已交付」表示货已出厂或完成（2025 及以前订单、L/C 已发货、或状态为「货好」）——货已走、款未齐是催收重点；L/C 单独列（银行担保，账期到期自动兑付）。</div>';
   el.innerHTML=h;
 }
 renderContracts();renderTodos();renderCal();renderAR();
