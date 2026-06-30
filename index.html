@@ -1155,15 +1155,15 @@ const clients = [
     short:'MAQUINAS', flag:'🇦🇷', name:'Maquinas e Insumos SRL',
     country:'Argentina', contact:'—', address:'Av. Bernardo Ader 1345, Villa Adelina, Pcia. Bs. As., Argentina',
     amount:'~$107,234 USD', amountUSD:107200,
-    paid:'~$85,615 USD', balance:'~$21,619 USD',
-    contracts:2, machines:33, status:'20% Final Pending',
-    tags:[{t:'Deposits Paid ✓',c:'green'},{t:'50% Post-Ship Paid ✓',c:'green'},{t:'20% on clearance',c:'orange'}],
-    payment:'30% down · 50% after shipping · 20% after customs clearance.',
+    paid:'~$107,234 USD', balance:'$0',
+    contracts:2, machines:33, status:'Fully Paid ✅',
+    tags:[{t:'Deposits Paid ✓',c:'green'},{t:'50% Post-Ship Paid ✓',c:'green'},{t:'Final 20% Paid ✓',c:'green'}],
+    payment:'30% down · 50% after shipping · 20% after customs clearance. — FULLY PAID.',
     pis:[
       {
         no:'20251030', date:'Oct 2025', total:'$97,318 USD',
         depositDate:'Oct 2025', plannedShip:null, actualShip:null,
-        payment:'✅ 30% Deposit RCVD: ~$29,195 (Bank of China confirmed)',
+        payment:'✅ 30% Deposit RCVD: ~$29,195 (Bank of China confirmed)\n✅ Final 20% RCVD: $21,354.80 net · Jun 30 2026 · BOC (Banco Supervielle, ref TI26063000006857) — deal fully paid',
         items:[
           {model:'ZX45',desc:'220V 1ph',qty:4,unit:'$1,802',total:'$7,208'},
           {model:'ZX45',desc:'380V 3ph',qty:2,unit:'$1,802',total:'$3,604'},
@@ -1182,7 +1182,7 @@ const clients = [
         ]
       },
     ],
-    notes:'30% deposits confirmed on both PIs — PI20251030: ~$29,195 received; PI20260130: ~$2,988 received Feb 2 2026. Next milestone: 50% after shipping (~$53,600 + $4,958). Argentine customs clearance can be slow — final 20% follows.'
+    notes:'FULLY PAID ✅ — all milestones received. 30% deposits + 50% post-ship + final 20% RCVD $21,354.80 net Jun 30 2026 (BOC, Banco Supervielle, ref TI26063000006857). Contract closed; ~$92 lost to bank fees in transit (not collectible from customer).'
   },
   {
     short:'ANCLA', flag:'🇲🇽', name:'GRUPO IDEA SERVICIOS S.A. DE C.V.',
@@ -1305,40 +1305,40 @@ const clients = [
     short:'Tupai', flag:'🇵🇹', name:'Tupai,sa',
     country:'Portugal', contact:'—', address:'Zona Industrial de Raso de Paredes, 3754-901 Águeda, Portugal',
     amount:'€1,900 EUR', amountUSD:2060,
-    paid:'€570 EUR', balance:'€1,330 EUR',
-    contracts:1, machines:1, status:'Deposit Paid',
-    tags:[{t:'Deposit Paid ✓',c:'green'},{t:'70% Due Before Ship',c:'orange'}],
-    payment:'30% deposit · 100% before shipping. Pays in EUR.',
+    paid:'€1,900 EUR', balance:'€0',
+    contracts:1, machines:1, status:'Fully Paid ✅ — Ready to Ship',
+    tags:[{t:'Deposit Paid ✓',c:'green'},{t:'70% Balance Paid ✓',c:'green'},{t:'Ready to Ship',c:'blue'}],
+    payment:'30% deposit · 100% before shipping. Pays in EUR. — FULLY PAID.',
     pis:[{
       no:'20260317', date:'Mar 2026', total:'€1,900 EUR',
       depositDate:'Mar 23, 2026', plannedShip:null, actualShip:null,
-      nextPayment:'€1,330 · Before shipping (70% balance)',
-      payment:'✅ 30% Deposit RCVD: €570 · Mar 23 2026 · Bankinter Portugal (ref PI20260317)',
+      nextPayment:null,
+      payment:'✅ 30% Deposit RCVD: €570 · Mar 23 2026 · Bankinter Portugal (ref PI20260317)\n✅ 70% Balance RCVD: €1,315 net · Jun 26 2026 · Bankinter Portugal (ref TRF TUPAI PROFINVPI NO 20260317) — fully paid',
       items:[
         {model:'Z5035 Drilling machine',desc:'',qty:1,unit:'€1,900',total:'€1,900'},
       ]
     }],
-    notes:'30% deposit PAID: €570 received Mar 23 2026 via Bankinter Portugal (ref PI20260317). Remaining 70% = €1,330 due before shipping. Small trial order — nurture for larger follow-on. CE required. EUR bank account.'
+    notes:'FULLY PAID ✅ — 30% deposit €570 (Mar 23 2026) + 70% balance €1,315 net (Jun 26 2026), both via Bankinter Portugal. Ready to ship. Small trial order — nurture for larger follow-on. CE required. EUR bank account.'
   },
   {
     short:'KOWAY', flag:'🇹🇷', name:'KOWAY MAKİNA SANAYİ ve TİCARET LİMİTED ŞİRKETİ',
     country:'Turkey', contact:'—', address:'IŞIKTEPE OSB MAH. PARK CAD. NO 13 NİLÜFER / BURSA / TÜRKİYE',
     amount:'$33,600 USD', amountUSD:33600,
-    paid:'$29,680 USD', balance:'$3,920 USD',
-    contracts:1, machines:18, status:'Down + 5 of 6 Installments',
-    tags:[{t:'30% T/T Paid ✓',c:'green'},{t:'1 Installment Left',c:'orange'},{t:'18 units',c:'blue'}],
+    paid:'$33,600 USD', balance:'$0',
+    contracts:1, machines:18, status:'Fully Paid ✅',
+    tags:[{t:'30% T/T Paid ✓',c:'green'},{t:'6/6 Installments Paid ✓',c:'green'},{t:'18 units',c:'blue'}],
     payment:'30% T/T down payment ($10,080, paid Jun 18 2025) + 70% in 6 monthly T/T installments of $3,920/month (changed from original L/C agreement).',
     pis:[{
       no:'20250514', date:'May 2025', total:'$33,600 USD',
       depositDate:'Jun 18, 2025', plannedShip:null, actualShip:null,
-      payment:'✅ 30% T/T down: $10,080 · Jun 18 2025 · Yapı Kredi (net $10,000)\n✅ Installment 1: $3,920 · Dec 29 2025 · Kuveyt Türk\n✅ Installment 2: $3,920 · Feb 3 2026 · Kuveyt Türk (net $3,883)\n✅ Installment 3: $3,920 · Mar 12 2026 · Yapı Kredi (net $3,877)\n✅ Installment 4: $3,920 · Mar 31 2026 · Kuveyt Türk (net $3,883)\n✅ Installment 5: $3,920 · Jun 2 2026 · Kuveyt Türk (net $3,883)\n⏳ Installment 6: $3,920 remaining',
+      payment:'✅ 30% T/T down: $10,080 · Jun 18 2025 · Yapı Kredi (net $10,000)\n✅ Installment 1: $3,920 · Dec 29 2025 · Kuveyt Türk\n✅ Installment 2: $3,920 · Feb 3 2026 · Kuveyt Türk (net $3,883)\n✅ Installment 3: $3,920 · Mar 12 2026 · Yapı Kredi (net $3,877)\n✅ Installment 4: $3,920 · Mar 31 2026 · Kuveyt Türk (net $3,883)\n✅ Installment 5: $3,920 · Jun 2 2026 · Kuveyt Türk (net $3,883)\n✅ Installment 6 (final): $3,920 · Jun 23 2026 · Yapı Kredi (net $3,880) — fully paid',
       items:[
         {model:'ZX40H',desc:'380V/50Hz/3Ph, MT4, X-axis feed, auto quill, 2-speed motor, tapping',qty:12,unit:'$1,400',total:'$16,800'},
         {model:'Z5050',desc:'380V/50Hz/3Ph, MT5, electromagnetic auto feed, motorized table',qty:4,unit:'$2,800',total:'$11,200'},
         {model:'Z5050V',desc:'380V/50Hz/3Ph, MT5, electromagnetic auto feed, motorized table',qty:2,unit:'$2,800',total:'$5,600'},
       ]
     }],
-    notes:'New client (2025). 70% balance paid as 6× $3,920/month T/T installments (changed from L/C). Total paid: $29,680 (30% down + 5 installments; latest Jun 2 2026). Remaining: 1 × $3,920 = $3,920 (final installment).'
+    notes:'FULLY PAID ✅ — New client (2025). 70% balance paid as 6× $3,920/month T/T installments (changed from L/C). All 6 installments + 30% down received; final installment Jun 23 2026 (net $3,880, Yapı Kredi). Contract closed.'
   },
   {
     short:'REMO', flag:'🇫🇷', name:'REMO SARL',
@@ -1468,8 +1468,8 @@ const allClientsForPage = (function(){
     'PO1127504':'production','PO1127642':'production'
   };
   const clientPaid = {
-    OZCO:0,COMARK:95637,JK:194736,MAQUINAS:85615,ANCLA:20550,
-    GRUPO:96910,MANROD:174790,Tupai:618,KOWAY:29680,REMO:10177,DINTASS:42273,Grizzly:0
+    OZCO:0,COMARK:95637,JK:194736,MAQUINAS:107200,ANCLA:20550,
+    GRUPO:96910,MANROD:174790,Tupai:2060,KOWAY:33600,REMO:10177,DINTASS:42273,Grizzly:0
   };
   clients.forEach(function(c){ var ex=c.pis.reduce(function(s,p){return s+extraPaidUSD(p.no);},0); if(ex) clientPaid[c.short]=(clientPaid[c.short]||0)+ex; });
   // Historical PIs for existing clients
@@ -2106,8 +2106,8 @@ const sortedClients=[...clients].sort((a,b)=>b.amountUSD-a.amountUSD);
 
 // ── KPI computation ─────────────────────────────────────────
 const paidByClient = {
-  OZCO:0, COMARK:95637, JK:194736, MAQUINAS:85615, ANCLA:20550,
-  GRUPO:96910, MANROD:174790, Tupai:618, KOWAY:29680, REMO:10177, DINTASS:42273, Grizzly:0
+  OZCO:0, COMARK:95637, JK:194736, MAQUINAS:107200, ANCLA:20550,
+  GRUPO:96910, MANROD:174790, Tupai:2060, KOWAY:33600, REMO:10177, DINTASS:42273, Grizzly:0
 };
 clients.forEach(function(c){ var ex=c.pis.reduce(function(s,p){return s+extraPaidUSD(p.no);},0); if(ex) paidByClient[c.short]=(paidByClient[c.short]||0)+ex; });
 const totalVal = clients.reduce((s,c)=>s+c.amountUSD,0);
@@ -2259,12 +2259,12 @@ const _kpiBalance2026=document.getElementById('kpiBalance2026'); if(_kpiBalance2
     OZCO:   {label:'⚠ Ship by May 30', cls:'pill-red'},
     COMARK: {label:'70% due vs B/L',   cls:'pill-orange'},
     JK:     {label:'Partial deposits', cls:'pill-orange'},
-    MAQUINAS:{label:'20% post-customs', cls:'pill-orange'},
+    MAQUINAS:{label:'Fully paid ✓',    cls:'pill-green'},
     ANCLA:  {label:'80% pending',      cls:'pill-orange'},
     GRUPO:  {label:'Partial shipped',  cls:'pill-orange'},
     MANROD: {label:'70% pre-ship',     cls:'pill-orange'},
-    Tupai:  {label:'70% pre-ship',     cls:'pill-orange'},
-    KOWAY:  {label:'3 installments',   cls:'pill-orange'},
+    Tupai:  {label:'Fully paid ✓',     cls:'pill-green'},
+    KOWAY:  {label:'Fully paid ✓',     cls:'pill-green'},
     REMO:   {label:'30% deposit received', cls:'pill-yellow'},
     DINTASS:{label:'Fully paid ✓',     cls:'pill-green'},
   };
