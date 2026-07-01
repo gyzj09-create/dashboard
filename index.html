@@ -967,7 +967,7 @@ function cloudPull(){
     if(rts>lts){ window.OV=remote; try{localStorage.setItem('db_ov',JSON.stringify(remote));localStorage.setItem('db_ov_ts',String(rts));}catch(e){} location.reload(); return; }
     if(lts>rts){ cloudPush(); return; }
     syncBadge('☁ 已同步','#1e8449');
-  }).catch(function(){ syncBadge('⚠ 同步失败','#e74c3c'); });
+  }).catch(function(e){ var m=(e&&e.message)?String(e.message):''; syncBadge('⚠ 同步失败'+(m?'('+m+')':''),'#e74c3c'); });
 }
 window.addEventListener('online', function(){ cloudPull(); });
 window.addEventListener('load',function(){ setTimeout(cloudPull,300); });
