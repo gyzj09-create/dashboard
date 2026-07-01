@@ -2213,7 +2213,16 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
   //   + Grizzly PO1127825 ($58,930) & PO1127792 ($599) added Jun 15 2026.
   const v26=1232678, c26=428516, o26=804162, d26=21;
 
-  const vAll=v24+v25+v26, cAll=c24+c25+c26, oAll=o24+o25+o26, dAll=d24+d25+d26;
+  // ── All-Time: authoritative & LIVE from client data (auto-updates, never drifts) ──
+  var vAll, cAll, oAll;
+  if(typeof allClientsForPage!=='undefined'){
+    vAll=allClientsForPage.reduce(function(s,c){return s+(c.amountUSD||0);},0);
+    cAll=allClientsForPage.reduce(function(s,c){return s+(c.collectedUSD||0);},0);
+    oAll=allClientsForPage.reduce(function(s,c){return s+(c.outstandingUSD||0);},0);
+  } else { vAll=v24+v25+v26; cAll=c24+c25+c26; oAll=o24+o25+o26; }
+  const dAll=d24+d25+d26;
+  // 2026 row = live all-time minus static 2024 & 2025, so the table always foots to the live total
+  const v26r=vAll-v24-v25, c26r=cAll-c24-c25, o26r=oAll-o24-o25;
 
   // Top KPI cards
   document.getElementById('at-deals').textContent       = dAll;
@@ -2233,10 +2242,10 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
   document.getElementById('at-rate-row').textContent        = Math.round(cAll/vAll*100)+'%';
   // 2026 active-pipeline row — kept in sync with v26/d26 (no longer hardcoded)
   document.getElementById('yr26-deals').textContent       = d26;
-  document.getElementById('yr26-value').textContent       = fmtFull(Math.round(v26));
-  document.getElementById('yr26-collected').textContent   = fmtFull(Math.round(c26));
-  document.getElementById('yr26-outstanding').textContent = fmtFull(Math.round(o26));
-  document.getElementById('yr26-rate').textContent        = Math.round(c26/v26*100)+'%';
+  document.getElementById('yr26-value').textContent       = fmtFull(Math.round(v26r));
+  document.getElementById('yr26-collected').textContent   = fmtFull(Math.round(c26r));
+  document.getElementById('yr26-outstanding').textContent = fmtFull(Math.round(o26r));
+  document.getElementById('yr26-rate').textContent        = Math.round(c26r/v26r*100)+'%';
 })();
 
 // ── MODEL BREAKDOWN TABLE (auto-computed from contract data) ──
