@@ -1458,10 +1458,10 @@ const clients = [
   {
     short:'Grizzly', flag:'🇺🇸', name:'Grizzly Industrial, Inc.',
     country:'USA', contact:'Mike', address:'Springfield, MO, USA',
-    amount:'$120,948 USD', amountUSD:120948,
-    paid:'$0', balance:'$120,948 USD',
-    contracts:2, machines:134, status:'New — Direct Sourcing',
-    tags:[{t:'NEW Direct Deal',c:'purple'},{t:'2 POs',c:'blue'},{t:'134 units',c:'blue'}],
+    amount:'$180,477 USD', amountUSD:180477,
+    paid:'$0', balance:'$180,477 USD',
+    contracts:4, machines:366, status:'New — Direct Sourcing',
+    tags:[{t:'NEW Direct Deal',c:'purple'},{t:'4 POs',c:'blue'},{t:'366 units',c:'blue'}],
     payment:'Direct PO — Grizzly switched from Yangzhou Super to direct sourcing. Terms per agreement.',
     pis:[
       {
@@ -1491,9 +1491,35 @@ const clients = [
         items:[
           {model:'Spare parts (18 SKUs)',desc:'accessory · oil cup, fuse, cranks, way covers, brushes, transformer, drill chuck arbor, etc.',qty:60,unit:'—',total:'$680.20'}
         ]
+      },
+      {
+        no:'PO1127825', date:'Jun 2026', total:'$58,930 USD', cargoReady:'2026-09-07', inspectDays:20, bookingDate:'2026-08-24',
+        depositDate:null, plannedShip:'by Sep 14, 2026', actualShip:null,
+        nextPayment:'Cargo ready Sep 7 · delivery Oct 22, 2026',
+        payment:'New PO confirmed Jun 15 2026. 64 machines + 36 accessories. Cargo ready 9/7, delivery 10/22 2026. Ocean → Springfield MO.',
+        items:[
+          {model:'G0602Z',desc:'10" x 22" Benchtop Lathe w/DRO',qty:10,unit:'$845',total:'$8,450'},
+          {model:'G0705',desc:'Mill/Drill w/Stand 29"x8"',qty:18,unit:'$810',total:'$14,580'},
+          {model:'G0760',desc:'Mill/Drill 29" Table & Power Feed',qty:6,unit:'$1,000',total:'$6,000'},
+          {model:'G0761',desc:'Benchtop Mill/Drill w/Power Feed',qty:8,unit:'$1,145',total:'$9,160'},
+          {model:'G0779',desc:'HD Floor Gearhead Drill Press',qty:4,unit:'$910',total:'$3,640'},
+          {model:'M1099',desc:'Shop Fox 10" x 26" Bench Lathe',qty:18,unit:'$837',total:'$15,066'},
+          {model:'G5942',desc:'accessory · Quick change tool holder',qty:20,unit:'$5',total:'$100'},
+          {model:'T10502',desc:'accessory · Taper attachment',qty:10,unit:'$131',total:'$1,310'},
+          {model:'T25677',desc:'accessory · Mill/drill stand',qty:6,unit:'$104',total:'$624'}
+        ]
+      },
+      {
+        no:'PO1127792', date:'Jun 2026', total:'$599 USD', cargoReady:'2026-09-10', inspectDays:20, bookingDate:'2026-08-27',
+        depositDate:null, plannedShip:'by Sep 17, 2026', actualShip:null,
+        nextPayment:'Cargo ready Sep 10 · delivery Oct 25, 2026',
+        payment:'Spare parts PO confirmed Jun 15 2026. 16 SKUs / 72 pcs. Cargo ready 9/10, delivery 10/25 2026. Ocean → Springfield MO.',
+        items:[
+          {model:'Spare parts (16 SKUs)',desc:'accessory · clutch keys, beveled gear, spindle speed sensor + circuit board, 3HP vertical spindle motor, change gears 50T/70T, table gib, flange pin, etc.',qty:72,unit:'—',total:'$599'}
+        ]
       }
     ],
-    notes:'Grizzly Industrial (USA) — major direct-sourcing client (contact: Mike). Switched from Yangzhou Super to direct. First 2 POs received May 22 2026: PO1127504 ($120,268 — 7 machine models, 134 units, ~98 machines) + PO1127642 (spare parts, $680.20). Destination Springfield MO, by ocean. Cargo ready Aug 2026.'
+    notes:'Grizzly Industrial (USA) — major direct-sourcing client (contact: Mike). Switched from Yangzhou Super to direct. 4 POs, total $180,477: PO1127504 ($120,268 — 134 units, ~98 machines, cargo ready Aug 10) + PO1127642 (spare parts $680.20, ready Aug 31) + PO1127825 ($58,930 — 64 machines + 36 accessories, ready Sep 7, delivery Oct 22) + PO1127792 (spare parts $599 — 16 SKUs/72 pcs, ready Sep 10, delivery Oct 25). All destination Springfield MO, by ocean.'
   },
 ];
 
@@ -1515,7 +1541,8 @@ const allClientsForPage = (function(){
     'M2026210':'paid','M2026410 + M2026411':'paid','20260317':'production',
     '20250514':'outstanding','202603':'production',
     'DM20251125':'paid','DM20260525':'production',
-    'PO1127504':'production','PO1127642':'production'
+    'PO1127504':'production','PO1127642':'production',
+    'PO1127825':'production','PO1127792':'production'
   };
   const clientPaid = {
     OZCO:0,COMARK:95637,JK:194736,MAQUINAS:107200,ANCLA:20550,
@@ -2183,7 +2210,8 @@ const _kpiBalPct=document.getElementById('kpiBalPct'); if(_kpiBalPct) _kpiBalPct
   const v25=1163853, c25=1082176, o25=81677, d25=25;
   // 2026: 17 deals — 2026-dated PIs incl. new JK Ecuador/Colombia, MANROD ×2, DINTASS O2, COMARK O2
   //   Tupai & MAQUINAS-PI2 now fully paid (removed from outstanding).
-  const v26=1173149, c26=428516, o26=744633, d26=19;
+  //   + Grizzly PO1127825 ($58,930) & PO1127792 ($599) added Jun 15 2026.
+  const v26=1232678, c26=428516, o26=804162, d26=21;
 
   const vAll=v24+v25+v26, cAll=c24+c25+c26, oAll=o24+o25+o26, dAll=d24+d25+d26;
 
